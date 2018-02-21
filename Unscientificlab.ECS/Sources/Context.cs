@@ -2,7 +2,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unscientificlab.ECS.Exception;
-using Unscientificlab.ECS.ReferenceTracking;
 using Unscientificlab.ECS.Util;
 
 namespace Unscientificlab.ECS
@@ -86,7 +85,7 @@ namespace Unscientificlab.ECS
     }
 
     // ReSharper disable once UnusedTypeParameter
-    internal class ScopeData<TScope>
+    internal static class ScopeData<TScope>
     {
         // ReSharper disable once HeapView.ObjectAllocation.Evident
         // ReSharper disable once StaticMemberInGenericType
