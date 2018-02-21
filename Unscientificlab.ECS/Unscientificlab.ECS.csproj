@@ -39,6 +39,7 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sources\Context.cs" />
+    <Compile Include="Sources\Contexts.cs" />
     <Compile Include="Sources\Entity.cs" />
     <Compile Include="Sources\Exception\ContextInitializationException.cs" />
     <Compile Include="Sources\Exception\ContextReachedMaxCapacityException.cs" />
@@ -49,6 +50,7 @@
     <Compile Include="Sources\Exception\ReleasingNonOwnedEntityException.cs" />
     <Compile Include="Sources\Exception\ReleasingNonRetainedEntityException.cs" />
     <Compile Include="Sources\Exception\ReleasingRetainedEntityException.cs" />
+    <Compile Include="Sources\IComponentListener.cs" />
     <Compile Include="Sources\IScope.cs" />
     <Compile Include="Sources\ReferenceTracking\CountingReferenceTracker.cs" />
     <Compile Include="Sources\ReferenceTracking\IReferenceTracker.cs" />

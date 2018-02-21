@@ -7,14 +7,6 @@ using Unscientificlab.ECS.Util;
 
 namespace Unscientificlab.ECS
 {
-    public interface IComponentListener<TScope, in TComponent> where TScope : IScope
-    {
-        void OnAdded(Entity<TScope> entity, TComponent component);
-        void OnRemoved(Entity<TScope> entity, TComponent component);
-        void OnReplaced(Entity<TScope> entity, TComponent oldComponent, TComponent newComponent);
-        void OnIndexChanged(Entity<TScope> entity, TComponent component);
-    }
-    
     internal class DefaultComponentListener<TScope, TComponent>: IComponentListener<TScope, TComponent> where TScope : IScope
     {
         public void OnAdded(Entity<TScope> entity, TComponent component)
@@ -176,14 +168,6 @@ namespace Unscientificlab.ECS
                     Present[i] = false;
                 }
             });
-        }
-    }
-
-    public class Contexts
-    {
-        public static Context<TScope> Get<TScope>() where TScope: IScope
-        {
-            return Context<TScope>.Instance;
         }
     }
 
