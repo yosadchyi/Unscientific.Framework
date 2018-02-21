@@ -2,51 +2,44 @@
 {
     public struct Entity<TScope> where TScope: IScope
     {
-        public readonly int Id;
+        public readonly int Index;
 
-        internal Entity(int id)
+        internal Entity(int index)
         {
-            Id = id;
-        }
-
-        public Entity<TScope> Retain(object owner)
-        {
-            return Context<TScope>.Instance.RetainEntity(owner, this);
-        }
-
-        public void Release(object owner)
-        {
-            Context<TScope>.Instance.ReleaseEntity(owner, this);
+            Index = index;
         }
 
         public TComponent Get<TComponent>()
         {
-            return Context<TScope>.Instance.Get<TComponent>(this);
+            return Context<TScope>.Instance.Get<TComponent>(Index);
         }
-        
+
         public bool Is<TComponent>()
         {
-            return Context<TScope>.Instance.Is<TComponent>(this);
+            return Context<TScope>.Instance.Is<TComponent>(Index);
         }
 
         public bool Has<TComponent>()
         {
-            return Context<TScope>.Instance.Has<TComponent>(this);
+            return Context<TScope>.Instance.Has<TComponent>(Index);
         }
 
         public Entity<TScope> Add<TComponent>(TComponent component)
         {
-            return Context<TScope>.Instance.Add(this, component);
+            Context<TScope>.Instance.Add(Index, component);
+            return this;
         }
 
         public Entity<TScope> Remove<TComponent>()
         {
-            return Context<TScope>.Instance.Remove<TComponent>(this);
+            Context<TScope>.Instance.Remove<TComponent>(Index);
+            return this;
         }
-        
+
         public Entity<TScope> Replace<TComponent>(TComponent component)
         {
-            return Context<TScope>.Instance.Replace(this, component);
+            Context<TScope>.Instance.Replace(Index, component);
+            return this;
         }
     }
 }
