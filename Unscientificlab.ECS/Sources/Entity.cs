@@ -2,7 +2,12 @@
 {
     public struct Entity<TScope> where TScope: IScope
     {
-        public readonly int Index;
+        internal readonly int Index;
+
+        public int Id
+        {
+            get { return Get<Identifier>().Value; }
+        }
 
         internal Entity(int index)
         {

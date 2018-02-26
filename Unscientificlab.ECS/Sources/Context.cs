@@ -3,68 +3,130 @@ using System.Collections;
 using System.Collections.Generic;
 using Unscientificlab.ECS.Exception;
 using Unscientificlab.ECS.Util;
+using Unscientificlab.Util.Pool;
 
 namespace Unscientificlab.ECS
 {
-    internal class DefaultComponentListener<TScope, TComponent>: IComponentListener<TScope, TComponent> where TScope : IScope
+    internal struct EntityEnumerator<TScope> : IEnumerator<Entity<TScope>> where TScope : IScope
     {
-        public void OnAdded(Entity<TScope> entity, TComponent component)
+        private readonly int _count;
+        private int _current;
+
+        public EntityEnumerator(int count)
         {
-            // empty
+            _count = count;
+            _current = -1;
         }
 
-        public void OnRemoved(Entity<TScope> entity, TComponent component)
+        public void Dispose()
         {
-            // empty 
         }
 
-        public void OnReplaced(Entity<TScope> entity, TComponent oldComponent, TComponent newComponent)
+        public bool MoveNext()
         {
-            // empty 
+            return ++_current < _count;
         }
 
-        public void OnIndexChanged(Entity<TScope> entity, TComponent component)
+        public void Reset()
         {
-            // empty 
+            _current = -1;
+        }
+
+        object IEnumerator.Current
+        {
+            get { return new Entity<TScope>(_current); }
+        }
+
+        public Entity<TScope> Current {
+            get { return new Entity<TScope>(_current); }
         }
     }
 
+    internal struct FilteringEntityEnumerator<TScope, TComponent> : IEnumerator<Entity<TScope>> where TScope : IScope
+    {
+        private readonly int _count;
+        private int _current;
+
+        public FilteringEntityEnumerator(int count)
+        {
+            _count = count;
+            _current = -1;
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public bool MoveNext()
+        {
+            while (++_current < _count)
+            {
+                if (Current.Has<TComponent>())
+                    return true;
+            }
+
+            return false;
+        }
+
+        public void Reset()
+        {
+            _current = -1;
+        }
+
+        object IEnumerator.Current
+        {
+            get { return new Entity<TScope>(_current); }
+        }
+
+        public Entity<TScope> Current {
+            get { return new Entity<TScope>(_current); }
+        }
+    }
+    
+    internal struct FilteringEntityEnumerator<TScope, TComponent1, TComponent2> : IEnumerator<Entity<TScope>> where TScope : IScope
+    {
+        private readonly int _count;
+        private int _current;
+
+        public FilteringEntityEnumerator(int count)
+        {
+            _count = count;
+            _current = -1;
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public bool MoveNext()
+        {
+            while (++_current < _count)
+            {
+                if (Current.Has<TComponent1>() && Current.Has<TComponent2>())
+                    return true;
+            }
+
+            return false;
+        }
+
+        public void Reset()
+        {
+            _current = -1;
+        }
+
+        object IEnumerator.Current
+        {
+            get { return new Entity<TScope>(_current); }
+        }
+
+        public Entity<TScope> Current {
+            get { return new Entity<TScope>(_current); }
+        }
+    }
+
+
     internal struct EntityEnumerable<TScope> : IEnumerable<Entity<TScope>> where TScope: IScope
     {
-        private struct Enumerator : IEnumerator<Entity<TScope>>
-        {
-            private readonly int _count;
-            private int _current;
-
-            public Enumerator(int count)
-            {
-                _count = count;
-                _current = -1;
-            }
-
-            public void Dispose()
-            {
-            }
-
-            public bool MoveNext()
-            {
-                return ++_current < _count;
-            }
-
-            public void Reset()
-            {
-                _current = -1;
-            }
-
-            object IEnumerator.Current
-            {
-                get { return new Entity<TScope>(_current); }
-            }
-
-            public Entity<TScope> Current {
-                get { return new Entity<TScope>(_current); }
-            }
-        }
     
         private readonly int _count;
 
@@ -80,7 +142,49 @@ namespace Unscientificlab.ECS
 
         public IEnumerator<Entity<TScope>> GetEnumerator()
         {
-            return new Enumerator(_count);
+            return new EntityEnumerator<TScope>(_count);
+        }
+    }
+
+    internal struct FilteringEntityEnumerable<TScope, TComponent> : IEnumerable<Entity<TScope>> where TScope: IScope
+    {
+    
+        private readonly int _count;
+
+        public FilteringEntityEnumerable(int count)
+        {
+            _count = count;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public IEnumerator<Entity<TScope>> GetEnumerator()
+        {
+            return new FilteringEntityEnumerator<TScope, TComponent>(_count);
+        }
+    }
+
+    internal struct FilteringEntityEnumerable<TScope, TComponent1, TComponent2> : IEnumerable<Entity<TScope>> where TScope: IScope
+    {
+    
+        private readonly int _count;
+
+        public FilteringEntityEnumerable(int count)
+        {
+            _count = count;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public IEnumerator<Entity<TScope>> GetEnumerator()
+        {
+            return new FilteringEntityEnumerator<TScope, TComponent1, TComponent2>(_count);
         }
     }
 
@@ -111,39 +215,27 @@ namespace Unscientificlab.ECS
             CleanupActions.Clear();
         }
     }
-    
+
     // ReSharper disable once ClassNeverInstantiated.Global
     internal class ComponentData<TScope, TComponent> where TScope : IScope
     {
         // ReSharper disable once StaticMemberInGenericType
         internal static int Id;
-        internal static IComponentListener<TScope, TComponent> Listener;
         internal static TComponent[] Data;
         // ReSharper disable once StaticMemberInGenericType
         internal static BitArray Present;
-        private static readonly IComponentListener<TScope, TComponent> defaultComponentListener = new DefaultComponentListener<TScope, TComponent>();
 
-        internal static void Init(IComponentListener<TScope, TComponent> listener)
+        internal static void Init()
         {
             Id = StaticIdAllocator<ComponentData<TScope, TComponent>>.AllocateId();
-            Listener = listener ?? defaultComponentListener;
             ScopeData<TScope>.ComponentTypes.Add(typeof(TComponent));
             ScopeData<TScope>.RemoveActions.Add((pos, last) =>
             {
-                var old = Data[pos];
-                var present = Present[pos];
-
                 Data[pos] = Data[last];
                 Present[pos] = Present[last];
 
                 Data[last] = default(TComponent);
                 Present[last] = false;
-
-                if (pos != last)
-                    Listener.OnIndexChanged(new Entity<TScope>(last), Data[last]);
-
-                if (present)
-                    Listener.OnRemoved(new Entity<TScope>(pos), old);
             });
             ScopeData<TScope>.InitActions.Add(capacity =>
             {
@@ -174,18 +266,18 @@ namespace Unscientificlab.ECS
     {
         public class Initializer
         {
-            public class Components
+            public class ComponentsInitializer
             {
                 private readonly Initializer _initializer;
 
-                internal Components(Initializer initializer)
+                internal ComponentsInitializer(Initializer initializer)
                 {
                     _initializer = initializer;
                 }
 
-                public Components Add<TComponent>(IComponentListener<TScope, TComponent> listener = null)
+                public ComponentsInitializer Add<TComponent>()
                 {
-                    ComponentData<TScope, TComponent>.Init(listener);
+                    ComponentData<TScope, TComponent>.Init();
                     return this;
                 }
 
@@ -197,22 +289,17 @@ namespace Unscientificlab.ECS
 
             private int _initialCapacity = 128;
             private int _maxCapacity = int.MaxValue;
+            private readonly Dictionary<string, object> _indicies = new Dictionary<string, object>(); 
 
             public Initializer()
             {
                 ScopeData<TScope>.Reset();
-            }
-            
-            public Initializer WithComponent<TComponent>(IComponentListener<TScope, TComponent> listener = null)
-            {
-                // ReSharper disable once UnusedVariable
-                ComponentData<TScope, TComponent>.Init(listener);
-                return this;
+                ComponentData<TScope, Identifier>.Init();
             }
 
-            public Components WithComponents()
+            public ComponentsInitializer WithComponents()
             {
-                return new Components(this);
+                return new ComponentsInitializer(this);
             }
 
             public Initializer WithInitialCapacity(int capacity)
@@ -246,6 +333,11 @@ namespace Unscientificlab.ECS
             get { return _count; }
         }
 
+        public Entity<TScope> this[int id]
+        {
+            get { return GetEntityById(id); }
+        }
+
         /// <summary>
         /// Count of allocated entities/slots in component arrays
         /// </summary>
@@ -253,7 +345,9 @@ namespace Unscientificlab.ECS
 
         private int _capacity;
         private readonly int _maxCapacity;
-        
+        private int _lastId = 1;
+        private readonly Dictionary<int, int> _entityId2Index;
+
         private Context(int initialCapacity, int maxCapacity)
         {
             _capacity = initialCapacity;
@@ -264,6 +358,7 @@ namespace Unscientificlab.ECS
                 initAction(_capacity);
 
             _count = 0;
+            _entityId2Index = DictionaryPool<int, int>.Instance.Get();
             Instance = this;
         }
 
@@ -274,7 +369,13 @@ namespace Unscientificlab.ECS
 
             var index = _count;
             _count++;
-            return new Entity<TScope>(index);
+            var id = _lastId++;
+
+            var entity = new Entity<TScope>(index).Add(new Identifier(id));
+
+            _entityId2Index[id] = index;
+
+            return entity;
         }
 
         private void Grow(int newCapacity)
@@ -293,13 +394,27 @@ namespace Unscientificlab.ECS
 
         public void DestroyEntity(Entity<TScope> entity)
         {
-            var index = entity.Index;            
+            var index = entity.Index;
             var lastIndex = _count - 1;
 
-            foreach (var rm in ScopeData<TScope>.RemoveActions)
-                rm(index, lastIndex);
+            _entityId2Index.Remove(entity.Id);
+
+            if (lastIndex >= 0)
+            {
+                var lastId = Get<Identifier>(lastIndex).Value;
+
+                foreach (var rm in ScopeData<TScope>.RemoveActions)
+                    rm(index, lastIndex);
+
+                _entityId2Index[lastId] = index;
+            }
 
             _count--;
+        }
+
+        public Entity<TScope> GetEntityById(int id)
+        {
+            return new Entity<TScope>(_entityId2Index[id]);
         }
 
         internal TComponent Get<TComponent>(int index)
@@ -318,25 +433,19 @@ namespace Unscientificlab.ECS
 
             ComponentData<TScope, TComponent>.Present[index] = true;
             ComponentData<TScope, TComponent>.Data[index] = component;
-            ComponentData<TScope, TComponent>.Listener.OnAdded(new Entity<TScope>(index), component);
         }
 
         internal void Replace<TComponent>(int index, TComponent component)
         {
             EnsureComponentExists<TComponent>(index);
-
-            var old = ComponentData<TScope, TComponent>.Data[index];
             ComponentData<TScope, TComponent>.Data[index] = component;
-            ComponentData<TScope, TComponent>.Listener.OnReplaced(new Entity<TScope>(index), old, component);
         }
 
         internal void Remove<TComponent>(int index)
         {
             EnsureComponentExists<TComponent>(index);
-            var old = ComponentData<TScope, TComponent>.Data[index];
             ComponentData<TScope, TComponent>.Present[index] = false;
             ComponentData<TScope, TComponent>.Data[index] = default(TComponent);
-            ComponentData<TScope, TComponent>.Listener.OnRemoved(new Entity<TScope>(index), old);
         }
 
         internal bool Has<TComponent>(int index)
@@ -361,6 +470,16 @@ namespace Unscientificlab.ECS
         public IEnumerable<Entity<TScope>> All()
         {
             return new EntityEnumerable<TScope>(_count);
+        }
+
+        public IEnumerable<Entity<TScope>> AllWith<TComponent>()
+        {
+            return new FilteringEntityEnumerable<TScope, TComponent>(_count);
+        }
+
+        public IEnumerable<Entity<TScope>> AllWith<TComponent1, TComponent2>()
+        {
+            return new FilteringEntityEnumerable<TScope, TComponent1, TComponent2>(_count);
         }
 
         public void Cleanup()

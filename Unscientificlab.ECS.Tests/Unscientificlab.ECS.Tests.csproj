@@ -44,7 +44,8 @@
   <ItemGroup>
     <Compile Include="Sources\ContextTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sources\TestComponent1.cs" />
+    <Compile Include="Sources\DeadFlagComponent.cs" />
+    <Compile Include="Sources\ValueComponent.cs" />
     <Compile Include="Sources\TestScope.cs" />
   </ItemGroup>
   <ItemGroup>

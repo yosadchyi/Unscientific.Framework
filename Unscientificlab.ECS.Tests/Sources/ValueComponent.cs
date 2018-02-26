@@ -1,10 +1,10 @@
 ﻿namespace Unscientificlab.ECS.Tests
 {
-    public struct TestComponent1
+    public struct ValueComponent
     {
         public readonly int Value;
 
-        public TestComponent1(int value)
+        public ValueComponent(int value)
         {
             Value = value;
         }
