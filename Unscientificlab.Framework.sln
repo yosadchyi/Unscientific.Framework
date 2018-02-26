@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unscientificlab.ECS.Tests",
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unscientificlab.Util", "Unscientificlab.Util\Unscientificlab.Util.csproj", "{A3FE74BD-FE34-4044-BA6E-17DF27DDE780}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unscientificlab.ECS.Benchmark", "Unscientificlab.ECS.Benchmark\Unscientificlab.ECS.Benchmark.csproj", "{65F332DF-36E8-426F-AE00-E8B22EED997A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,5 +30,9 @@ Global
 		{A3FE74BD-FE34-4044-BA6E-17DF27DDE780}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A3FE74BD-FE34-4044-BA6E-17DF27DDE780}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{A3FE74BD-FE34-4044-BA6E-17DF27DDE780}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{65F332DF-36E8-426F-AE00-E8B22EED997A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65F332DF-36E8-426F-AE00-E8B22EED997A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65F332DF-36E8-426F-AE00-E8B22EED997A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65F332DF-36E8-426F-AE00-E8B22EED997A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
