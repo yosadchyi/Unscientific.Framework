@@ -47,11 +47,13 @@
     <Compile Include="Sources\Exception\EntityDoesNotExistsException.cs" />
     <Compile Include="Sources\Exception\EntityHasNoComponentException.cs" />
     <Compile Include="Sources\Exception\EntityIsAlreadyRetainedException.cs" />
+    <Compile Include="Sources\Exception\MessageNotRegisteredException.cs" />
     <Compile Include="Sources\Exception\ReleasingNonOwnedEntityException.cs" />
     <Compile Include="Sources\Exception\ReleasingNonRetainedEntityException.cs" />
     <Compile Include="Sources\Exception\ReleasingRetainedEntityException.cs" />
     <Compile Include="Sources\Identity.cs" />
     <Compile Include="Sources\IScope.cs" />
+    <Compile Include="Sources\MessageBus.cs" />
     <Compile Include="Sources\ReferenceTracking\CountingReferenceTracker.cs" />
     <Compile Include="Sources\ReferenceTracking\IReferenceTracker.cs" />
     <Compile Include="Sources\ReferenceTracking\ReferenceTrackerFactory.cs" />
