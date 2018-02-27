@@ -287,16 +287,16 @@ namespace Unscientificlab.ECS
         {
             private int _initialCapacity = 128;
             private int _maxCapacity = int.MaxValue;
-            private IReferenceTracker _referenceTracker;
+            private ReferenceTrackerFactory _referenceTrackerFactory;
 
             public Initializer()
             {
                 ComponentData<TScope, Identifier>.Init();
             }
 
-            public Initializer WithReferenceTracker(IReferenceTracker referenceTracker)
+            public Initializer WithReferenceTrackerFactory(ReferenceTrackerFactory referenceTrackerFactory)
             {
-                _referenceTracker = referenceTracker;
+                _referenceTrackerFactory = referenceTrackerFactory;
                 return this;
             }
             
@@ -314,12 +314,12 @@ namespace Unscientificlab.ECS
 
             public Context<TScope> Initialize()
             {
-                if (_referenceTracker == null)
+                if (_referenceTrackerFactory == null)
                 {
-                    _referenceTracker = new SafeReferenceTracker<TScope>(_initialCapacity);
+                    _referenceTrackerFactory = (capacity) => new SafeReferenceTracker<TScope>(capacity);
                 }
                 // ReSharper disable once HeapView.ObjectAllocation.Evident
-                return new Context<TScope>(_initialCapacity, _maxCapacity, _referenceTracker);
+                return new Context<TScope>(_initialCapacity, _maxCapacity, _referenceTrackerFactory);
             }
         }
 
@@ -351,11 +351,11 @@ namespace Unscientificlab.ECS
         private readonly Stack<int> _freeList;
         private int[] _id2Index;
 
-        private Context(int initialCapacity, int maxCapacity, IReferenceTracker referenceTracker)
+        private Context(int initialCapacity, int maxCapacity, ReferenceTrackerFactory referenceTrackerFactory)
         {
             _capacity = initialCapacity;
             _maxCapacity = maxCapacity;
-            _referenceTracker = referenceTracker;
+            _referenceTracker = referenceTrackerFactory(_capacity);
             _freeList = new Stack<int>(_capacity);
             _id2Index = new int[_capacity];
 

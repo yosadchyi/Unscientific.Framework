@@ -23,7 +23,7 @@ namespace Unscientificlab.ECS.Tests
             new Context<TestScope>.Initializer()
                 .WithInitialCapacity(16)
                 .WithMaxCapacity(128)
-                .WithReferenceTracker(new SafeReferenceTracker<TestScope>(16))
+                .WithReferenceTrackerFactory((capacity) => new SafeReferenceTracker<TestScope>(capacity))
                 .Initialize();
         }
 

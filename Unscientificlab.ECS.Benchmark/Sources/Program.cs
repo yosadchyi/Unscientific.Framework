@@ -97,7 +97,7 @@ namespace Unscientificlab.ECS.Benchmark
                 .Add<Position>()
                 .Add<Velocity>()
                 .Register();
-            
+
             var context = new Context<Simulation>.Initializer()
                 .WithInitialCapacity(EntitiesCount)
                 .WithMaxCapacity(EntitiesCount)
