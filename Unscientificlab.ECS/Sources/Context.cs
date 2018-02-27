@@ -80,7 +80,7 @@ namespace Unscientificlab.ECS
             get { return new Entity<TScope>(_current); }
         }
     }
-    
+
     internal struct FilteringEntityEnumerator<TScope, TComponent1, TComponent2> : IEnumerator<Entity<TScope>> where TScope : IScope
     {
         private readonly int _count;
@@ -122,6 +122,46 @@ namespace Unscientificlab.ECS
         }
     }
 
+    internal struct FilteringEntityEnumerator<TScope, TComponent1, TComponent2, TComponent3> : IEnumerator<Entity<TScope>> where TScope : IScope
+    {
+        private readonly int _count;
+        private int _current;
+
+        public FilteringEntityEnumerator(int count)
+        {
+            _count = count;
+            _current = -1;
+        }
+
+        public void Dispose()
+        {
+        }
+
+        public bool MoveNext()
+        {
+            while (++_current < _count)
+            {
+                if (Current.Has<TComponent1>() && Current.Has<TComponent2>() && Current.Has<TComponent3>())
+                    return true;
+            }
+
+            return false;
+        }
+
+        public void Reset()
+        {
+            _current = -1;
+        }
+
+        object IEnumerator.Current
+        {
+            get { return new Entity<TScope>(_current); }
+        }
+
+        public Entity<TScope> Current {
+            get { return new Entity<TScope>(_current); }
+        }
+    }
 
     internal struct EntityEnumerable<TScope> : IEnumerable<Entity<TScope>> where TScope: IScope
     {
@@ -183,6 +223,27 @@ namespace Unscientificlab.ECS
         public IEnumerator<Entity<TScope>> GetEnumerator()
         {
             return new FilteringEntityEnumerator<TScope, TComponent1, TComponent2>(_count);
+        }
+    }
+
+    internal struct FilteringEntityEnumerable<TScope, TComponent1, TComponent2, TComponent3> : IEnumerable<Entity<TScope>> where TScope: IScope
+    {
+    
+        private readonly int _count;
+
+        public FilteringEntityEnumerable(int count)
+        {
+            _count = count;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public IEnumerator<Entity<TScope>> GetEnumerator()
+        {
+            return new FilteringEntityEnumerator<TScope, TComponent1, TComponent2, TComponent3>(_count);
         }
     }
 
@@ -425,9 +486,10 @@ namespace Unscientificlab.ECS
 
         public void DestroyEntity(Entity<TScope> entity)
         {
+#if !UNSAFE_ECS
             if (_referenceTracker.RetainCount(entity.Id) > 0)
                 throw new TryingToDestroyReferencedEntity<TScope>(entity.Id);
-
+#endif
             var index = entity.Index;
             var lastIndex = _count - 1;
 
@@ -448,39 +510,47 @@ namespace Unscientificlab.ECS
 
         public Entity<TScope> GetEntityById(int id)
         {
+#if !UNSAFE_ECS
             if (_id2Index[id - 1] == -1)
                 throw new EntityDoesNotExistsException<TScope>(id);
-
+#endif
             return new Entity<TScope>(_id2Index[id - 1]);
         }
 
         internal TComponent Get<TComponent>(int index)
         {
+#if !UNSAFE_ECS
             EnsureComponentExists<TComponent>(index);
+#endif
             return ComponentData<TScope, TComponent>.Data[index];
         }
 
         internal void Add<TComponent>(int index, TComponent component)
         {
+#if !UNSAFE_ECS
             if (ComponentData<TScope, TComponent>.Present[index])
             {
                 // ReSharper disable once HeapView.ObjectAllocation.Evident
                 throw new EntityAlreadyHasComponentException<TScope, TComponent>(index);
             }
-
+#endif
             ComponentData<TScope, TComponent>.Present[index] = true;
             ComponentData<TScope, TComponent>.Data[index] = component;
         }
 
         internal void Replace<TComponent>(int index, TComponent component)
         {
+#if !UNSAFE_ECS
             EnsureComponentExists<TComponent>(index);
+#endif
             ComponentData<TScope, TComponent>.Data[index] = component;
         }
 
         internal void Remove<TComponent>(int index)
         {
+#if !UNSAFE_ECS
             EnsureComponentExists<TComponent>(index);
+#endif
             ComponentData<TScope, TComponent>.Present[index] = false;
             ComponentData<TScope, TComponent>.Data[index] = default(TComponent);
         }
@@ -517,6 +587,11 @@ namespace Unscientificlab.ECS
         public IEnumerable<Entity<TScope>> AllWith<TComponent1, TComponent2>()
         {
             return new FilteringEntityEnumerable<TScope, TComponent1, TComponent2>(_count);
+        }
+
+        public IEnumerable<Entity<TScope>> AllWith<TComponent1, TComponent2, TComponent3>()
+        {
+            return new FilteringEntityEnumerable<TScope, TComponent1, TComponent2, TComponent3>(_count);
         }
 
         public void Cleanup()
