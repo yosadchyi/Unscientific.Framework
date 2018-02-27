@@ -15,14 +15,15 @@ namespace Unscientificlab.ECS.Tests
         [SetUp]
         public void Setup()
         {
+            new Components<TestScope>()
+                .Add<ValueComponent>()
+                .Add<DeadFlagComponent>()
+                .Register();
+
             new Context<TestScope>.Initializer()
                 .WithInitialCapacity(16)
                 .WithMaxCapacity(128)
                 .WithReferenceTracker(new SafeReferenceTracker<TestScope>(16))
-                .WithComponents()
-                    .Add<ValueComponent>()
-                    .Add<DeadFlagComponent>()
-                .Done()
                 .Initialize();
         }
 

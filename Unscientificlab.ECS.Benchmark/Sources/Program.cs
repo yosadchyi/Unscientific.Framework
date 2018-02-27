@@ -93,13 +93,14 @@ namespace Unscientificlab.ECS.Benchmark
         public static void Main(string[] args)
         {
             // register scopes & components
+            new Components<Simulation>()
+                .Add<Position>()
+                .Add<Velocity>()
+                .Register();
+            
             var context = new Context<Simulation>.Initializer()
                 .WithInitialCapacity(EntitiesCount)
                 .WithMaxCapacity(EntitiesCount)
-                .WithComponents()
-                    .Add<Position>()
-                    .Add<Velocity>()
-                .Done()
                 .Initialize();
 
             var systems = new Systems();

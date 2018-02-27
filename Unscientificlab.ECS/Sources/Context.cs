@@ -218,13 +218,16 @@ namespace Unscientificlab.ECS
     internal class ComponentData<TScope, TComponent> where TScope : IScope
     {
         // ReSharper disable once StaticMemberInGenericType
-        internal static int Id;
+        internal static int Id = -1;
         internal static TComponent[] Data;
         // ReSharper disable once StaticMemberInGenericType
         internal static BitArray Present;
 
         internal static void Init()
         {
+            if (Id != -1)
+                return;
+
             Id = StaticIdAllocator<ComponentData<TScope, TComponent>>.AllocateId();
             ScopeData<TScope>.ComponentTypes.Add(typeof(TComponent));
             ScopeData<TScope>.RemoveActions.Add((pos, last) =>
@@ -256,45 +259,39 @@ namespace Unscientificlab.ECS
             });
         }
     }
+    
+    public class Components<TScope> where TScope : IScope
+    {
+        private delegate void RegisterDelegate();
+
+        private Delegate _delegate;
+
+        public Components<TScope> Add<TComponent>()
+        {
+            RegisterDelegate registerDelegate = ComponentData<TScope, TComponent>.Init;
+
+            _delegate = _delegate == null ? registerDelegate : Delegate.Combine(_delegate, registerDelegate);
+
+            return this;
+        }
+
+        public void Register()
+        {
+            _delegate.DynamicInvoke();
+        }
+    }
 
     public class Context<TScope> where TScope : IScope
     {
         public class Initializer
         {
-            public class ComponentsInitializer
-            {
-                private readonly Initializer _initializer;
-
-                internal ComponentsInitializer(Initializer initializer)
-                {
-                    _initializer = initializer;
-                }
-
-                public ComponentsInitializer Add<TComponent>()
-                {
-                    ComponentData<TScope, TComponent>.Init();
-                    return this;
-                }
-
-                public Initializer Done()
-                {
-                    return _initializer;
-                }
-            }
-
             private int _initialCapacity = 128;
             private int _maxCapacity = int.MaxValue;
             private IReferenceTracker _referenceTracker;
 
             public Initializer()
             {
-                ScopeData<TScope>.Reset();
                 ComponentData<TScope, Identifier>.Init();
-            }
-
-            public ComponentsInitializer WithComponents()
-            {
-                return new ComponentsInitializer(this);
             }
 
             public Initializer WithReferenceTracker(IReferenceTracker referenceTracker)
