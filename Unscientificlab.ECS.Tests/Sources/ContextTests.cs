@@ -11,7 +11,6 @@ namespace Unscientificlab.ECS.Tests
     [TestFixture]
     public class ContextTests
     {
-        private readonly ReferenceTrackerFactory _trackerFactory = (max) => new SafeReferenceTracker<TestScope>();
         private readonly Contexts _contexts = new Contexts();
 
         [SetUp]
@@ -20,6 +19,7 @@ namespace Unscientificlab.ECS.Tests
             new Context<TestScope>.Initializer()
                 .WithInitialCapacity(16)
                 .WithMaxCapacity(128)
+                .WithReferenceTracker(new SafeReferenceTracker<TestScope>(16))
                 .WithComponents()
                     .Add<ValueComponent>()
                     .Add<DeadFlagComponent>()
@@ -250,6 +250,45 @@ namespace Unscientificlab.ECS.Tests
             }
 
             Assert.AreEqual(8, count);
+        }
+
+        [Test]
+        public void RetainedEntityCanNotBeDestroyed()
+        {
+            var context = _contexts.Get<TestScope>();
+            var entity = context.CreateEntity();
+            var entityRef = entity.Retain(this);
+            TestDelegate testDelegate = () =>
+            {
+                context.DestroyEntity(entityRef.Entity);
+            };
+
+            Assert.Throws(typeof(TryingToDestroyReferencedEntity<TestScope>), testDelegate);
+        }
+
+        [Test]
+        public void RetainedEntityCanNotBeReleasedByAnotherOwner()
+        {
+            var context = _contexts.Get<TestScope>();
+            var entity = context.CreateEntity();
+            var entityRef = entity.Retain(this);
+            TestDelegate testDelegate = () =>
+            {
+                entityRef.Release("anotherObject");
+            };
+
+            Assert.Throws(typeof(ReleasingNonOwnedEntityException<TestScope>), testDelegate);
+        }
+
+        [Test]
+        public void RetainedAndReleasedEntityCanBeDestroyed()
+        {
+            var context = _contexts.Get<TestScope>();
+            var entity = context.CreateEntity();
+            var entityRef = entity.Retain(this);
+            entityRef.Release(this);
+            context.DestroyEntity(entityRef.Entity);
+            Assert.Pass();
         }
 
     }

@@ -7,9 +7,9 @@ namespace Unscientificlab.ECS.ReferenceTracking
     {
         private readonly Dictionary<int, HashSet<object>> _references;
 
-        public SafeReferenceTracker()
+        public SafeReferenceTracker(int capacity)
         {
-            _references = new Dictionary<int, HashSet<object>>();
+            _references = new Dictionary<int, HashSet<object>>(capacity);
         }
 
         public void Grow(int newCapacity)
@@ -24,17 +24,17 @@ namespace Unscientificlab.ECS.ReferenceTracking
             return _references.TryGetValue(id, out owners) ? owners.Count : 0;
         }
 
-        public void Release(object owner, int id)
+        public void Release(int id, object owner)
         {
             HashSet<object> owners;
 
             if (!_references.TryGetValue(id, out owners) || !owners.Contains(owner))
-                throw new ReleasingNonOwnedEntityException(owner, id);
+                throw new ReleasingNonOwnedEntityException<TScope>(owner, id);
 
             owners.Remove(owner);
         }
 
-        public void Retain(object owner, int id)
+        public void Retain(int id, object owner)
         {
             HashSet<object> owners;
 

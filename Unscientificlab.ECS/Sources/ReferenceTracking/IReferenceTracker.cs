@@ -4,7 +4,7 @@
     {
         void Grow(int newCapacity);
         int RetainCount(int id);
-        void Release(object owner, int id);
-        void Retain(object owner, int id);
+        void Release(int id, object owner);
+        void Retain(int id, object owner);
     }
 }

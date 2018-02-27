@@ -2,8 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unscientificlab.ECS.Exception;
+using Unscientificlab.ECS.ReferenceTracking;
 using Unscientificlab.ECS.Util;
-using Unscientificlab.Util.Pool;
 
 namespace Unscientificlab.ECS
 {
@@ -253,11 +253,8 @@ namespace Unscientificlab.ECS
             });
             ScopeData<TScope>.CleanupActions.Add(() =>
             {
-                for (var i = 0; i < Data.Length; i++)
-                {
-                    Data[i] = default(TComponent);
-                    Present[i] = false;
-                }
+                Array.Clear(Data, 0, Data.Length);
+                Present.SetAll(false);
             });
         }
     }
@@ -289,7 +286,7 @@ namespace Unscientificlab.ECS
 
             private int _initialCapacity = 128;
             private int _maxCapacity = int.MaxValue;
-            private readonly Dictionary<string, object> _indicies = new Dictionary<string, object>(); 
+            private IReferenceTracker _referenceTracker;
 
             public Initializer()
             {
@@ -302,6 +299,12 @@ namespace Unscientificlab.ECS
                 return new ComponentsInitializer(this);
             }
 
+            public Initializer WithReferenceTracker(IReferenceTracker referenceTracker)
+            {
+                _referenceTracker = referenceTracker;
+                return this;
+            }
+            
             public Initializer WithInitialCapacity(int capacity)
             {
                 _initialCapacity = capacity;
@@ -316,8 +319,12 @@ namespace Unscientificlab.ECS
 
             public Context<TScope> Initialize()
             {
+                if (_referenceTracker == null)
+                {
+                    _referenceTracker = new SafeReferenceTracker<TScope>(_initialCapacity);
+                }
                 // ReSharper disable once HeapView.ObjectAllocation.Evident
-                return new Context<TScope>(_initialCapacity, _maxCapacity);
+                return new Context<TScope>(_initialCapacity, _maxCapacity, _referenceTracker);
             }
         }
 
@@ -345,21 +352,40 @@ namespace Unscientificlab.ECS
 
         private int _capacity;
         private readonly int _maxCapacity;
-        private int _lastId = 1;
-        private readonly Dictionary<int, int> _entityId2Index;
+        private readonly IReferenceTracker _referenceTracker;
+        private readonly Stack<int> _freeList;
+        private int[] _id2Index;
 
-        private Context(int initialCapacity, int maxCapacity)
+        private Context(int initialCapacity, int maxCapacity, IReferenceTracker referenceTracker)
         {
             _capacity = initialCapacity;
             _maxCapacity = maxCapacity;
+            _referenceTracker = referenceTracker;
+            _freeList = new Stack<int>(_capacity);
+            _id2Index = new int[_capacity];
+
+            for (var i = 0; i < _capacity; i++)
+                _id2Index[i] = -1;
+
+            for (var i = _capacity - 1; i >= 0; i--)
+                _freeList.Push(i + 1);
 
             // Initialize scopes
             foreach (var initAction in ScopeData<TScope>.InitActions)
                 initAction(_capacity);
 
             _count = 0;
-            _entityId2Index = DictionaryPool<int, int>.Instance.Get();
             Instance = this;
+        }
+
+        public void Retain(Entity<TScope> entity, object owner)
+        {
+            _referenceTracker.Retain(entity.Id, owner);
+        }
+
+        public void Release(Entity<TScope> entity, object owner)
+        {
+            _referenceTracker.Release(entity.Id, owner);
         }
 
         public Entity<TScope> CreateEntity()
@@ -369,11 +395,11 @@ namespace Unscientificlab.ECS
 
             var index = _count;
             _count++;
-            var id = _lastId++;
+            var id = _freeList.Pop();
 
             var entity = new Entity<TScope>(index).Add(new Identifier(id));
 
-            _entityId2Index[id] = index;
+            _id2Index[id - 1] = index;
 
             return entity;
         }
@@ -386,6 +412,16 @@ namespace Unscientificlab.ECS
             if (_maxCapacity < newCapacity)
                 newCapacity = _maxCapacity;
 
+            Array.Resize(ref _id2Index, newCapacity);
+
+            for (var i = _capacity; i < newCapacity; i++)
+                _id2Index[i] = -1;
+
+            for (var i = newCapacity - 1; i >= _capacity; i--)
+                _freeList.Push(i + 1);
+            
+            _referenceTracker.Grow(newCapacity);
+
             foreach (var extend in ScopeData<TScope>.ExtendActions)
                 extend(newCapacity);
 
@@ -394,10 +430,13 @@ namespace Unscientificlab.ECS
 
         public void DestroyEntity(Entity<TScope> entity)
         {
+            if (_referenceTracker.RetainCount(entity.Id) > 0)
+                throw new TryingToDestroyReferencedEntity<TScope>(entity.Id);
+
             var index = entity.Index;
             var lastIndex = _count - 1;
 
-            _entityId2Index.Remove(entity.Id);
+            _id2Index[entity.Id - 1] = -1;
 
             if (lastIndex >= 0)
             {
@@ -406,7 +445,7 @@ namespace Unscientificlab.ECS
                 foreach (var rm in ScopeData<TScope>.RemoveActions)
                     rm(index, lastIndex);
 
-                _entityId2Index[lastId] = index;
+                _id2Index[lastId - 1] = index;
             }
 
             _count--;
@@ -414,7 +453,10 @@ namespace Unscientificlab.ECS
 
         public Entity<TScope> GetEntityById(int id)
         {
-            return new Entity<TScope>(_entityId2Index[id]);
+            if (_id2Index[id - 1] == -1)
+                throw new EntityDoesNotExistsException<TScope>(id);
+
+            return new Entity<TScope>(_id2Index[id - 1]);
         }
 
         internal TComponent Get<TComponent>(int index)

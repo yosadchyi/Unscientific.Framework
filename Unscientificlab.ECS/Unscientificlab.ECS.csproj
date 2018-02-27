@@ -51,6 +51,7 @@
     <Compile Include="Sources\Exception\ReleasingNonOwnedEntityException.cs" />
     <Compile Include="Sources\Exception\ReleasingNonRetainedEntityException.cs" />
     <Compile Include="Sources\Exception\ReleasingRetainedEntityException.cs" />
+    <Compile Include="Sources\Exception\TryingToDestroyReferencedEntity.cs" />
     <Compile Include="Sources\Identity.cs" />
     <Compile Include="Sources\IScope.cs" />
     <Compile Include="Sources\MessageBus.cs" />

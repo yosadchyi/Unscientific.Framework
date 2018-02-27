@@ -3,7 +3,7 @@ using Unscientificlab.ECS.Exception;
 
 namespace Unscientificlab.ECS.ReferenceTracking
 {
-    public class CountingReferenceTracker : IReferenceTracker
+    public class CountingReferenceTracker<TScope> : IReferenceTracker
     {
         private int[] _references;
 
@@ -21,22 +21,22 @@ namespace Unscientificlab.ECS.ReferenceTracking
 
         public int RetainCount(int id)
         {
-            return _references[id];
+            return _references[id - 1];
         }
 
-        public void Release(object owner, int id)
+        public void Release(int id, object owner)
         {
-            if (_references[id] == 0)
+            if (_references[id - 1] == 0)
             {
                 // ReSharper disable once HeapView.ObjectAllocation.Evident
-                throw new ReleasingNonRetainedEntityException(id);
+                throw new ReleasingNonRetainedEntityException<TScope>(id);
             }
-            _references[id]--;
+            _references[id - 1]--;
         }
 
-        public void Retain(object owner, int id)
+        public void Retain(int id, object owner)
         {
-            _references[id]++;
+            _references[id - 1]++;
         }
     }
 }

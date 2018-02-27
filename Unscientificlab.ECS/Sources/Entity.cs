@@ -1,5 +1,25 @@
 ﻿namespace Unscientificlab.ECS
 {
+    public struct EntityRef<TScope> where TScope : IScope
+    {
+        public readonly int Id;
+
+        public Entity<TScope> Entity
+        {
+            get { return Context<TScope>.Instance[Id]; }
+        }
+
+        internal EntityRef(int id)
+        {
+            Id = id;
+        }
+
+        public void Release(object owner)
+        {
+            Context<TScope>.Instance.Release(Entity, owner);
+        }
+    }
+    
     public struct Entity<TScope> where TScope: IScope
     {
         internal readonly int Index;
@@ -12,6 +32,12 @@
         internal Entity(int index)
         {
             Index = index;
+        }
+
+        public EntityRef<TScope> Retain(object owner)
+        {
+            Context<TScope>.Instance.Retain(this, owner);
+            return new EntityRef<TScope>(Id);
         }
 
         public TComponent Get<TComponent>()
