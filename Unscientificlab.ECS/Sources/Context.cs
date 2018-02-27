@@ -470,9 +470,10 @@ namespace Unscientificlab.ECS
 
             Array.Resize(ref _id2Index, newCapacity);
 
+#if !UNSAFE_ECS
             for (var i = _capacity; i < newCapacity; i++)
                 _id2Index[i] = -1;
-
+#endif
             for (var i = newCapacity - 1; i >= _capacity; i--)
                 _freeList.Push(i + 1);
             
@@ -493,8 +494,9 @@ namespace Unscientificlab.ECS
             var index = entity.Index;
             var lastIndex = _count - 1;
 
+#if !UNSAFE_ECS
             _id2Index[entity.Id - 1] = -1;
-
+#endif
             if (lastIndex >= 0)
             {
                 var lastId = Get<Identifier>(lastIndex).Value;

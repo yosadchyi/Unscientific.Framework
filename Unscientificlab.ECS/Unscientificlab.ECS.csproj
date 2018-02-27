@@ -59,6 +59,7 @@
     <Compile Include="Sources\ReferenceTracking\IReferenceTracker.cs" />
     <Compile Include="Sources\ReferenceTracking\ReferenceTrackerFactory.cs" />
     <Compile Include="Sources\ReferenceTracking\SafeReferenceTracker.cs" />
+    <Compile Include="Sources\ReferenceTracking\UnsafeReferenceTracker.cs" />
     <Compile Include="Sources\System\ISystem.cs" />
     <Compile Include="Sources\System\Systems.cs" />
     <Compile Include="Sources\Util\StaticIdAllocator.cs" />
