@@ -88,24 +88,25 @@ namespace Unscientificlab.ECS.Benchmark
 
     internal class Benchmark
     {
+        private const int EntitiesCount = 1000;
         private const int RepeatCount = 10000;
 
         public static void Main(string[] args)
         {
             // register scopes & components
             var context = new Context<Simulation>.Initializer()
-                .WithInitialCapacity(1000)
-                .WithMaxCapacity(1000)
+                .WithInitialCapacity(EntitiesCount)
+                .WithMaxCapacity(EntitiesCount)
                 .WithComponents()
-                .Add<Position>()
-                .Add<Velocity>()
+                    .Add<Position>()
+                    .Add<Velocity>()
                 .Done()
                 .Initialize();
 
             var systems = new ExecuteSystems();
                 systems.Add(new MoveSystem(context));
 
-            for (var i = 0; i < 1000; i++)
+            for (var i = 0; i < EntitiesCount; i++)
             {
                 context.CreateEntity()
                     .Add(new Position(new Vector3(1, 2, 0), 0))
