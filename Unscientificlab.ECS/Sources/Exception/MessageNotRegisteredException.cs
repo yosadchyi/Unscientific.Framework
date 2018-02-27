@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.ECS.Exception
+﻿namespace Unscientificlab.ECS
 {
     public class MessageNotRegisteredException<TMessage> : global::System.Exception
     {

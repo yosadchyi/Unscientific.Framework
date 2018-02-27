@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.ECS.Exception
+﻿namespace Unscientificlab.ECS
 {
     public class EntityAlreadyHasComponentException<TScope, TComponent> : global::System.Exception
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using Unscientificlab.ECS.Exception;
+using Unscientificlab.ECS;
 
-namespace Unscientificlab.ECS.ReferenceTracking
+namespace Unscientificlab.ECS
 {
     public class SafeReferenceTracker<TScope>: IReferenceTracker
     {

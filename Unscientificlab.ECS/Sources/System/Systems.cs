@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 
-namespace Unscientificlab.ECS.System
+namespace Unscientificlab.ECS
 {
-    public class ExecuteSystems: IExecuteSystem
+    public class Systems: ISystem
     {
-        private readonly List<IExecuteSystem> _systems = new List<IExecuteSystem>();
+        private readonly List<ISystem> _systems = new List<ISystem>();
         
-        public ExecuteSystems Add(IExecuteSystem system)
+        public Systems Add(ISystem system)
         {
             _systems.Add(system);
 

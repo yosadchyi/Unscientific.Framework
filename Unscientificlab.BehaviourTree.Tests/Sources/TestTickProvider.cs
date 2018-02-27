@@ -1,6 +1,4 @@
-﻿using Unscientificlab.Logging.Time;
-
-namespace Unscientificlab.BehaviourTree.Tests
+﻿namespace Unscientificlab.BehaviourTree.Tests
 {
     public class TestTickProvider: ITickProvider
     {

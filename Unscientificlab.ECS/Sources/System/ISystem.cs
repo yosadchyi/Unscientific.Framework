@@ -1,6 +1,7 @@
-﻿namespace Unscientificlab.ECS.System
+﻿namespace Unscientificlab.ECS
 {
     public interface ISystem
     {
+        void Execute();
     }
 }

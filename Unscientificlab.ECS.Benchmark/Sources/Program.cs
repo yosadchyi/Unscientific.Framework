@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using Unscientificlab.ECS.System;
 
 namespace Unscientificlab.ECS.Benchmark
 {
@@ -63,7 +62,7 @@ namespace Unscientificlab.ECS.Benchmark
         }
     }
 
-    public class MoveSystem : IExecuteSystem
+    public class MoveSystem : ISystem
     {
         private Context<Simulation> _context;
 
@@ -103,7 +102,7 @@ namespace Unscientificlab.ECS.Benchmark
                 .Done()
                 .Initialize();
 
-            var systems = new ExecuteSystems();
+            var systems = new Systems();
                 systems.Add(new MoveSystem(context));
 
             for (var i = 0; i < EntitiesCount; i++)

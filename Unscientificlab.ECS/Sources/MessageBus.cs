@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections;
-using Unscientificlab.ECS.Exception;
-using Unscientificlab.ECS.Util;
+using Unscientificlab.ECS;
 
 namespace Unscientificlab.ECS
 {

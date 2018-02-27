@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.Logging.Time
+﻿namespace Unscientificlab.BehaviourTree
 {
     public interface ITickProvider
     {

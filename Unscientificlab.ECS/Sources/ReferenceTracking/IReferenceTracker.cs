@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.ECS.ReferenceTracking
+﻿namespace Unscientificlab.ECS
 {
     public interface IReferenceTracker
     {

@@ -1,4 +1,4 @@
-namespace Unscientificlab.Logging.Config
+namespace Unscientificlab.BehaviourTree
 {
     public delegate T ValueSupplier<in TBlackboard, out T>(TBlackboard entity);
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using NUnit.Framework;
-using Unscientificlab.ECS.Exception;
-using Unscientificlab.ECS.ReferenceTracking;
+using Unscientificlab.ECS;
 
 namespace Unscientificlab.ECS.Tests
 {

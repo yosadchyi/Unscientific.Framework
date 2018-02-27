@@ -1,7 +1,7 @@
-﻿namespace Unscientificlab.ECS.Util
+﻿namespace Unscientificlab.ECS
 {
     // ReSharper disable once UnusedTypeParameter
-    public class StaticIdAllocator<TIdHolder>
+    public static class StaticIdAllocator<TIdHolder>
     {
         // ReSharper disable once StaticMemberInGenericType
         private static int _lastId;

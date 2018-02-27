@@ -1,7 +1,4 @@
-﻿using Unscientificlab.Logging.Config;
-using Unscientificlab.Logging.Time;
-
-namespace Unscientificlab.BehaviourTree
+﻿namespace Unscientificlab.BehaviourTree
 {
     public class WaitNode<TBlackboard> : BehaviourTreeNode<TBlackboard>
     {
