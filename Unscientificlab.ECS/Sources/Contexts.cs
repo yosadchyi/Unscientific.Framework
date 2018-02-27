@@ -2,7 +2,7 @@
 {
     public class Contexts
     {
-        public static Context<TScope> Get<TScope>() where TScope: IScope
+        public Context<TScope> Get<TScope>() where TScope: IScope
         {
             return Context<TScope>.Instance;
         }
