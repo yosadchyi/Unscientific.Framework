@@ -377,7 +377,11 @@ namespace Unscientificlab.ECS
             {
                 if (_referenceTrackerFactory == null)
                 {
+#if UNSAFE_ECS
+                    _referenceTrackerFactory = (capacity) => new UnsafeReferenceTracker();
+#else
                     _referenceTrackerFactory = (capacity) => new SafeReferenceTracker<TScope>(capacity);
+#endif
                 }
                 // ReSharper disable once HeapView.ObjectAllocation.Evident
                 return new Context<TScope>(_initialCapacity, _maxCapacity, _referenceTrackerFactory);
@@ -476,7 +480,7 @@ namespace Unscientificlab.ECS
 #endif
             for (var i = newCapacity - 1; i >= _capacity; i--)
                 _freeList.Push(i + 1);
-            
+
             _referenceTracker.Grow(newCapacity);
 
             foreach (var extend in ScopeData<TScope>.ExtendActions)

@@ -258,12 +258,17 @@ namespace Unscientificlab.ECS.Tests
             var context = _contexts.Get<TestScope>();
             var entity = context.CreateEntity();
             var entityRef = entity.Retain(this);
+
             TestDelegate testDelegate = () =>
             {
                 context.DestroyEntity(entityRef.Entity);
             };
 
+#if !UNSAFE_ECS
             Assert.Throws(typeof(TryingToDestroyReferencedEntity<TestScope>), testDelegate);
+#else
+            Assert.Pass();
+#endif
         }
 
         [Test]
