@@ -1,5 +1,4 @@
-﻿using Assets.Editor.Tests.Unscientificlab.FixedPoint;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Unscientificlab.FixedPoint;
 
 namespace Assets.Tests.Unscientificlab.FixedPoint

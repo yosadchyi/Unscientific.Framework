@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unscientificlab.FixedPoint"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unscientificlab.FixedPoint.Tests", "Unscientificlab.FixedPoint.Tests\Unscientificlab.FixedPoint.Tests.csproj", "{79AD6E7F-95AF-4716-9DB9-94A79794330B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unscientificlab.Util.Tests", "Unscientificlab.Util.Tests\Unscientificlab.Util.Tests.csproj", "{8C5D0637-2ED3-4402-8DB2-350FA0A97747}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -64,5 +66,9 @@ Global
 		{79AD6E7F-95AF-4716-9DB9-94A79794330B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{79AD6E7F-95AF-4716-9DB9-94A79794330B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{79AD6E7F-95AF-4716-9DB9-94A79794330B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C5D0637-2ED3-4402-8DB2-350FA0A97747}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C5D0637-2ED3-4402-8DB2-350FA0A97747}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C5D0637-2ED3-4402-8DB2-350FA0A97747}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C5D0637-2ED3-4402-8DB2-350FA0A97747}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
