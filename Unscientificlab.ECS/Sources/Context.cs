@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unscientificlab.ECS;
+using System.Linq;
 
 namespace Unscientificlab.ECS
 {
@@ -321,19 +321,39 @@ namespace Unscientificlab.ECS
         }
     }
     
-    public class Components<TScope> where TScope : IScope
+    public class ComponentRegistrations
     {
         private delegate void RegisterDelegate();
 
         private Delegate _delegate;
 
-        public Components<TScope> Add<TComponent>()
+        public class ScopedRegistrator<TScope> where TScope : IScope
         {
-            RegisterDelegate registerDelegate = ComponentData<TScope, TComponent>.Init;
+            private readonly ComponentRegistrations _componentRegistrations;
 
-            _delegate = _delegate == null ? registerDelegate : Delegate.Combine(_delegate, registerDelegate);
+            public ScopedRegistrator(ComponentRegistrations componentRegistrations)
+            {
+                _componentRegistrations = componentRegistrations;
+            }
 
-            return this;
+            public ScopedRegistrator<TScope> Add<TComponent>()
+            {
+                RegisterDelegate registerDelegate = ComponentData<TScope, TComponent>.Init;
+
+                _componentRegistrations._delegate = _componentRegistrations._delegate == null ? registerDelegate : Delegate.Combine(_componentRegistrations._delegate, registerDelegate);
+
+                return this;
+            }
+
+            public ComponentRegistrations End()
+            {
+                return _componentRegistrations;
+            }
+        }
+
+        public ScopedRegistrator<TScope> For<TScope>() where TScope : IScope
+        {
+            return new ScopedRegistrator<TScope>(this);
         }
 
         public void Register()
@@ -342,12 +362,42 @@ namespace Unscientificlab.ECS
         }
     }
 
+    public class ContextRegistrations
+    {
+        private delegate void RegisterDelegate(ReferenceTrackerFactory referenceTrackerFactory);
+
+        private static readonly HashSet<Type> RegisteredContexts = new HashSet<Type>();
+        private Delegate _delegate;
+
+        public ContextRegistrations Add<TScope>() where TScope : IScope
+        {
+            RegisterDelegate registerDelegate = RegisterContext<TScope>;
+
+            _delegate = _delegate == null ? registerDelegate : Delegate.Combine(_delegate, registerDelegate);
+
+            return this;
+        }
+
+        private static void RegisterContext<TScope>(ReferenceTrackerFactory referenceTrackerFactory) where TScope : IScope
+        {
+            if (RegisteredContexts.Contains(typeof(TScope)))
+                return;
+
+            new Context<TScope>.Initializer().Initialize();
+            RegisteredContexts.Add(typeof(TScope));
+        }
+
+        public void Register(ReferenceTrackerFactory referenceTrackerFactory)
+        {
+            _delegate.DynamicInvoke(referenceTrackerFactory);
+        }
+    }
+
     public class Context<TScope> where TScope : IScope
     {
         public class Initializer
         {
             private int _initialCapacity = 128;
-            private int _maxCapacity = int.MaxValue;
             private ReferenceTrackerFactory _referenceTrackerFactory;
 
             public Initializer()
@@ -367,12 +417,6 @@ namespace Unscientificlab.ECS
                 return this;
             }
 
-            public Initializer WithMaxCapacity(int maxCapacity)
-            {
-                _maxCapacity = maxCapacity;
-                return this;
-            }
-
             public Context<TScope> Initialize()
             {
                 if (_referenceTrackerFactory == null)
@@ -384,7 +428,7 @@ namespace Unscientificlab.ECS
 #endif
                 }
                 // ReSharper disable once HeapView.ObjectAllocation.Evident
-                return new Context<TScope>(_initialCapacity, _maxCapacity, _referenceTrackerFactory);
+                return new Context<TScope>(_initialCapacity, _referenceTrackerFactory);
             }
         }
 
@@ -411,15 +455,13 @@ namespace Unscientificlab.ECS
         private int _count;
 
         private int _capacity;
-        private readonly int _maxCapacity;
         private readonly IReferenceTracker _referenceTracker;
         private readonly Stack<int> _freeList;
         private int[] _id2Index;
 
-        private Context(int initialCapacity, int maxCapacity, ReferenceTrackerFactory referenceTrackerFactory)
+        private Context(int initialCapacity, ReferenceTrackerFactory referenceTrackerFactory)
         {
             _capacity = initialCapacity;
-            _maxCapacity = maxCapacity;
             _referenceTracker = referenceTrackerFactory(_capacity);
             _freeList = new Stack<int>(_capacity);
             _id2Index = new int[_capacity];
@@ -436,6 +478,12 @@ namespace Unscientificlab.ECS
 
             _count = 0;
             Instance = this;
+        }
+
+        public void EnsureCapacity(int capacity)
+        {
+            if (capacity > _capacity)
+                Grow(capacity);
         }
 
         public void Retain(Entity<TScope> entity, object owner)
@@ -466,12 +514,6 @@ namespace Unscientificlab.ECS
 
         private void Grow(int newCapacity)
         {
-            if (_capacity == _maxCapacity)
-                throw new ContextReachedMaxCapacityException<TScope>();
-
-            if (_maxCapacity < newCapacity)
-                newCapacity = _maxCapacity;
-
             Array.Resize(ref _id2Index, newCapacity);
 
 #if !UNSAFE_ECS
@@ -578,6 +620,26 @@ namespace Unscientificlab.ECS
                 // ReSharper disable once HeapView.ObjectAllocation.Evident
                 throw new EntityHasNoComponentException<TScope, TComponent>(index);
             }
+        }
+
+        public Entity<TScope> First()
+        {
+            return All().First();
+        }
+
+        public Entity<TScope> FirstWith<TComponent>()
+        {
+            return AllWith<TComponent>().First();
+        }
+
+        public Entity<TScope> FirstWith<TComponent1, TComponent2>()
+        {
+            return AllWith<TComponent1, TComponent2>().First();
+        }
+
+        public Entity<TScope> FirstWith<TComponent1, TComponent2, TComponent3>()
+        {
+            return AllWith<TComponent1, TComponent2, TComponent3>().First();
         }
 
         public IEnumerable<Entity<TScope>> All()

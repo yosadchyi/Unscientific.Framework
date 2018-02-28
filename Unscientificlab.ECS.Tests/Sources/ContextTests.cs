@@ -15,14 +15,15 @@ namespace Unscientificlab.ECS.Tests
         [SetUp]
         public void Setup()
         {
-            new Components<TestScope>()
-                .Add<ValueComponent>()
-                .Add<DeadFlagComponent>()
+            new ComponentRegistrations()
+                .For<TestScope>()
+                    .Add<ValueComponent>()
+                    .Add<DeadFlagComponent>()
+                .End()
                 .Register();
 
             new Context<TestScope>.Initializer()
                 .WithInitialCapacity(16)
-                .WithMaxCapacity(128)
                 .WithReferenceTrackerFactory((capacity) => new SafeReferenceTracker<TestScope>(capacity))
                 .Initialize();
         }
@@ -161,22 +162,6 @@ namespace Unscientificlab.ECS.Tests
                 context.CreateEntity();
             }
             Assert.Pass();
-        }
-
-        [Test]
-        public void ContextShouldThrowExceptionWhenMaxCapacityReached()
-        {
-            TestDelegate testDelegate = () =>
-            {
-                var context = _contexts.Get<TestScope>();
-
-                for (var i = 0; i < 256; i++)
-                {
-                    context.CreateEntity();
-                }
-            };
-
-            Assert.Throws(typeof(ContextReachedMaxCapacityException<TestScope>), testDelegate);
         }
 
         [Test]

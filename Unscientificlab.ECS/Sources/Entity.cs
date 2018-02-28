@@ -14,9 +14,10 @@
             Id = id;
         }
 
-        public void Release(object owner)
+        public Entity<TScope> Release(object owner)
         {
             Context<TScope>.Instance.Release(Entity, owner);
+            return Entity;
         }
     }
     

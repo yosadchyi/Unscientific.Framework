@@ -104,10 +104,38 @@ namespace Unscientificlab.ECS
             Count = 0;
         }
     }
+
+    public class MessageRegistrations
+    {
+        private delegate void RegisterDelegate(MessageBus bus);
+
+        private Delegate _delegate;
+
+        public MessageRegistrations Add<TMessage>()
+        {
+            RegisterDelegate registerDelegate = (bus) => bus.Register<TMessage>();
+
+            _delegate = _delegate == null ? registerDelegate : Delegate.Combine(_delegate, registerDelegate);
+
+            return this;
+        }
+
+        public void Register(MessageBus bus)
+        {
+            _delegate.DynamicInvoke(bus);
+        }
+    }
     
     public class MessageBus
     {
+        public static MessageBus Instance { get; private set; }
+
         private event ClearDelegate OnClear = delegate { };
+
+        public MessageBus()
+        {
+            Instance = this;
+        }
 
         public MessageBus Register<TMessage>(int initialCapacity = 128)
         {

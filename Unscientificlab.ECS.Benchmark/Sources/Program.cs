@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using Unscientificlab.ECS.Base;
 
 namespace Unscientificlab.ECS.Benchmark
 {
@@ -93,18 +94,20 @@ namespace Unscientificlab.ECS.Benchmark
         public static void Main(string[] args)
         {
             // register scopes & components
-            new Components<Simulation>()
-                .Add<Position>()
-                .Add<Velocity>()
+            new ComponentRegistrations()
+                .For<Simulation>()
+                    .Add<Position>()
+                    .Add<Velocity>()
+                .End()
                 .Register();
 
             var context = new Context<Simulation>.Initializer()
                 .WithInitialCapacity(EntitiesCount)
-                .WithMaxCapacity(EntitiesCount)
                 .Initialize();
 
-            var systems = new Systems();
-                systems.Add(new MoveSystem(context));
+            var systems = new Systems.Builder()
+                .Add(new MoveSystem(context))
+                .Build();
 
             for (var i = 0; i < EntitiesCount; i++)
             {

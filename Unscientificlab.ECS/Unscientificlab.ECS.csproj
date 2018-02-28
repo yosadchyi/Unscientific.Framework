@@ -42,7 +42,6 @@
     <Compile Include="Sources\Contexts.cs" />
     <Compile Include="Sources\Entity.cs" />
     <Compile Include="Sources\Exception\ContextInitializationException.cs" />
-    <Compile Include="Sources\Exception\ContextReachedMaxCapacityException.cs" />
     <Compile Include="Sources\Exception\EntityAlreadyHasComponentException.cs" />
     <Compile Include="Sources\Exception\EntityDoesNotExistsException.cs" />
     <Compile Include="Sources\Exception\EntityHasNoComponentException.cs" />
@@ -64,7 +63,6 @@
     <Compile Include="Sources\System\ISetupSystem.cs" />
     <Compile Include="Sources\System\ISystem.cs" />
     <Compile Include="Sources\System\IUpdateSystem.cs" />
-    <Compile Include="Sources\System\Systems.cs" />
     <Compile Include="Sources\Util\StaticIdAllocator.cs" />
   </ItemGroup>
   <ItemGroup>
