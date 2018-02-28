@@ -4,9 +4,9 @@ namespace Unscientificlab.ECS.Base
 {
     public class Application
     {
-        private readonly MessageBus _messageBus = new MessageBus();
-        private readonly Contexts _contexts = new Contexts();
-        private readonly Systems _systems;
+        public MessageBus MessageBus { get; } = new MessageBus();
+        public Contexts Contexts { get; } = new Contexts();
+        public Systems Systems { get; }
 
         public class Builder
         {
@@ -37,7 +37,7 @@ namespace Unscientificlab.ECS.Base
                 module.Components().Register();
 
             foreach (var module in modules)
-                module.Messages().Register(_messageBus);
+                module.Messages().Register(MessageBus);
 
             foreach (var module in modules)
                 module.Contexts().Register(referenceTrackerFactory);
@@ -47,27 +47,28 @@ namespace Unscientificlab.ECS.Base
 
             foreach (var module in modules)
             {
-                var systems = module.Systems(_contexts, _messageBus);
+                var systems = module.Systems(Contexts, MessageBus);
 
                 builder.AddAll(systems);
             }
 
-            _systems = builder.ReverseCleanupSystemsOrder().Build();
+            Systems = builder.ReverseCleanupSystemsOrder().Build();
         }
 
         public void Setup()
         {
-            _systems.Setup();
+            Systems.Setup();
         }
 
         public void Update()
         {
-            _systems.Update();
+            Systems.Update();
         }
 
         public void Cleanup()
         {
-            _systems.Cleanup();
+            Systems.Cleanup();
+            MessageBus.Clear();
         }
     }
 }

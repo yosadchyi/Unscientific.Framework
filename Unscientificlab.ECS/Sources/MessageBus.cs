@@ -122,7 +122,7 @@ namespace Unscientificlab.ECS
 
         public void Register(MessageBus bus)
         {
-            _delegate.DynamicInvoke(bus);
+            _delegate?.DynamicInvoke(bus);
         }
     }
     

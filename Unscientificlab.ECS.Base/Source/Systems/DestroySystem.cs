@@ -2,10 +2,12 @@
 {
     public class DestroySystem<TScope>: ICleanupSystem where TScope : IScope
     {
+        private Context<TScope> _context;
         private readonly MessageBus _messageBus;
 
         public DestroySystem(Contexts contexts, MessageBus messageBus)
         {
+            _context = contexts.Get<TScope>();
             _messageBus = messageBus;
         }
         
@@ -14,8 +16,8 @@
             foreach (var message in _messageBus.All<EntityDestroyed<TScope>>())
             {
                 var entity = message.Reference.Release(typeof(EntityDestroyed<TScope>));
-                
-                entity.Destroy();
+
+                _context.DestroyEntity(entity);
             }
         }
     }

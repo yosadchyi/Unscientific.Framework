@@ -389,7 +389,7 @@ namespace Unscientificlab.ECS
 
         public void Register(ReferenceTrackerFactory referenceTrackerFactory)
         {
-            _delegate.DynamicInvoke(referenceTrackerFactory);
+            _delegate?.DynamicInvoke(referenceTrackerFactory);
         }
     }
 

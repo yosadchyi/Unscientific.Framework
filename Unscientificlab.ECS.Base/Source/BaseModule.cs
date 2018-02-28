@@ -1,6 +1,6 @@
 ﻿namespace Unscientificlab.ECS.Base
 {
-    public class BaseModule<Simulation> : IModule where Simulation : IScope
+    public class BaseModule : IModule
     {
         public ContextRegistrations Contexts()
         {
@@ -20,7 +20,7 @@
         {
             return new ComponentRegistrations()
                 .For<Simulation>()
-                    .Add<EntityDestroyed<Simulation>>()
+                    .Add<Destroyed>()
                 .End();
         }
 
