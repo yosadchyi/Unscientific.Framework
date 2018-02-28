@@ -2,22 +2,22 @@
 
 namespace Unscientificlab.ECS
 {
-    public class Systems: ISystem
+    public class Systems: IUpdateSystem
     {
-        private readonly List<ISystem> _systems = new List<ISystem>();
+        private readonly List<IUpdateSystem> _systems = new List<IUpdateSystem>();
         
-        public Systems Add(ISystem system)
+        public Systems Add(IUpdateSystem system)
         {
             _systems.Add(system);
 
             return this;
         }
 
-        public void Execute()
+        public void Update()
         {
             foreach (var system in _systems)
             {
-                system.Execute();
+                system.Update();
             }
         }
     }

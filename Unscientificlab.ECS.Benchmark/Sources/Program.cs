@@ -62,7 +62,7 @@ namespace Unscientificlab.ECS.Benchmark
         }
     }
 
-    public class MoveSystem : ISystem
+    public class MoveSystem : IUpdateSystem
     {
         private Context<Simulation> _context;
 
@@ -71,7 +71,7 @@ namespace Unscientificlab.ECS.Benchmark
             _context = context;
         }
 
-        public void Execute()
+        public void Update()
         {
             foreach (var entity in _context.AllWith<Position, Velocity>())
             {
@@ -114,12 +114,12 @@ namespace Unscientificlab.ECS.Benchmark
             }
 
             // Warm up
-            systems.Execute();
+            systems.Update();
 
             Measure("Entity", () =>
             {
                 for (var i = 0; i < RepeatCount; i++)
-                    systems.Execute();
+                    systems.Update();
             });
         }
 
