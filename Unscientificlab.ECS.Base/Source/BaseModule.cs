@@ -1,4 +1,6 @@
-﻿namespace Unscientificlab.ECS.Base
+﻿using Unscientificlab.Core.Time;
+
+namespace Unscientificlab.ECS.Base
 {
     public class BaseModule : IModule
     {
@@ -26,6 +28,7 @@
             return new ComponentRegistrations()
                 .For<Simulation>()
                     .Add<Destroyed>()
+                    .Add<Tick>()
                 .End();
         }
 
@@ -33,6 +36,7 @@
         {
             return new Systems.Builder()
                 .Add(new SetupSystem(contexts))
+                .Add(new IncrementTickSystem(contexts))
                 .Add(new DestroySystem<Simulation>(contexts, bus))
                 .Build();
         }

@@ -6,4 +6,14 @@
     public struct Destroyed
     {
     }
+
+    public struct Tick
+    {
+        public int Value;
+
+        public Tick(int value)
+        {
+            Value = value;
+        }
+    }
 }
