@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace Unscientificlab.ECS
 {
-    internal struct EntityEnumerator<TScope> : IEnumerator<Entity<TScope>> where TScope : IScope
+    public struct EntityEnumerator<TScope> where TScope : IScope
     {
         private readonly int _count;
         private int _current;
@@ -30,17 +29,12 @@ namespace Unscientificlab.ECS
             _current = -1;
         }
 
-        object IEnumerator.Current
-        {
-            get { return new Entity<TScope>(_current); }
-        }
-
         public Entity<TScope> Current {
             get { return new Entity<TScope>(_current); }
         }
     }
 
-    internal struct FilteringEntityEnumerator<TScope, TComponent> : IEnumerator<Entity<TScope>> where TScope : IScope
+    public struct FilteringEntityEnumerator<TScope, TComponent> where TScope : IScope
     {
         private readonly int _count;
         private int _current;
@@ -71,17 +65,12 @@ namespace Unscientificlab.ECS
             _current = -1;
         }
 
-        object IEnumerator.Current
-        {
-            get { return new Entity<TScope>(_current); }
-        }
-
         public Entity<TScope> Current {
             get { return new Entity<TScope>(_current); }
         }
     }
 
-    internal struct FilteringEntityEnumerator<TScope, TComponent1, TComponent2> : IEnumerator<Entity<TScope>> where TScope : IScope
+    public struct FilteringEntityEnumerator<TScope, TComponent1, TComponent2> where TScope : IScope
     {
         private readonly int _count;
         private int _current;
@@ -112,17 +101,12 @@ namespace Unscientificlab.ECS
             _current = -1;
         }
 
-        object IEnumerator.Current
-        {
-            get { return new Entity<TScope>(_current); }
-        }
-
         public Entity<TScope> Current {
             get { return new Entity<TScope>(_current); }
         }
     }
 
-    internal struct FilteringEntityEnumerator<TScope, TComponent1, TComponent2, TComponent3> : IEnumerator<Entity<TScope>> where TScope : IScope
+    public struct FilteringEntityEnumerator<TScope, TComponent1, TComponent2, TComponent3> where TScope : IScope
     {
         private readonly int _count;
         private int _current;
@@ -153,17 +137,12 @@ namespace Unscientificlab.ECS
             _current = -1;
         }
 
-        object IEnumerator.Current
-        {
-            get { return new Entity<TScope>(_current); }
-        }
-
         public Entity<TScope> Current {
             get { return new Entity<TScope>(_current); }
         }
     }
 
-    internal struct EntityEnumerable<TScope> : IEnumerable<Entity<TScope>> where TScope: IScope
+    public struct EntityEnumerable<TScope> where TScope: IScope
     {
     
         private readonly int _count;
@@ -173,18 +152,23 @@ namespace Unscientificlab.ECS
             _count = count;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public IEnumerator<Entity<TScope>> GetEnumerator()
+        public EntityEnumerator<TScope> GetEnumerator()
         {
             return new EntityEnumerator<TScope>(_count);
         }
+
+        public Entity<TScope> First()
+        {
+            var enumerator = GetEnumerator();
+
+            if (enumerator.MoveNext())
+                return enumerator.Current;
+
+            throw new NoEntitiesException();
+        }
     }
 
-    internal struct FilteringEntityEnumerable<TScope, TComponent> : IEnumerable<Entity<TScope>> where TScope: IScope
+    public struct FilteringEntityEnumerable<TScope, TComponent> where TScope: IScope
     {
     
         private readonly int _count;
@@ -194,18 +178,23 @@ namespace Unscientificlab.ECS
             _count = count;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public IEnumerator<Entity<TScope>> GetEnumerator()
+        public FilteringEntityEnumerator<TScope, TComponent> GetEnumerator()
         {
             return new FilteringEntityEnumerator<TScope, TComponent>(_count);
         }
+        
+        public Entity<TScope> First()
+        {
+            var enumerator = GetEnumerator();
+
+            if (enumerator.MoveNext())
+                return enumerator.Current;
+
+            throw new NoEntitiesException();
+        }
     }
 
-    internal struct FilteringEntityEnumerable<TScope, TComponent1, TComponent2> : IEnumerable<Entity<TScope>> where TScope: IScope
+    public struct FilteringEntityEnumerable<TScope, TComponent1, TComponent2> where TScope: IScope
     {
     
         private readonly int _count;
@@ -215,18 +204,23 @@ namespace Unscientificlab.ECS
             _count = count;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public IEnumerator<Entity<TScope>> GetEnumerator()
+        public FilteringEntityEnumerator<TScope, TComponent1, TComponent2> GetEnumerator()
         {
             return new FilteringEntityEnumerator<TScope, TComponent1, TComponent2>(_count);
         }
+        
+        public Entity<TScope> First()
+        {
+            var enumerator = GetEnumerator();
+
+            if (enumerator.MoveNext())
+                return enumerator.Current;
+
+            throw new NoEntitiesException();
+        }
     }
 
-    internal struct FilteringEntityEnumerable<TScope, TComponent1, TComponent2, TComponent3> : IEnumerable<Entity<TScope>> where TScope: IScope
+    public struct FilteringEntityEnumerable<TScope, TComponent1, TComponent2, TComponent3> where TScope: IScope
     {
     
         private readonly int _count;
@@ -236,14 +230,19 @@ namespace Unscientificlab.ECS
             _count = count;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public IEnumerator<Entity<TScope>> GetEnumerator()
+        public FilteringEntityEnumerator<TScope, TComponent1, TComponent2, TComponent3> GetEnumerator()
         {
             return new FilteringEntityEnumerator<TScope, TComponent1, TComponent2, TComponent3>(_count);
+        }
+        
+        public Entity<TScope> First()
+        {
+            var enumerator = GetEnumerator();
+
+            if (enumerator.MoveNext())
+                return enumerator.Current;
+
+            throw new NoEntitiesException();
         }
     }
 
@@ -642,22 +641,22 @@ namespace Unscientificlab.ECS
             return AllWith<TComponent1, TComponent2, TComponent3>().First();
         }
 
-        public IEnumerable<Entity<TScope>> All()
+        public EntityEnumerable<TScope> All()
         {
             return new EntityEnumerable<TScope>(_count);
         }
 
-        public IEnumerable<Entity<TScope>> AllWith<TComponent>()
+        public FilteringEntityEnumerable<TScope, TComponent> AllWith<TComponent>()
         {
             return new FilteringEntityEnumerable<TScope, TComponent>(_count);
         }
 
-        public IEnumerable<Entity<TScope>> AllWith<TComponent1, TComponent2>()
+        public FilteringEntityEnumerable<TScope, TComponent1, TComponent2> AllWith<TComponent1, TComponent2>()
         {
             return new FilteringEntityEnumerable<TScope, TComponent1, TComponent2>(_count);
         }
 
-        public IEnumerable<Entity<TScope>> AllWith<TComponent1, TComponent2, TComponent3>()
+        public FilteringEntityEnumerable<TScope, TComponent1, TComponent2, TComponent3> AllWith<TComponent1, TComponent2, TComponent3>()
         {
             return new FilteringEntityEnumerable<TScope, TComponent1, TComponent2, TComponent3>(_count);
         }

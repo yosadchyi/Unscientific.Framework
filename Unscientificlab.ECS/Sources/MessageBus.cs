@@ -1,11 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Collections;
-using Unscientificlab.ECS;
 
 namespace Unscientificlab.ECS
 {
-    internal struct MessageEnumerator<TMessage> : IEnumerator<TMessage>
+    public struct MessageEnumerator<TMessage>
     {
         private readonly int _count;
         private int _current;
@@ -30,18 +27,13 @@ namespace Unscientificlab.ECS
             _current = -1;
         }
 
-        object IEnumerator.Current
-        {
-            get { return MessageData<TMessage>.Data[_current]; }
-        }
-
         public TMessage Current
         {
             get { return MessageData<TMessage>.Data[_current]; }
         }
     }
 
-    internal struct MessageEnumerable<TMessage> : IEnumerable<TMessage>
+    public struct MessageEnumerable<TMessage>
     {
     
         private readonly int _count;
@@ -51,12 +43,7 @@ namespace Unscientificlab.ECS
             _count = count;
         }
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public IEnumerator<TMessage> GetEnumerator()
+        public MessageEnumerator<TMessage> GetEnumerator()
         {
             return new MessageEnumerator<TMessage>(_count);
         }
@@ -64,20 +51,10 @@ namespace Unscientificlab.ECS
 
     internal delegate void ClearDelegate();
 
-    internal class MessageIdHolder<TMessage>
-    {
-        internal static int Id = -1;
-
-        private static void Init()
-        {
-            if (Id != -1)
-                Id = StaticIdAllocator<TMessage>.AllocateId();
-        }
-    }
-    
-    internal class MessageData<TMessage>
+    internal static class MessageData<TMessage>
     {
         internal static TMessage[] Data;
+        // ReSharper disable once StaticMemberInGenericType
         internal static int Count;
 
         internal static void Init(int capacity)
@@ -149,7 +126,7 @@ namespace Unscientificlab.ECS
             MessageData<TMessage>.Add(message);
         }
 
-        public IEnumerable<TMessage> All<TMessage>()
+        public MessageEnumerable<TMessage> All<TMessage>()
         {
             if (MessageData<TMessage>.Data == null)
                 throw new MessageNotRegisteredException<TMessage>();
