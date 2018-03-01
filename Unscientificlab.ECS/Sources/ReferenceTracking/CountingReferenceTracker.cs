@@ -1,5 +1,4 @@
 ﻿using System;
-using Unscientificlab.ECS;
 
 namespace Unscientificlab.ECS
 {

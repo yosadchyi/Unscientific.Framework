@@ -27,7 +27,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE;UNSAFE_ECS</DefineConstants>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -42,7 +42,6 @@
     <Compile Include="Sources\Context.cs" />
     <Compile Include="Sources\Contexts.cs" />
     <Compile Include="Sources\Entity.cs" />
-    <Compile Include="Sources\Exception\ContextInitializationException.cs" />
     <Compile Include="Sources\Exception\EntityAlreadyHasComponentException.cs" />
     <Compile Include="Sources\Exception\EntityDoesNotExistsException.cs" />
     <Compile Include="Sources\Exception\EntityHasNoComponentException.cs" />

@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using Unscientificlab.ECS;
 
 namespace Unscientificlab.ECS
 {
