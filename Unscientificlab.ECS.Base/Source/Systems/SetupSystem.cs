@@ -13,7 +13,7 @@
         {
             _contexts.Get<Configuration>().CreateEntity();
             var singleton = _contexts.Get<Singletons>().CreateEntity();
-            singleton.Add(new Tick(0));
+            singleton.Add(new Tick(-1));
         }
     }
 }

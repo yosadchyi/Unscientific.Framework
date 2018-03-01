@@ -7,9 +7,12 @@
     {
     }
 
+    /// <summary>
+    /// Tick component, used in Singletons context, holds number of ticks.
+    /// </summary>
     public struct Tick
     {
-        public int Value;
+        public readonly int Value;
 
         public Tick(int value)
         {

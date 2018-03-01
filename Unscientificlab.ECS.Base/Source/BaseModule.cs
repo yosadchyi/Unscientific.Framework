@@ -1,6 +1,4 @@
-﻿using Unscientificlab.Core.Time;
-
-namespace Unscientificlab.ECS.Base
+﻿namespace Unscientificlab.ECS.Base
 {
     public class BaseModule : IModule
     {

@@ -1,7 +1,4 @@
-﻿using Unscientificlab.ECS;
-using Unscientificlab.ECS.Base;
-
-namespace Unscientificlab.Core.Time
+﻿namespace Unscientificlab.ECS.Base
 {
     public class IncrementTickSystem: IUpdateSystem
     {
