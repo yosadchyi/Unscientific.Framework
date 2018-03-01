@@ -10,5 +10,10 @@ namespace Unscientificlab.Physics
         {
             return (other.Get<Position>().Value - self.Get<Position>().Value).MagnitudeSqr;
         }        
+        
+        public static Fix Distance(this Entity<Simulation> self, Entity<Simulation> other)
+        {
+            return (other.Get<Position>().Value - self.Get<Position>().Value).Magnitude;
+        }
     }
 }
