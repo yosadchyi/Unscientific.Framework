@@ -24,9 +24,11 @@
         public ComponentRegistrations Components()
         {
             return new ComponentRegistrations()
+                .For<Singletons>()
+                    .Add<Tick>()
+                .End()
                 .For<Simulation>()
                     .Add<Destroyed>()
-                    .Add<Tick>()
                 .End();
         }
 

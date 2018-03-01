@@ -2,18 +2,18 @@
 {
     public class IncrementTickSystem: IUpdateSystem
     {
-        private Entity<Singletons> _singleton;
+        private Context<Singletons> _singletons;
 
         public IncrementTickSystem(Contexts contexts)
         {
-            _singleton = contexts.Get<Singletons>().First();
+            _singletons = contexts.Get<Singletons>();
         }
 
         public void Update()
         {
-            var value = _singleton.Get<Tick>().Value;
+            var value = _singletons.First().Get<Tick>().Value;
 
-            _singleton.Replace(new Tick(value + 1));
+            _singletons.First().Replace(new Tick(value + 1));
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Unscientificlab.ECS
 {
@@ -60,6 +61,7 @@ namespace Unscientificlab.ECS
         internal static void Init(int capacity)
         {
             Data = new TMessage[capacity];
+            Count = 0;
         }
 
         internal static void Add(TMessage message)
@@ -87,10 +89,19 @@ namespace Unscientificlab.ECS
         private delegate void RegisterDelegate(MessageBus bus);
 
         private Delegate _delegate;
+        private static HashSet<Type> _registeredMessages = new HashSet<Type>();
 
         public MessageRegistrations Add<TMessage>()
         {
-            RegisterDelegate registerDelegate = (bus) => bus.Register<TMessage>();
+            RegisterDelegate registerDelegate = (bus) =>
+            {
+                if (_registeredMessages.Contains(typeof(TMessage)))
+                    return;
+
+                MessageData<TMessage>.Init(128);
+                MessageBus.OnClear += MessageData<TMessage>.Clear;
+                _registeredMessages.Add(typeof(TMessage));
+            };
 
             _delegate = _delegate == null ? registerDelegate : Delegate.Combine(_delegate, registerDelegate);
 
@@ -107,18 +118,11 @@ namespace Unscientificlab.ECS
     {
         public static MessageBus Instance { get; private set; }
 
-        private event ClearDelegate OnClear = delegate { };
+        internal static event ClearDelegate OnClear = delegate { };
 
         public MessageBus()
         {
             Instance = this;
-        }
-
-        public MessageBus Register<TMessage>(int initialCapacity = 128)
-        {
-            MessageData<TMessage>.Init(initialCapacity);
-            OnClear += MessageData<TMessage>.Clear;
-            return this;
         }
 
         public void Send<TMessage>(TMessage message)

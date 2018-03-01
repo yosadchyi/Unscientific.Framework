@@ -122,8 +122,8 @@ namespace Unscientificlab.ECS.Base.Tests
         public void SetUp()
         {
             _application = new Application.Builder()
-                .Using(new MoveModule())
                 .Using(new BaseModule())
+                .Using(new MoveModule())
                 .Build();
         }
 

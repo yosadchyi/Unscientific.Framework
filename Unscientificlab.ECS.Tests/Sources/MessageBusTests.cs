@@ -11,7 +11,10 @@ namespace Unscientificlab.ECS.Tests
         public void SetUp()
         {
             _bus = new MessageBus();
-            _bus.Register<TestMessage>();
+
+            new MessageRegistrations()
+                .Add<TestMessage>()
+                .Register(_bus);
         }
 
         [TearDown]

@@ -55,7 +55,7 @@ namespace Unscientificlab.ECS
             Systems = builder.ReverseCleanupSystemsOrder().Build();
         }
 
-        private List<IModule> TopologicalSort(List<IModule> modules)
+        private static List<IModule> TopologicalSort(List<IModule> modules)
         {
             var types = modules.Select(m => m.GetType()).ToList();
             var type2Module = modules.ToDictionary(m => m.GetType(), m => m);

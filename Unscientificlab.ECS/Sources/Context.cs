@@ -329,6 +329,7 @@ namespace Unscientificlab.ECS
         public class ScopedRegistrator<TScope> where TScope : IScope
         {
             private readonly ComponentRegistrations _componentRegistrations;
+            private static readonly HashSet<Type> RegisteredComponents = new HashSet<Type>();
 
             public ScopedRegistrator(ComponentRegistrations componentRegistrations)
             {
@@ -337,7 +338,14 @@ namespace Unscientificlab.ECS
 
             public ScopedRegistrator<TScope> Add<TComponent>()
             {
-                RegisterDelegate registerDelegate = ComponentData<TScope, TComponent>.Init;
+                RegisterDelegate registerDelegate = () =>
+                {
+                    if (RegisteredComponents.Contains(typeof(TComponent)))
+                        return;
+
+                    ComponentData<TScope, TComponent>.Init();
+                    RegisteredComponents.Add(typeof(TComponent));
+                };
 
                 _componentRegistrations._delegate = _componentRegistrations._delegate == null ? registerDelegate : Delegate.Combine(_componentRegistrations._delegate, registerDelegate);
 
