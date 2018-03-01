@@ -2,7 +2,7 @@
 {
     public class DestroySystem<TScope>: ICleanupSystem where TScope : IScope
     {
-        private Context<TScope> _context;
+        private readonly Context<TScope> _context;
         private readonly MessageBus _messageBus;
 
         public DestroySystem(Contexts contexts, MessageBus messageBus)
