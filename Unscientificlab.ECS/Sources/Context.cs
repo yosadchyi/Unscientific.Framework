@@ -357,7 +357,7 @@ namespace Unscientificlab.ECS
 
         public void Register()
         {
-            _delegate.DynamicInvoke();
+            _delegate?.DynamicInvoke();
         }
     }
 

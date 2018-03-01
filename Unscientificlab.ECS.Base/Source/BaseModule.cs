@@ -2,6 +2,11 @@
 {
     public class BaseModule : IModule
     {
+        public ModuleImports Imports()
+        {
+            return new ModuleImports();
+        }
+
         public ContextRegistrations Contexts()
         {
             return new ContextRegistrations()

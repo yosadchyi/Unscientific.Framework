@@ -42,6 +42,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Sources\ApplicationTests.cs" />
     <Compile Include="Sources\ContextTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sources\DeadFlagComponent.cs" />

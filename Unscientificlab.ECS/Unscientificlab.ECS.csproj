@@ -48,7 +48,9 @@
     <Compile Include="Sources\Exception\EntityHasNoComponentException.cs" />
     <Compile Include="Sources\Exception\EntityIsAlreadyRetainedException.cs" />
     <Compile Include="Sources\Exception\MessageNotRegisteredException.cs" />
+    <Compile Include="Sources\Exception\ModulesHaveCircularReferenceException.cs" />
     <Compile Include="Sources\Exception\NoEntitiesException.cs" />
+    <Compile Include="Sources\Exception\NoRequiredModuleException.cs" />
     <Compile Include="Sources\Exception\ReleasingNonOwnedEntityException.cs" />
     <Compile Include="Sources\Exception\ReleasingNonRetainedEntityException.cs" />
     <Compile Include="Sources\Exception\ReleasingRetainedEntityException.cs" />
@@ -57,6 +59,7 @@
     <Compile Include="Sources\IModule.cs" />
     <Compile Include="Sources\IScope.cs" />
     <Compile Include="Sources\MessageBus.cs" />
+    <Compile Include="Sources\AbstractModule.cs" />
     <Compile Include="Sources\ReferenceTracking\CountingReferenceTracker.cs" />
     <Compile Include="Sources\ReferenceTracking\IReferenceTracker.cs" />
     <Compile Include="Sources\ReferenceTracking\ReferenceTrackerFactory.cs" />

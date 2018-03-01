@@ -80,6 +80,12 @@ namespace Unscientificlab.ECS.Base.Tests
 
     public class MoveModule : IModule
     {
+        public ModuleImports Imports()
+        {
+            return new ModuleImports()
+                .Import<BaseModule>();
+        }
+
         public ContextRegistrations Contexts()
         {
             return new ContextRegistrations();
@@ -116,8 +122,8 @@ namespace Unscientificlab.ECS.Base.Tests
         public void SetUp()
         {
             _application = new Application.Builder()
-                .Using(new BaseModule())
                 .Using(new MoveModule())
+                .Using(new BaseModule())
                 .Build();
         }
 

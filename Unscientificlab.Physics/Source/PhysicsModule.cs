@@ -12,6 +12,12 @@ namespace Unscientificlab.Physics
             _spatialDatabase = spatialDatabase;
         }
 
+        public ModuleImports Imports()
+        {
+            return new ModuleImports()
+                .Import<BaseModule>();
+        }
+
         public ContextRegistrations Contexts()
         {
             return new ContextRegistrations()
