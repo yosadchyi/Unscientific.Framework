@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Unscientificlab.ECS.Base
+namespace Unscientificlab.ECS
 {
     public class Application
     {
@@ -46,11 +46,7 @@ namespace Unscientificlab.ECS.Base
             var builder = new Systems.Builder();
 
             foreach (var module in modules)
-            {
-                var systems = module.Systems(Contexts, MessageBus);
-
-                builder.AddAll(systems);
-            }
+                builder.Add(module.Systems(Contexts, MessageBus));
 
             Systems = builder.ReverseCleanupSystemsOrder().Build();
         }

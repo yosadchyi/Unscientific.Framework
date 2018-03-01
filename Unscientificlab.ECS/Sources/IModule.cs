@@ -1,10 +1,10 @@
-﻿namespace Unscientificlab.ECS.Base
+﻿namespace Unscientificlab.ECS
 {
     public interface IModule
     {
         ContextRegistrations Contexts();
         MessageRegistrations Messages();
         ComponentRegistrations Components();
-        ISystem[] Systems(Contexts contexts, MessageBus bus);
+        Systems Systems(Contexts contexts, MessageBus bus);
     }
 }

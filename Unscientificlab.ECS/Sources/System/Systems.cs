@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Unscientificlab.ECS.Base
+namespace Unscientificlab.ECS
 {
     public class Systems: ISetupSystem, IUpdateSystem, ICleanupSystem
     {
@@ -21,6 +21,14 @@ namespace Unscientificlab.ECS.Base
                     Add(system);
                 }
 
+                return this;
+            }
+
+            public Builder Add(Systems systems)
+            {
+                _setupSystems.AddRange(systems._setupSystems);
+                _updateSystems.AddRange(systems._updateSystems);
+                _cleanupSystems.AddRange(systems._cleanupSystems);
                 return this;
             }
             

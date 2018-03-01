@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sources\Application.cs" />
     <Compile Include="Sources\Context.cs" />
     <Compile Include="Sources\Contexts.cs" />
     <Compile Include="Sources\Entity.cs" />
@@ -52,6 +53,7 @@
     <Compile Include="Sources\Exception\ReleasingRetainedEntityException.cs" />
     <Compile Include="Sources\Exception\TryingToDestroyReferencedEntity.cs" />
     <Compile Include="Sources\Identity.cs" />
+    <Compile Include="Sources\IModule.cs" />
     <Compile Include="Sources\IScope.cs" />
     <Compile Include="Sources\MessageBus.cs" />
     <Compile Include="Sources\ReferenceTracking\CountingReferenceTracker.cs" />
@@ -63,6 +65,7 @@
     <Compile Include="Sources\System\ISetupSystem.cs" />
     <Compile Include="Sources\System\ISystem.cs" />
     <Compile Include="Sources\System\IUpdateSystem.cs" />
+    <Compile Include="Sources\System\Systems.cs" />
     <Compile Include="Sources\Util\StaticIdAllocator.cs" />
   </ItemGroup>
   <ItemGroup>

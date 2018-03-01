@@ -99,9 +99,11 @@ namespace Unscientificlab.ECS.Base.Tests
                 .End();
         }
 
-        public ISystem[] Systems(Contexts contexts, MessageBus bus)
+        public Systems Systems(Contexts contexts, MessageBus bus)
         {
-            return new ISystem[] {new MoveSystem(contexts)};
+            return new Systems.Builder()
+                .Add(new MoveSystem(contexts))
+                .Build();
         }
     }
 

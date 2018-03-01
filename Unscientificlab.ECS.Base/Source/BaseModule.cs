@@ -24,12 +24,11 @@
                 .End();
         }
 
-        public ISystem[] Systems(Contexts contexts, MessageBus bus)
+        public Systems Systems(Contexts contexts, MessageBus bus)
         {
-            return new ISystem[]
-            {
-                new DestroySystem<Simulation>(contexts, bus), 
-            };
+            return new Systems.Builder()
+                .Add(new DestroySystem<Simulation>(contexts, bus))
+                .Build();
         }
     }
 }
