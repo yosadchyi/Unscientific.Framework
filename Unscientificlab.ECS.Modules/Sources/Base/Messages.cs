@@ -2,11 +2,11 @@
 {
     public struct EntityDestroyed<TScope> where TScope : IScope
     {
-        public EntityRef<TScope> Reference { get; }
+        public Entity<TScope> Entity { get; }
 
         public EntityDestroyed(Entity<TScope> entity)
         {
-            Reference = entity.Retain(typeof(EntityDestroyed<TScope>));
+            Entity = entity;
         }
     }
 }

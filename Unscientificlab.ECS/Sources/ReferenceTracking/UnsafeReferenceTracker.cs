@@ -13,12 +13,12 @@
             return 0;
         }
 
-        public void Release(int id, object owner)
+        public void Release(int id)
         {
             // do nothing
         }
 
-        public void Retain(int id, object owner)
+        public void Retain(int id)
         {
             // do nothing
         }

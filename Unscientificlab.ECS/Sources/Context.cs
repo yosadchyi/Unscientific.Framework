@@ -431,7 +431,7 @@ namespace Unscientificlab.ECS
 #if UNSAFE_ECS
                     _referenceTrackerFactory = (capacity) => new UnsafeReferenceTracker();
 #else
-                    _referenceTrackerFactory = (capacity) => new SafeReferenceTracker<TScope>(capacity);
+                    _referenceTrackerFactory = (capacity) => new CountingReferenceTracker<TScope>(capacity);
 #endif
                 }
                 // ReSharper disable once HeapView.ObjectAllocation.Evident
@@ -493,14 +493,14 @@ namespace Unscientificlab.ECS
                 Grow(capacity);
         }
 
-        public void Retain(Entity<TScope> entity, object owner)
+        internal void Retain(Entity<TScope> entity)
         {
-            _referenceTracker.Retain(entity.Id, owner);
+            _referenceTracker.Retain(entity.Id);
         }
 
-        public void Release(Entity<TScope> entity, object owner)
+        internal void Release(Entity<TScope> entity)
         {
-            _referenceTracker.Release(entity.Id, owner);
+            _referenceTracker.Release(entity.Id);
         }
 
         public Entity<TScope> CreateEntity()

@@ -16,9 +16,9 @@ namespace Unscientificlab.ECS
             Id = id;
         }
 
-        public Entity<TScope> Release(object owner)
+        public Entity<TScope> Release<TScope1>(Entity<TScope1> owner) where TScope1 : IScope
         {
-            Context<TScope>.Instance.Release(Entity, owner);
+            Context<TScope>.Instance.Release(Entity);
             return Entity;
         }
     }
@@ -37,9 +37,9 @@ namespace Unscientificlab.ECS
             Index = index;
         }
 
-        public EntityRef<TScope> Retain(object owner)
+        public EntityRef<TScope> Retain()
         {
-            Context<TScope>.Instance.Retain(this, owner);
+            Context<TScope>.Instance.Retain(this);
             return new EntityRef<TScope>(Id);
         }
 

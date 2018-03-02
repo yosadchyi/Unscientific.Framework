@@ -15,9 +15,7 @@
         {
             foreach (var message in _messageBus.All<EntityDestroyed<TScope>>())
             {
-                var entity = message.Reference.Release(typeof(EntityDestroyed<TScope>));
-
-                _context.DestroyEntity(entity);
+                _context.DestroyEntity(message.Entity);
             }
         }
     }

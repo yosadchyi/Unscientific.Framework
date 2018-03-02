@@ -23,7 +23,7 @@ namespace Unscientificlab.ECS
             return _references[id - 1];
         }
 
-        public void Release(int id, object owner)
+        public void Release(int id)
         {
             if (_references[id - 1] == 0)
             {
@@ -33,7 +33,7 @@ namespace Unscientificlab.ECS
             _references[id - 1]--;
         }
 
-        public void Retain(int id, object owner)
+        public void Retain(int id)
         {
             _references[id - 1]++;
         }

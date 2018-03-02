@@ -24,7 +24,7 @@ namespace Unscientificlab.ECS.Tests
 
             new Context<TestScope>.Initializer()
                 .WithInitialCapacity(16)
-                .WithReferenceTrackerFactory((capacity) => new SafeReferenceTracker<TestScope>(capacity))
+                .WithReferenceTrackerFactory((capacity) => new CountingReferenceTracker<TestScope>(capacity))
                 .Initialize();
         }
 
@@ -242,7 +242,7 @@ namespace Unscientificlab.ECS.Tests
         {
             var context = _contexts.Get<TestScope>();
             var entity = context.CreateEntity();
-            var entityRef = entity.Retain(this);
+            var entityRef = entity.Retain();
 
             TestDelegate testDelegate = () =>
             {
@@ -257,26 +257,12 @@ namespace Unscientificlab.ECS.Tests
         }
 
         [Test]
-        public void RetainedEntityCanNotBeReleasedByAnotherOwner()
-        {
-            var context = _contexts.Get<TestScope>();
-            var entity = context.CreateEntity();
-            var entityRef = entity.Retain(this);
-            TestDelegate testDelegate = () =>
-            {
-                entityRef.Release("anotherObject");
-            };
-
-            Assert.Throws(typeof(ReleasingNonOwnedEntityException<TestScope>), testDelegate);
-        }
-
-        [Test]
         public void RetainedAndReleasedEntityCanBeDestroyed()
         {
             var context = _contexts.Get<TestScope>();
             var entity = context.CreateEntity();
-            var entityRef = entity.Retain(this);
-            entityRef.Release(this);
+            var entityRef = entity.Retain();
+            entityRef.Release(entity);
             context.DestroyEntity(entityRef.Entity);
             Assert.Pass();
         }

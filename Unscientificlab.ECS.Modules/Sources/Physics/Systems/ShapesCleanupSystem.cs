@@ -15,7 +15,7 @@ namespace Unscientificlab.ECS.Modules.Physics
         {
             foreach (var message in _messageBus.All<EntityDestroyed<Simulation>>())
             {
-                var entity = message.Reference.Entity;
+                var entity = message.Entity;
 
                 if (entity.Has<BoundingShape>())
                 {
