@@ -158,7 +158,7 @@ namespace Unscientificlab.ECS.Modules.Physics
             {
                 var collisions = entity1.Get<Collisions>().Value;
 
-                collisions.Add(Collision.New(entity1, shape1, entity2, shape2));
+                collisions.Add(Collision.New(shape1, entity2, shape2));
             }
         }
     }

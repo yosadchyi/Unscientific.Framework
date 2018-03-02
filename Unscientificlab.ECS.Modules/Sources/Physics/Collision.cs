@@ -27,7 +27,7 @@ namespace Unscientificlab.ECS.Modules.Physics
         public int Other;
         public Shape OtherShape;
 
-        public static Collision New(Entity<Simulation> self, Shape selfShape, Entity<Simulation> other, Shape otherShape)
+        public static Collision New(Shape selfShape, Entity<Simulation> other, Shape otherShape)
         {
             var collision = Pool.Get();
             collision.SelfShape = selfShape;

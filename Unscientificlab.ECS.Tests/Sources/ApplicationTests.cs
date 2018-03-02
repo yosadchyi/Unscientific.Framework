@@ -130,7 +130,7 @@ namespace Unscientificlab.ECS.Tests
 
             Assert.Throws(typeof(ModulesHaveCircularReferenceException), testDelegate);
         }
-        
+
         [Test]
         public void MissingModuleShouldBeReported()
         {
