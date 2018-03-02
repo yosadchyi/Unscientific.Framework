@@ -1,6 +1,6 @@
 using Unscientificlab.FixedPoint;
 
-namespace Unscientificlab.Navigation
+namespace Unscientificlab.ECS.Modules.Navigation
 {
     /// <summary>
     /// Flow field which directs towards given destination point.

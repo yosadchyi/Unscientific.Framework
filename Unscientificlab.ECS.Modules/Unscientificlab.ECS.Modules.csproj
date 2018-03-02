@@ -54,6 +54,7 @@
     <Compile Include="Sources\Navigation\FlowField\CircularFlowField.cs" />
     <Compile Include="Sources\Navigation\FlowField\IFlowField.cs" />
     <Compile Include="Sources\Navigation\FlowField\MoveInDirectionFlowField.cs" />
+    <Compile Include="Sources\Navigation\FlowField\ToDestinationFlowField.cs" />
     <Compile Include="Sources\Physics\AABB.cs" />
     <Compile Include="Sources\Physics\Collision.cs" />
     <Compile Include="Sources\Physics\Components.cs" />
