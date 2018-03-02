@@ -35,9 +35,6 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml" />
-    <Reference Include="Unscientificlab.ECS.Base, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null">
-      <HintPath>..\Unscientificlab.ECS.Base.Tests\bin\Release\Unscientificlab.ECS.Base.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />

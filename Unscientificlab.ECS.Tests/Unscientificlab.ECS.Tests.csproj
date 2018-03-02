@@ -43,12 +43,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Sources\ApplicationTests.cs" />
+    <Compile Include="Sources\Components.cs" />
     <Compile Include="Sources\ContextTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sources\DeadFlagComponent.cs" />
     <Compile Include="Sources\MessageBusTests.cs" />
-    <Compile Include="Sources\TestMessage.cs" />
-    <Compile Include="Sources\ValueComponent.cs" />
+    <Compile Include="Sources\Messages.cs" />
     <Compile Include="Sources\TestScope.cs" />
   </ItemGroup>
   <ItemGroup>
