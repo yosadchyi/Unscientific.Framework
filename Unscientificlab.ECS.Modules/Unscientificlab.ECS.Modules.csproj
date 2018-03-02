@@ -46,6 +46,11 @@
     <Compile Include="Sources\Base\Systems\DestroySystem.cs" />
     <Compile Include="Sources\Base\Systems\IncrementTickSystem.cs" />
     <Compile Include="Sources\Base\Systems\SetupSystem.cs" />
+    <Compile Include="Sources\BehaviourTree\BehaviourTreeModule.cs" />
+    <Compile Include="Sources\BehaviourTree\BehaviourTree.cs" />
+    <Compile Include="Sources\BehaviourTree\Components.cs" />
+    <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeCleanupSystem.cs" />
+    <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeExecutionSystem.cs" />
     <Compile Include="Sources\Physics\AABB.cs" />
     <Compile Include="Sources\Physics\Collision.cs" />
     <Compile Include="Sources\Physics\Components.cs" />
@@ -70,6 +75,10 @@
     <Compile Include="Sources\Physics\Transform.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Unscientificlab.BehaviourTree\Unscientificlab.BehaviourTree.csproj">
+      <Project>{8BB7FBB8-0506-460E-A076-BF006F0723C6}</Project>
+      <Name>Unscientificlab.BehaviourTree</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Unscientificlab.ECS\Unscientificlab.ECS.csproj">
       <Project>{E1CD49D0-5286-4706-A92C-C915C64ECD46}</Project>
       <Name>Unscientificlab.ECS</Name>
