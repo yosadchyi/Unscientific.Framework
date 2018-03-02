@@ -16,7 +16,7 @@ namespace Unscientificlab.ECS.Modules.Physics
         {
             foreach (var entity in _simulation.AllWith<Collisions>())
             {
-                var collisions = entity.Get<Collisions>().Value;
+                var collisions = entity.Get<Collisions>().List;
 
                 foreach (var collision in collisions)
                 {

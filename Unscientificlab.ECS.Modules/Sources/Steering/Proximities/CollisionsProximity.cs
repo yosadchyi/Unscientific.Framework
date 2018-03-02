@@ -19,26 +19,17 @@ namespace Unscientificlab.ECS.Modules.Steering
             MaxDistance = maxDistance;
         }
 
-        public virtual bool IsSteerable(Entity<Simulation> entity)
-        {
-            return true;
-        }
-
         public override int FindNeighbors(Entity<Simulation> entity, Callback callback)
         {
             if (!entity.Has<Collisions>())
                 return 0;
 
             var position = entity.Get<Position>().Value;
-            var collisions = entity.Get<Collisions>().Value;
+            var collisions = entity.Get<Collisions>().List;
 
             foreach (var collision in collisions)
             {
                 var other = _simulation.GetEntityById(collision.Other);
-
-                if (!IsSteerable(other))
-                    continue;
-
                 var diff = position - entity.Get<Position>().Value;
                 var dist2 = diff.MagnitudeSqr;
 

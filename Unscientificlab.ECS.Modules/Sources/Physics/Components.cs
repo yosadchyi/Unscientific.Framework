@@ -145,11 +145,11 @@ namespace Unscientificlab.ECS.Modules.Physics
 
     public struct Collisions
     {
-        public readonly List<Collision> Value;
+        public readonly List<Collision> List;
 
-        public Collisions(List<Collision> value)
+        public Collisions(List<Collision> list)
         {
-            Value = value;
+            List = list;
         }
     }
 }

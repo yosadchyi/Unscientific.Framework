@@ -46,7 +46,7 @@ namespace Unscientificlab.ECS.Modules.Physics
 
                 if (_entity.Has<Collisions>())
                 {
-                    collisions = _entity.Get<Collisions>().Value;
+                    collisions = _entity.Get<Collisions>().List;
                     collisionsBefore = collisions.Count;
                     ResetCollisions(collisions);
                 }
@@ -159,7 +159,7 @@ namespace Unscientificlab.ECS.Modules.Physics
         {
             if (entity1.Has<Collisions>())
             {
-                var collisions = entity1.Get<Collisions>().Value;
+                var collisions = entity1.Get<Collisions>().List;
 
                 collisions.Add(Collision.New(shape1, entity2, shape2));
             }
