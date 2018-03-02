@@ -4,20 +4,25 @@ namespace Unscientificlab.ECS.Modules.Physics
 {
     public class ShapesCleanupSystem: ICleanupSystem
     {
-        private readonly Context<Simulation> _simulation;
+        private readonly MessageBus _messageBus;
 
-        public ShapesCleanupSystem(Contexts contexts)
+        public ShapesCleanupSystem(MessageBus messageBus)
         {
-            _simulation = contexts.Get<Simulation>();
+            _messageBus = messageBus;
         }
 
         public void Cleanup()
         {
-            foreach (var entity in _simulation.AllWith<Destroyed, BoundingShape>())
+            foreach (var message in _messageBus.All<EntityDestroyed<Simulation>>())
             {
-                entity.Get<BoundingShape>().Shape.Return();
-                entity.Remove<BoundingShape>();
-            }            
+                var entity = message.Reference.Entity;
+
+                if (entity.Has<BoundingShape>())
+                {
+                    entity.Get<BoundingShape>().Shape.Return();
+                    entity.Remove<BoundingShape>();
+                }
+            }
         }
     }
 }

@@ -68,7 +68,7 @@ namespace Unscientificlab.ECS.Modules.Physics
                 .Add(new RotateSystem(contexts))
                 .Add(new ProcessCollisionSystem(contexts, bus))
                 .Add(new CollisionsCleanupSystem(contexts))
-                .Add(new ShapesCleanupSystem(contexts))
+                .Add(new ShapesCleanupSystem(bus))
                 .Build();
         }
     }
