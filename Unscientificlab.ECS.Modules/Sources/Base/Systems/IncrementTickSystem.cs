@@ -2,7 +2,7 @@
 {
     public class IncrementTickSystem: IUpdateSystem
     {
-        private Context<Singletons> _singletons;
+        private readonly Context<Singletons> _singletons;
 
         public IncrementTickSystem(Contexts contexts)
         {
