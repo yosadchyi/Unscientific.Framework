@@ -26,6 +26,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unscientificlab.ECS.Base.Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unscientificlab.Physics", "Unscientificlab.Physics\Unscientificlab.Physics.csproj", "{AECE0A76-E463-4794-839E-4F11D5AFE494}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unscientificlab.ECS.Modules", "Unscientificlab.ECS.Modules\Unscientificlab.ECS.Modules.csproj", "{FFF52B1B-BEC1-409F-AA36-300C6DC48D47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -88,5 +90,9 @@ Global
 		{AECE0A76-E463-4794-839E-4F11D5AFE494}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AECE0A76-E463-4794-839E-4F11D5AFE494}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AECE0A76-E463-4794-839E-4F11D5AFE494}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FFF52B1B-BEC1-409F-AA36-300C6DC48D47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FFF52B1B-BEC1-409F-AA36-300C6DC48D47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FFF52B1B-BEC1-409F-AA36-300C6DC48D47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FFF52B1B-BEC1-409F-AA36-300C6DC48D47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
