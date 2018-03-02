@@ -78,34 +78,24 @@ namespace Unscientificlab.ECS.Modules.Tests.Base
         }
     }
 
-    public class MoveModule : IModule
+    public class MoveModule : AbstractModule
     {
-        public ModuleImports Imports()
+        public override ModuleImports Imports()
         {
-            return new ModuleImports()
+            return base.Imports()
                 .Import<BaseModule>();
         }
 
-        public ContextRegistrations Contexts()
+        public override ComponentRegistrations Components()
         {
-            return new ContextRegistrations();
-        }
-
-        public MessageRegistrations Messages()
-        {
-            return new MessageRegistrations();
-        }
-
-        public ComponentRegistrations Components()
-        {
-            return new ComponentRegistrations()
+            return base.Components()
                 .For<Simulation>()
                     .Add<Position>()
                     .Add<Velocity>()
                 .End();
         }
 
-        public Systems Systems(Contexts contexts, MessageBus bus)
+        public override Systems Systems(Contexts contexts, MessageBus bus)
         {
             return new Systems.Builder()
                 .Add(new MoveSystem(contexts))
