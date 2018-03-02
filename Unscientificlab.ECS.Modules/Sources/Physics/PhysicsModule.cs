@@ -61,7 +61,7 @@ namespace Unscientificlab.ECS.Modules.Physics
         public Systems Systems(Contexts contexts, MessageBus bus)
         {
             return new Systems.Builder()
-                .Add(new InitSpaceSystem(contexts, _spatialDatabase))
+                .Add(new SpaceSetupSystem(contexts, _spatialDatabase))
                 .Add(new AccelerateSystem(contexts))
                 .Add(new AngularAccelerateSystem(contexts))
                 .Add(new MoveSystem(contexts))

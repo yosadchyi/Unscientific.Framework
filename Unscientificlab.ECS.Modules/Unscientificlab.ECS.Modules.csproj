@@ -45,7 +45,7 @@
     <Compile Include="Sources\Base\Scopes.cs" />
     <Compile Include="Sources\Base\Systems\DestroySystem.cs" />
     <Compile Include="Sources\Base\Systems\IncrementTickSystem.cs" />
-    <Compile Include="Sources\Base\Systems\SetupSystem.cs" />
+    <Compile Include="Sources\Base\Systems\BaseSetupSystem.cs" />
     <Compile Include="Sources\BehaviourTree\BehaviourTreeModule.cs" />
     <Compile Include="Sources\BehaviourTree\BehaviourTree.cs" />
     <Compile Include="Sources\BehaviourTree\Components.cs" />
@@ -71,7 +71,7 @@
     <Compile Include="Sources\Physics\Systems\AccelerateSystem.cs" />
     <Compile Include="Sources\Physics\Systems\AngularAccelerateSystem.cs" />
     <Compile Include="Sources\Physics\Systems\CollisionsCleanupSystem.cs" />
-    <Compile Include="Sources\Physics\Systems\InitSpaceSystem.cs" />
+    <Compile Include="Sources\Physics\Systems\SpaceSetupSystem.cs" />
     <Compile Include="Sources\Physics\Systems\MoveSystem.cs" />
     <Compile Include="Sources\Physics\Systems\ProcessCollisionSystem.cs" />
     <Compile Include="Sources\Physics\Systems\RotateSystem.cs" />

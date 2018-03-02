@@ -35,7 +35,7 @@
         public Systems Systems(Contexts contexts, MessageBus bus)
         {
             return new Systems.Builder()
-                .Add(new SetupSystem(contexts))
+                .Add(new BaseSetupSystem(contexts))
                 .Add(new IncrementTickSystem(contexts))
                 .Add(new DestroySystem<Simulation>(contexts, bus))
                 .Build();

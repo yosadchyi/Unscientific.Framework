@@ -2,12 +2,12 @@
 
 namespace Unscientificlab.ECS.Modules.Physics
 {
-    public class InitSpaceSystem: ISetupSystem
+    public class SpaceSetupSystem: ISetupSystem
     {
         private readonly ISpatialDatabase _spatialDatabase;
         private readonly Context<Singletons> _singletons;
 
-        public InitSpaceSystem(Contexts contexts, ISpatialDatabase spatialDatabase)
+        public SpaceSetupSystem(Contexts contexts, ISpatialDatabase spatialDatabase)
         {
             _spatialDatabase = spatialDatabase;
             _singletons = contexts.Get<Singletons>();

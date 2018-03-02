@@ -1,10 +1,10 @@
 ﻿namespace Unscientificlab.ECS.Modules.Base
 {
-    public class SetupSystem: ISetupSystem
+    public class BaseSetupSystem: ISetupSystem
     {
         private readonly Contexts _contexts;
 
-        public SetupSystem(Contexts contexts)
+        public BaseSetupSystem(Contexts contexts)
         {
             _contexts = contexts;
         }
