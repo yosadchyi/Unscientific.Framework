@@ -50,7 +50,7 @@
     <Compile Include="Sources\BehaviourTree\BehaviourTree.cs" />
     <Compile Include="Sources\BehaviourTree\Components.cs" />
     <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeCleanupSystem.cs" />
-    <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeExecutionSystem.cs" />
+    <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeUpdateSystem.cs" />
     <Compile Include="Sources\Navigation\FlowField\CircularFlowField.cs" />
     <Compile Include="Sources\Navigation\FlowField\IFlowField.cs" />
     <Compile Include="Sources\Navigation\FlowField\MoveInDirectionFlowField.cs" />

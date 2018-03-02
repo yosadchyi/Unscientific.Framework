@@ -19,6 +19,9 @@ namespace Unscientificlab.ECS.Modules.Physics
 
             foreach (var entity in _simulation.AllWith<Orientation, AngularVelocity>())
             {
+                if (entity.Is<Destroyed>())
+                    continue;
+
                 var orientation = entity.Get<Orientation>().Value;
                 var angularVelocity = entity.Get<AngularVelocity>().Value;
 

@@ -16,16 +16,11 @@ namespace Unscientificlab.ECS.Modules.Steering
     
     public struct TargetEntity
     {
-        public int EntityId;
+        public EntityRef<Simulation> Reference;
 
-        public TargetEntity(int id)
+        public TargetEntity(EntityRef<Simulation> entityRef)
         {
-            EntityId = id;
-        }
-
-        public TargetEntity(Entity<Simulation> entity)
-        {
-            EntityId = entity.Id;
+            Reference = entityRef;
         }
     }
 

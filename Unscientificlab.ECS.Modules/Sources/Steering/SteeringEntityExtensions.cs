@@ -12,10 +12,13 @@ namespace Framework.Unscientificlab
         {
             if (entity.Has<TargetEntity>())
             {
-                var target = simulation.GetEntityById(entity.Get<TargetEntity>().EntityId);
+                var target = entity.Get<TargetEntity>().Reference.Entity;
 
-                output = target.Get<Position>().Value;
-                return true;
+                if (!target.Is<Destroyed>())
+                {
+                    output = target.Get<Position>().Value;
+                    return true;
+                }
             }
             if (entity.Has<TargetPosition>())
             {

@@ -20,6 +20,9 @@ namespace Unscientificlab.ECS.Modules.Physics
 
             foreach (var entity in _simulation.AllWith<Velocity, Force, Mass>())
             {
+                if (entity.Is<Destroyed>())
+                    continue;
+
                 var velocity = entity.Get<Velocity>().Value;
                 var damping = entity.Has<Damping>() ? entity.Get<Damping>().Value : 0;
                 var force = entity.Get<Force>().Value;

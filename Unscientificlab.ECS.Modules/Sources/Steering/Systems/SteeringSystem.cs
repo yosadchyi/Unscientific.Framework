@@ -16,6 +16,9 @@ namespace Unscientificlab.ECS.Modules.Steering
         {
             foreach (var entity in _simulation.AllWith<Steering>())
             {
+                if (entity.Is<Destroyed>())
+                    continue;
+
                 var steeringVelocity = SteeringVelocity.Zero;
                 var steeringBehaviour = entity.Get<Steering>().SteeringBehaviour;
                 var velocity = steeringBehaviour.Calculate(entity, ref steeringVelocity);

@@ -21,7 +21,7 @@ namespace Unscientificlab.ECS.Modules.BehaviourTree
         public override Systems Systems(Contexts contexts, MessageBus bus)
         {
             return new Systems.Builder()
-                .Add(new BehaviourTreeExecutionSystem(contexts))
+                .Add(new BehaviourTreeUpdateSystem(contexts))
                 .Add(new BehaviourTreeCleanupSystem(bus))
                 .Build();
         }

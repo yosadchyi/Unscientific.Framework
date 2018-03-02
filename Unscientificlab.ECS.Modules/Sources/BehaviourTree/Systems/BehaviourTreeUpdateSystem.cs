@@ -2,11 +2,11 @@
 
 namespace Unscientificlab.ECS.Modules.BehaviourTree
 {
-    public class BehaviourTreeExecutionSystem: IUpdateSystem
+    public class BehaviourTreeUpdateSystem: IUpdateSystem
     {
         private readonly Context<Simulation> _simulation;
 
-        public BehaviourTreeExecutionSystem(Contexts contexts)
+        public BehaviourTreeUpdateSystem(Contexts contexts)
         {
             _simulation = contexts.Get<Simulation>();
         }
@@ -15,6 +15,9 @@ namespace Unscientificlab.ECS.Modules.BehaviourTree
         {
             foreach (var entity in _simulation.AllWith<BehaviourTreeData>())
             {
+                if (entity.Is<Destroyed>())
+                    continue;
+
                 entity.Get<BehaviourTreeData>().BehaviourTree.Execute(entity);
             }
         }

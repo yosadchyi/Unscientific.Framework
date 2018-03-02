@@ -19,6 +19,9 @@ namespace Unscientificlab.ECS.Modules.Physics
 
             foreach (var entity in _simulation.AllWith<Position, Velocity>())
             {
+                if (entity.Is<Destroyed>())
+                    continue;
+
                 var position = entity.Get<Position>();
                 var velocity = entity.Get<Velocity>();
 

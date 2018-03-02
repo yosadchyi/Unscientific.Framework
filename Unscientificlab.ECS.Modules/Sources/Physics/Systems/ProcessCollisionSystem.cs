@@ -35,6 +35,9 @@ namespace Unscientificlab.ECS.Modules.Physics
 
             foreach (var entity in _simulation.AllWith<Position, BoundingShape>())
             {
+                if (entity.Is<Destroyed>())
+                    continue;
+
                 var collisionsBefore = 0;
                 var shape = entity.Get<BoundingShape>().Shape;
                 List<Collision> collisions = null;
