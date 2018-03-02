@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics;
-using Unscientificlab.ECS.Base;
 
 namespace Unscientificlab.ECS.Benchmark
 {
