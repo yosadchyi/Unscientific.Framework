@@ -439,7 +439,7 @@ namespace Unscientificlab.ECS
             }
         }
 
-        internal static Context<TScope> Instance { get; private set; }
+        public static Context<TScope> Instance { get; private set; }
 
         public int Capacity
         {
@@ -550,16 +550,12 @@ namespace Unscientificlab.ECS
 #if !UNSAFE_ECS
             _id2Index[entity.Id - 1] = -1;
 #endif
-            if (lastIndex >= 0)
-            {
-                var lastId = Get<Identifier>(lastIndex).Value;
+            var lastId = Get<Identifier>(lastIndex).Value;
 
-                foreach (var rm in ScopeData<TScope>.RemoveActions)
-                    rm(index, lastIndex);
+            foreach (var rm in ScopeData<TScope>.RemoveActions)
+                rm(index, lastIndex);
 
-                _id2Index[lastId - 1] = index;
-            }
-
+            _id2Index[lastId - 1] = index;
             _count--;
         }
 
