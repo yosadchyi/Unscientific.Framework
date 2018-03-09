@@ -2,7 +2,7 @@
 {
     /// <summary>
     /// Random class, can be used as component (e.g. in Singletons scope).
-    /// Uses XorShift128 to generate random numbers.
+    /// Uses XorShift128 to generate random numbers. This class is completely deterministic.
     /// </summary>
     public class Random
     {
