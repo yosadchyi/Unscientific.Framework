@@ -1,8 +1,7 @@
 ﻿using NUnit.Framework;
 using Unscientificlab.Util.Collections;
-using Unscientificlab.Utils;
 
-namespace Unscientificlab.Utils.Tests
+namespace Unscientificlab.Util.Tests
 {
     public class DequeTests
     {
