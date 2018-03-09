@@ -42,6 +42,7 @@
     <Compile Include="Sources\Pool\GenericObjectPool.cs" />
     <Compile Include="Sources\Pool\ObjectPool.cs" />
     <Compile Include="Sources\Pool\Pools.cs" />
+    <Compile Include="Sources\Random.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
