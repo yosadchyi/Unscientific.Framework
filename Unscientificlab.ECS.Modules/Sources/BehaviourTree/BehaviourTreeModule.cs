@@ -1,4 +1,4 @@
-﻿using Unscientificlab.ECS.Modules.Base;
+﻿using Unscientificlab.ECS.Modules.Core;
 
 namespace Unscientificlab.ECS.Modules.BehaviourTree
 {
@@ -7,7 +7,7 @@ namespace Unscientificlab.ECS.Modules.BehaviourTree
         public override ModuleImports Imports()
         {
             return base.Imports()
-                .Import<BaseModule>();
+                .Import<CoreModule>();
         }
 
         public override ComponentRegistrations Components()

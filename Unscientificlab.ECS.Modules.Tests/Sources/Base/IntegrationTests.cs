@@ -1,5 +1,5 @@
 ﻿using NUnit.Framework;
-using Unscientificlab.ECS.Modules.Base;
+using Unscientificlab.ECS.Modules.Core;
 
 namespace Unscientificlab.ECS.Modules.Tests.Base
 {
@@ -83,7 +83,7 @@ namespace Unscientificlab.ECS.Modules.Tests.Base
         public override ModuleImports Imports()
         {
             return base.Imports()
-                .Import<BaseModule>();
+                .Import<CoreModule>();
         }
 
         public override ComponentRegistrations Components()
@@ -112,7 +112,7 @@ namespace Unscientificlab.ECS.Modules.Tests.Base
         public void SetUp()
         {
             _application = new Application.Builder()
-                .Using(new BaseModule())
+                .Using(new CoreModule())
                 .Using(new MoveModule())
                 .Build();
         }

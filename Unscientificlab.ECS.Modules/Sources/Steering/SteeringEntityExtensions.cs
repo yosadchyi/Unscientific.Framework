@@ -1,5 +1,5 @@
 ﻿using Unscientificlab.ECS;
-using Unscientificlab.ECS.Modules.Base;
+using Unscientificlab.ECS.Modules.Core;
 using Unscientificlab.ECS.Modules.Physics;
 using Unscientificlab.FixedPoint;
 using Unscientificlab.ECS.Modules.Steering;

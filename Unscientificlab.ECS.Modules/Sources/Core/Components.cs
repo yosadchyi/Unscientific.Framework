@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.ECS.Modules.Base
+﻿namespace Unscientificlab.ECS.Modules.Core
 {
     /// <summary>
     /// Component which indicates that entity is destroyed and should not be touched. 

@@ -1,4 +1,4 @@
-﻿using Unscientificlab.ECS.Modules.Base;
+﻿using Unscientificlab.ECS.Modules.Core;
 using Unscientificlab.FixedPoint;
 using Unscientificlab.Util.Pool;
 

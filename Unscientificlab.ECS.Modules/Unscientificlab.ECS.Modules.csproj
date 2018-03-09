@@ -38,14 +38,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sources\Base\BaseModule.cs" />
-    <Compile Include="Sources\Base\Components.cs" />
-    <Compile Include="Sources\Base\EntityExtensions.cs" />
-    <Compile Include="Sources\Base\Messages.cs" />
-    <Compile Include="Sources\Base\Scopes.cs" />
-    <Compile Include="Sources\Base\Systems\DestroySystem.cs" />
-    <Compile Include="Sources\Base\Systems\IncrementTickSystem.cs" />
-    <Compile Include="Sources\Base\Systems\BaseSetupSystem.cs" />
+    <Compile Include="Sources\Core\CoreModule.cs" />
+    <Compile Include="Sources\Core\Components.cs" />
+    <Compile Include="Sources\Core\EntityExtensions.cs" />
+    <Compile Include="Sources\Core\Messages.cs" />
+    <Compile Include="Sources\Core\Scopes.cs" />
+    <Compile Include="Sources\Core\Systems\DestroySystem.cs" />
+    <Compile Include="Sources\Core\Systems\IncrementTickSystem.cs" />
+    <Compile Include="Sources\Core\Systems\CoreSetupSystem.cs" />
     <Compile Include="Sources\BehaviourTree\BehaviourTreeModule.cs" />
     <Compile Include="Sources\BehaviourTree\BehaviourTree.cs" />
     <Compile Include="Sources\BehaviourTree\Components.cs" />

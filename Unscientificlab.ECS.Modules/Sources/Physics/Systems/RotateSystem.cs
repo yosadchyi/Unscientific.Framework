@@ -1,4 +1,4 @@
-﻿using Unscientificlab.ECS.Modules.Base;
+﻿using Unscientificlab.ECS.Modules.Core;
 
 namespace Unscientificlab.ECS.Modules.Physics
 {

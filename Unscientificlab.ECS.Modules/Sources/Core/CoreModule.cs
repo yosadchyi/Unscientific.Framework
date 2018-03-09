@@ -1,6 +1,6 @@
-﻿namespace Unscientificlab.ECS.Modules.Base
+﻿namespace Unscientificlab.ECS.Modules.Core
 {
-    public class BaseModule : IModule
+    public class CoreModule : IModule
     {
         public ModuleImports Imports()
         {
@@ -32,9 +32,9 @@
                 .End();
         }
 
-        public Systems Systems(Contexts contexts, MessageBus bus)
+        public ECS.Systems Systems(Contexts contexts, MessageBus bus)
         {
-            return new Systems.Builder()
+            return new ECS.Systems.Builder()
                 .Add(new BaseSetupSystem(contexts))
                 .Add(new IncrementTickSystem(contexts))
                 .Add(new DestroySystem<Simulation>(contexts, bus))

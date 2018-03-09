@@ -1,4 +1,4 @@
-﻿using Unscientificlab.ECS.Modules.Base;
+﻿using Unscientificlab.ECS.Modules.Core;
 using Unscientificlab.ECS.Modules.Physics;
 
 namespace Unscientificlab.ECS.Modules.Steering
@@ -8,7 +8,7 @@ namespace Unscientificlab.ECS.Modules.Steering
         public override ModuleImports Imports()
         {
             return base.Imports()
-                .Import<BaseModule>()
+                .Import<CoreModule>()
                 .Import<PhysicsModule>();
         }
 

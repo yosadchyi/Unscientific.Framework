@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unscientificlab.ECS.Modules.Base;
+using Unscientificlab.ECS.Modules.Core;
 using Unscientificlab.FixedPoint;
 
 namespace Unscientificlab.ECS.Modules.Physics

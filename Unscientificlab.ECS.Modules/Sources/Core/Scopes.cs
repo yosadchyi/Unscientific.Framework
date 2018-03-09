@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.ECS.Modules.Base
+﻿namespace Unscientificlab.ECS.Modules.Core
 {
     /// <summary>
     /// Simulation scope, used for deterministic simulation

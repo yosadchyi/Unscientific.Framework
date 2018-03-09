@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.ECS.Modules.Base
+﻿namespace Unscientificlab.ECS.Modules.Core
 {
     public struct EntityDestroyed<TScope> where TScope : IScope
     {

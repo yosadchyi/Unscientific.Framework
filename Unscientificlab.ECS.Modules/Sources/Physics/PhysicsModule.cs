@@ -1,4 +1,4 @@
-﻿using Unscientificlab.ECS.Modules.Base;
+﻿using Unscientificlab.ECS.Modules.Core;
 
 namespace Unscientificlab.ECS.Modules.Physics
 {
@@ -14,7 +14,7 @@ namespace Unscientificlab.ECS.Modules.Physics
         public ModuleImports Imports()
         {
             return new ModuleImports()
-                .Import<BaseModule>();
+                .Import<CoreModule>();
         }
 
         public ContextRegistrations Contexts()
