@@ -35,17 +35,16 @@ namespace Unscientificlab.FixedPoint
     //       are currently way too public
     public struct Fix
     {
-        public long Raw;
+        public int Raw;
         public const int ShiftAmount = 12; //12 is 4096
         public const int IntegerMask = (1 << ShiftAmount) - 1;
 
-        public const long OneL = 1 << ShiftAmount;
         public const int OneI = 1 << ShiftAmount;
         public static Fix Zero = new Fix();
         public static Fix One = Create(1, true);
 
-        public static Fix MaxValue = CreateFromRaw(long.MaxValue);
-        public static Fix MinValue = CreateFromRaw(long.MinValue);
+        public static Fix MaxValue = CreateFromRaw(int.MaxValue);
+        public static Fix MinValue = CreateFromRaw(int.MinValue);
 
         #region Constructors
 
@@ -59,7 +58,7 @@ namespace Unscientificlab.FixedPoint
             return Create((float) value);
         }
 
-        public static Fix CreateFromRaw(long startingRawValue)
+        public static Fix CreateFromRaw(int startingRawValue)
         {
             Fix fix;
             fix.Raw = startingRawValue;
@@ -91,25 +90,25 @@ namespace Unscientificlab.FixedPoint
         /// CreateDecimal(1, 0005, 4) will create 1.0005 CreateDecimal(1, 5, 4) will create 1.0005
         /// </remarks>
         /// <returns></returns>
-        public static Fix CreateDecimal(long beforeDecimal, int afterDecimal, int afterDigits)
+        public static Fix CreateDecimal(int beforeDecimal, int afterDecimal, int afterDigits)
         {
             var sign = beforeDecimal >= 0 ? 1 : -1;
 
             Fix fix;
-            fix.Raw = (OneL * afterDecimal) * sign;
+            fix.Raw = (OneI * afterDecimal) * sign;
             fix.ShiftDecimal(afterDigits);
-            fix.Raw += OneL * beforeDecimal;
+            fix.Raw += OneI * beforeDecimal;
             return fix;
         }
 
-        public static Fix CreateDecimal(long beforeDecimal)
+        public static Fix CreateDecimal(int beforeDecimal)
         {
             Fix fix;
-            fix.Raw = OneL * beforeDecimal;
+            fix.Raw = OneI * beforeDecimal;
             return fix;
         }
 
-        public static Fix Create(long startingRawValue, bool useMultiple)
+        public static Fix Create(int startingRawValue, bool useMultiple)
         {
             Fix fInt;
             fInt.Raw = startingRawValue;
@@ -121,7 +120,7 @@ namespace Unscientificlab.FixedPoint
         public static Fix Create(double doubleValue)
         {
             Fix fInt;
-            doubleValue *= OneL;
+            doubleValue *= OneI;
             fInt.Raw = (int) Math.Round(doubleValue);
             return fInt;
         }
@@ -140,12 +139,12 @@ namespace Unscientificlab.FixedPoint
 
         public float AsFloat
         {
-            get { return Raw / (float) OneL; }
+            get { return Raw / (float) OneI; }
         }
 
         public double AsDouble
         {
-            get { return Raw / (double) OneL; }
+            get { return Raw / (double) OneI; }
         }
 
         public Fix Inverse
@@ -178,7 +177,9 @@ namespace Unscientificlab.FixedPoint
         public static Fix operator *(Fix one, Fix other)
         {
             Fix fInt;
-            fInt.Raw = (one.Raw * other.Raw) >> ShiftAmount;
+            long oneRaw = one.Raw;
+            long otherRaw = other.Raw;
+            fInt.Raw = (int) ((oneRaw * otherRaw) >> ShiftAmount);
             return fInt;
         }
 
@@ -199,7 +200,8 @@ namespace Unscientificlab.FixedPoint
         public static Fix operator /(Fix one, Fix other)
         {
             Fix fInt;
-            fInt.Raw = (one.Raw << ShiftAmount) / (other.Raw);
+            long oneRaw = one.Raw;
+            fInt.Raw = (int) ((oneRaw << ShiftAmount) / (other.Raw));
             return fInt;
         }
 
@@ -404,12 +406,12 @@ namespace Unscientificlab.FixedPoint
 
         public static explicit operator float(Fix src)
         {
-            return src.Raw / (float) OneL;
+            return src.Raw / (float) OneI;
         }
 
         public static explicit operator double(Fix src)
         {
-            return src.Raw / (double) OneL;
+            return src.Raw / (double) OneI;
         }
 
         public static explicit operator Fix(int src)
@@ -419,12 +421,12 @@ namespace Unscientificlab.FixedPoint
 
         public static explicit operator Fix(long src)
         {
-            return Create(src, true);
+            return Create((int) src, true);
         }
 
         public static explicit operator Fix(ulong src)
         {
-            return Create((long) src, true);
+            return Create((int) src, true);
         }
 
         public static Fix operator <<(Fix one, int amount)

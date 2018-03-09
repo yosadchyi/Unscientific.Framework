@@ -40,6 +40,7 @@ namespace Assets.Tests.Unscientificlab.FixedPoint
                 var doubleAngle = Math.PI * i / 1800.0;
 
                 var diff = (double) FixMath.Cos(fixAngle) - Math.Cos(doubleAngle);
+
                 totalDiff += diff;
                 maxDiff = Math.Max(maxDiff, Math.Abs(diff));
             }

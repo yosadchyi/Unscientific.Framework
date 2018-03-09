@@ -176,7 +176,7 @@ namespace Unscientificlab.FixedPoint
         public static Fix Ceiling(Fix f)
         {
             Fix f2;
-            f2.Raw = ((f.Raw >> Fix.ShiftAmount) << Fix.ShiftAmount) + Fix.OneL;
+            f2.Raw = ((f.Raw >> Fix.ShiftAmount) << Fix.ShiftAmount) + Fix.OneI;
             return f2;
         }
 
