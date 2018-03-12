@@ -49,9 +49,9 @@
     <Compile Include="Sources\FixVec2Tests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unscientificlab.FixedPoint\Unscientificlab.FixedPoint.csproj">
+    <ProjectReference Include="..\Unscientific.FixedPoint\Unscientific.FixedPoint.csproj">
       <Project>{47EE4E51-9230-41EA-9503-0C79124348F7}</Project>
-      <Name>Unscientificlab.FixedPoint</Name>
+      <Name>Unscientific.FixedPoint</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

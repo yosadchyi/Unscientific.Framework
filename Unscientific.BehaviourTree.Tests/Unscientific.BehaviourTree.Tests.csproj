@@ -49,13 +49,13 @@
     <Compile Include="Sources\TestTickProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unscientificlab.BehaviourTree\Unscientificlab.BehaviourTree.csproj">
+    <ProjectReference Include="..\Unscientific.BehaviourTree\Unscientific.BehaviourTree.csproj">
       <Project>{8BB7FBB8-0506-460E-A076-BF006F0723C6}</Project>
-      <Name>Unscientificlab.BehaviourTree</Name>
+      <Name>Unscientific.BehaviourTree</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unscientificlab.Util\Unscientificlab.Util.csproj">
-      <Project>{A3FE74BD-FE34-4044-BA6E-17DF27DDE780}</Project>
-      <Name>Unscientificlab.Util</Name>
+    <ProjectReference Include="..\Unscientific.Util\Unscientific.Util.csproj">
+      <Project>{a3fe74bd-fe34-4044-ba6e-17df27dde780}</Project>
+      <Name>Unscientific.Util</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

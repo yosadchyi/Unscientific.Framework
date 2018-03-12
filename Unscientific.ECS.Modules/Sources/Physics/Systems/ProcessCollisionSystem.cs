@@ -9,7 +9,6 @@ namespace Unscientific.ECS.Modules.Physics.Systems
     public class ProcessCollisionSystem: IUpdateSystem, ICleanupSystem
     {
         private readonly MessageBus _messageBus;
-        private readonly Entity<Configuration> _configuration;
         private readonly Entity<Singletons> _singletons;
 
         private Entity<Simulation> _entity;
@@ -26,7 +25,6 @@ namespace Unscientific.ECS.Modules.Physics.Systems
             _callback = CheckCollision;
             _singletons = contexts.Get<Singletons>().First();
             _simulation = contexts.Get<Simulation>();
-            _configuration = contexts.Get<Configuration>().First();
         }
 
         public void Update()

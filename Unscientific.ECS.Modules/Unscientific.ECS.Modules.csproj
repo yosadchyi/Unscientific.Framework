@@ -101,21 +101,21 @@
     <Compile Include="Sources\Steering\Systems\SteeringSystem.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unscientificlab.BehaviourTree\Unscientificlab.BehaviourTree.csproj">
+    <ProjectReference Include="..\Unscientific.BehaviourTree\Unscientific.BehaviourTree.csproj">
       <Project>{8BB7FBB8-0506-460E-A076-BF006F0723C6}</Project>
-      <Name>Unscientificlab.BehaviourTree</Name>
+      <Name>Unscientific.BehaviourTree</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unscientificlab.ECS\Unscientificlab.ECS.csproj">
+    <ProjectReference Include="..\Unscientific.ECS\Unscientific.ECS.csproj">
       <Project>{E1CD49D0-5286-4706-A92C-C915C64ECD46}</Project>
-      <Name>Unscientificlab.ECS</Name>
+      <Name>Unscientific.ECS</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unscientificlab.FixedPoint\Unscientificlab.FixedPoint.csproj">
+    <ProjectReference Include="..\Unscientific.FixedPoint\Unscientific.FixedPoint.csproj">
       <Project>{47EE4E51-9230-41EA-9503-0C79124348F7}</Project>
-      <Name>Unscientificlab.FixedPoint</Name>
+      <Name>Unscientific.FixedPoint</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unscientificlab.Util\Unscientificlab.Util.csproj">
-      <Project>{A3FE74BD-FE34-4044-BA6E-17DF27DDE780}</Project>
-      <Name>Unscientificlab.Util</Name>
+    <ProjectReference Include="..\Unscientific.Util\Unscientific.Util.csproj">
+      <Project>{a3fe74bd-fe34-4044-ba6e-17df27dde780}</Project>
+      <Name>Unscientific.Util</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

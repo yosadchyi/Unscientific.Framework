@@ -47,9 +47,9 @@
     <Compile Include="Sources\RandomTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unscientificlab.Util\Unscientificlab.Util.csproj">
+    <ProjectReference Include="..\Unscientific.Util\Unscientific.Util.csproj">
       <Project>{A3FE74BD-FE34-4044-BA6E-17DF27DDE780}</Project>
-      <Name>Unscientificlab.Util</Name>
+      <Name>Unscientific.Util</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

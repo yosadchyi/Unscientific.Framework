@@ -70,12 +70,6 @@
     <Compile Include="Sources\System\Systems.cs" />
     <Compile Include="Sources\Util\StaticIdAllocator.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Unscientificlab.Util\Unscientificlab.Util.csproj">
-      <Project>{A3FE74BD-FE34-4044-BA6E-17DF27DDE780}</Project>
-      <Name>Unscientificlab.Util</Name>
-    </ProjectReference>
-  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
          Other similar extension points exist, see Microsoft.Common.targets.

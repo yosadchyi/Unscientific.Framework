@@ -65,13 +65,13 @@
     <Compile Include="Sources\ValueSupplier.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unscientificlab.Logging\Unscientificlab.Logging.csproj">
+    <ProjectReference Include="..\Unscientific.Logging\Unscientific.Logging.csproj">
       <Project>{1BDB76CF-DCB4-4448-B036-A1B35E28ACBF}</Project>
-      <Name>Unscientificlab.Logging</Name>
+      <Name>Unscientific.Logging</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unscientificlab.Util\Unscientificlab.Util.csproj">
+    <ProjectReference Include="..\Unscientific.Util\Unscientific.Util.csproj">
       <Project>{A3FE74BD-FE34-4044-BA6E-17DF27DDE780}</Project>
-      <Name>Unscientificlab.Util</Name>
+      <Name>Unscientific.Util</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

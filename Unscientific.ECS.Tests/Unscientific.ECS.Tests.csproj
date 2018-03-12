@@ -51,9 +51,9 @@
     <Compile Include="Sources\TestScope.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unscientificlab.ECS\Unscientificlab.ECS.csproj">
-      <Project>{e1cd49d0-5286-4706-a92c-c915c64ecd46}</Project>
-      <Name>Unscientificlab.ECS</Name>
+    <ProjectReference Include="..\Unscientific.ECS\Unscientific.ECS.csproj">
+      <Project>{E1CD49D0-5286-4706-A92C-C915C64ECD46}</Project>
+      <Name>Unscientific.ECS</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

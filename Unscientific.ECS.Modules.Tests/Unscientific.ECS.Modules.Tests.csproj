@@ -46,13 +46,13 @@
     <Compile Include="Sources\Base\IntegrationTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unscientificlab.ECS.Modules\Unscientificlab.ECS.Modules.csproj">
+    <ProjectReference Include="..\Unscientific.ECS.Modules\Unscientific.ECS.Modules.csproj">
       <Project>{FFF52B1B-BEC1-409F-AA36-300C6DC48D47}</Project>
-      <Name>Unscientificlab.ECS.Modules</Name>
+      <Name>Unscientific.ECS.Modules</Name>
     </ProjectReference>
-    <ProjectReference Include="..\Unscientificlab.ECS\Unscientificlab.ECS.csproj">
+    <ProjectReference Include="..\Unscientific.ECS\Unscientific.ECS.csproj">
       <Project>{E1CD49D0-5286-4706-A92C-C915C64ECD46}</Project>
-      <Name>Unscientificlab.ECS</Name>
+      <Name>Unscientific.ECS</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
