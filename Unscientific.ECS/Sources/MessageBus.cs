@@ -30,7 +30,7 @@ namespace Unscientific.ECS
 
         public TMessage Current
         {
-            get { return MessageData<TMessage>.Data[_current]; }
+            get { return MessageData<TMessage>.Queue[_current]; }
         }
     }
 
@@ -50,37 +50,91 @@ namespace Unscientific.ECS
         }
     }
 
-    internal delegate void ClearDelegate();
+    internal class MessageQueue<TMessage>
+    {
+        public int Count
+        {
+            get { return _count; }
+        }
+
+        public TMessage this[int index]
+        {
+            get { return _data[index]; }
+        }
+            
+        private TMessage[] _data;
+        private int _count;
+
+        public MessageQueue(int capacity)
+        {
+            _data = new TMessage[capacity];
+        }
+
+        public void Add(TMessage message)
+        {
+            if (_data == null)
+                throw new MessageNotRegisteredException<TMessage>();
+            if (_count == _data.Length)
+                Array.Resize(ref _data, _data.Length * 2);
+            _data[_count++] = message;
+        }
+            
+        public void Clear()
+        {
+            for (var i = 0; i < _count; i++)
+            {
+                _data[i] = default(TMessage);
+            }
+
+            _count = 0;
+        }
+    }
 
     internal static class MessageData<TMessage>
     {
-        internal static TMessage[] Data;
-        // ReSharper disable once StaticMemberInGenericType
-        internal static int Count;
+        internal static MessageQueue<TMessage> Queue;
+        private static MessageQueue<TMessage> _nextFrameQueue;
 
-        internal static void Init(int capacity)
+        internal static void Init(int capacity, int nextFrameCapacity)
         {
-            Data = new TMessage[capacity];
-            Count = 0;
+            Queue = new MessageQueue<TMessage>(capacity);
+            _nextFrameQueue = nextFrameCapacity >= 0 ? new MessageQueue<TMessage>(nextFrameCapacity) : null;
+        }
+        
+        public static bool IsInitialized()
+        {
+            return Queue != null;
         }
 
         internal static void Add(TMessage message)
         {
-            if (Data == null)
-                throw new MessageNotRegisteredException<TMessage>();
-            if (Count == Data.Length)
-                Array.Resize(ref Data, Data.Length * 2);
-            Data[Count++] = message;
+            Queue.Add(message);
+        }
+
+        public static void AddNextFrame(TMessage message)
+        {
+            _nextFrameQueue.Add(message);
+        }
+
+        internal static void OnCleanup()
+        {
+            if (_nextFrameQueue != null)
+            {
+                // swap current and next frame queue
+                var tmp = Queue;
+                Queue = _nextFrameQueue;
+                _nextFrameQueue = tmp;
+                _nextFrameQueue.Clear();
+            }
+            else
+            {
+                Queue.Clear();
+            }
         }
 
         internal static void Clear()
         {
-            for (var i = 0; i < Count; i++)
-            {
-                Data[i] = default(TMessage);
-            }
-
-            Count = 0;
+            Queue.Clear();
         }
     }
 
@@ -89,17 +143,17 @@ namespace Unscientific.ECS
         private delegate void RegisterDelegate(MessageBus bus);
 
         private Delegate _delegate;
-        private static HashSet<Type> _registeredMessages = new HashSet<Type>();
+        private static readonly HashSet<Type> _registeredMessages = new HashSet<Type>();
 
-        public MessageRegistrations Add<TMessage>()
+        public MessageRegistrations Add<TMessage>(bool hasNextFrameQueue = false, int initialCapacity = 128)
         {
             RegisterDelegate registerDelegate = (bus) =>
             {
                 if (_registeredMessages.Contains(typeof(TMessage)))
                     return;
 
-                MessageData<TMessage>.Init(128);
-                MessageBus.OnClear += MessageData<TMessage>.Clear;
+                MessageData<TMessage>.Init(initialCapacity, hasNextFrameQueue ? initialCapacity : -1);
+                MessageBus.OnCleanup += MessageData<TMessage>.OnCleanup;
                 _registeredMessages.Add(typeof(TMessage));
             };
 
@@ -118,7 +172,7 @@ namespace Unscientific.ECS
     {
         public static MessageBus Instance { get; private set; }
 
-        internal static event ClearDelegate OnClear = delegate { };
+        internal static event Action OnCleanup = delegate { };
 
         public MessageBus()
         {
@@ -130,11 +184,16 @@ namespace Unscientific.ECS
             MessageData<TMessage>.Add(message);
         }
 
+        public void SendNextFrame<TMessage>(TMessage message)
+        {
+            MessageData<TMessage>.AddNextFrame(message);
+        }
+
         public MessageEnumerable<TMessage> All<TMessage>()
         {
-            if (MessageData<TMessage>.Data == null)
+            if (!MessageData<TMessage>.IsInitialized())
                 throw new MessageNotRegisteredException<TMessage>();
-            return new MessageEnumerable<TMessage>(MessageData<TMessage>.Count);
+            return new MessageEnumerable<TMessage>(MessageData<TMessage>.Queue.Count);
         }
 
         public void Clear<TMessage>()
@@ -145,9 +204,9 @@ namespace Unscientific.ECS
         /// <summary>
         /// Reset method must be called every frame.
         /// </summary>
-        public void Clear()
+        public void Cleanup()
         {
-            OnClear();
+            OnCleanup();
         }
     }
 }

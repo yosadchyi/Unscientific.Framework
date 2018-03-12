@@ -121,7 +121,7 @@ namespace Unscientific.ECS
         public void Cleanup()
         {
             Systems.Cleanup();
-            MessageBus.Clear();
+            MessageBus.Cleanup();
         }
     }
 }

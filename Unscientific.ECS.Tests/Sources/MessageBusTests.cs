@@ -13,18 +13,18 @@ namespace Unscientific.ECS.Tests
             _bus = new MessageBus();
 
             new MessageRegistrations()
-                .Add<TestMessage>()
+                .Add<TestMessage>(true)
                 .Register(_bus);
         }
 
         [TearDown]
         public void TearDown()
         {
-            _bus.Clear();
+            _bus.Cleanup();
         }
         
         [Test]
-        public void SendMessageTest()
+        public void SendMessageShouldDeliverMessageInCurrentFrame()
         {
             var count = 0;
             
@@ -38,9 +38,37 @@ namespace Unscientific.ECS.Tests
             
             Assert.AreEqual(1, count);
         }
-        
+
         [Test]
-        public void SendMessagesTest()
+        public void SendNextFrameShouldDeliverMessageOnNextFrame()
+        {
+            var count = 0;
+            
+            _bus.Send(new TestMessage(1));
+            _bus.SendNextFrame(new TestMessage(2));
+
+            foreach (var message in _bus.All<TestMessage>())
+            {
+                Assert.AreEqual(1, message.Value);
+                count++;
+            }
+
+            Assert.AreEqual(1, count);
+
+            _bus.Cleanup();
+            count = 0;
+
+            foreach (var message in _bus.All<TestMessage>())
+            {
+                Assert.AreEqual(2, message.Value);
+                count++;
+            }
+
+            Assert.AreEqual(1, count);
+        }
+
+        [Test]
+        public void SentMessagesShouldBeSameAsReceived()
         {
             var count = 0;
             
