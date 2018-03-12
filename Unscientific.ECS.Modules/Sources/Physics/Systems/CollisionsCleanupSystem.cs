@@ -1,7 +1,7 @@
 using Unscientific.ECS.Modules.Core;
 using Unscientific.Util.Pool;
 
-namespace Unscientific.ECS.Modules.Physics.Systems
+namespace Unscientific.ECS.Modules.Physics
 {
     public class CollisionsCleanupSystem: ICleanupSystem
     {

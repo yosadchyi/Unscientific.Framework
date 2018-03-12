@@ -1,9 +1,8 @@
 ﻿using Unscientific.ECS.Modules.Core;
-using Unscientific.ECS.Modules.Physics.Systems;
 
 namespace Unscientific.ECS.Modules.Physics
 {
-    public class PhysicsModule: IModule
+    public class PhysicsModule: AbstractModule
     {
         private readonly ISpatialDatabase _spatialDatabase;
 
@@ -12,27 +11,19 @@ namespace Unscientific.ECS.Modules.Physics
             _spatialDatabase = spatialDatabase;
         }
 
-        public ModuleImports Imports()
+        public override ModuleImports Imports()
         {
             return new ModuleImports()
                 .Import<CoreModule>();
         }
 
-        public ContextRegistrations Contexts()
-        {
-            return new ContextRegistrations()
-                .Add<Simulation>()
-                .Add<Singletons>()
-                .Add<Configuration>();
-        }
-
-        public MessageRegistrations Messages()
+        public override MessageRegistrations Messages()
         {
             return new MessageRegistrations()
                 .Add<EntitiesCollided>();
         }
 
-        public ComponentRegistrations Components()
+        public override ComponentRegistrations Components()
         {
             return new ComponentRegistrations()
                 .For<Simulation>()
@@ -59,9 +50,9 @@ namespace Unscientific.ECS.Modules.Physics
                 .End();
         }
 
-        public ECS.Systems Systems(Contexts contexts, MessageBus bus)
+        public override Systems Systems(Contexts contexts, MessageBus bus)
         {
-            return new ECS.Systems.Builder()
+            return new Systems.Builder()
                 .Add(new SpaceSetupSystem(contexts, _spatialDatabase))
                 .Add(new AccelerateSystem(contexts))
                 .Add(new AngularAccelerateSystem(contexts))

@@ -1,6 +1,6 @@
 using Unscientific.ECS.Modules.Core;
 
-namespace Unscientific.ECS.Modules.Physics.Systems
+namespace Unscientific.ECS.Modules.Physics
 {
     public class ShapesCleanupSystem: ICleanupSystem
     {

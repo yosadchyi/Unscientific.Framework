@@ -4,7 +4,7 @@ using Unscientific.ECS.Modules.Core;
 using Unscientific.ECS.Modules.Physics.Shapes;
 using Unscientific.FixedPoint;
 
-namespace Unscientific.ECS.Modules.Physics.Systems
+namespace Unscientific.ECS.Modules.Physics
 {
     public class ProcessCollisionSystem: IUpdateSystem, ICleanupSystem
     {
