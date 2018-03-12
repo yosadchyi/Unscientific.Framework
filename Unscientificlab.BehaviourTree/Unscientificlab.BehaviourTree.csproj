@@ -7,8 +7,8 @@
     <ProjectGuid>{8BB7FBB8-0506-460E-A076-BF006F0723C6}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unscientificlab.BehaviourTree</RootNamespace>
-    <AssemblyName>Unscientificlab.BehaviourTree</AssemblyName>
+    <RootNamespace>Unscientific.BehaviourTree</RootNamespace>
+    <AssemblyName>Unscientific.BehaviourTree</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

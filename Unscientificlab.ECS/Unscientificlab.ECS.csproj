@@ -7,8 +7,8 @@
     <ProjectGuid>{E1CD49D0-5286-4706-A92C-C915C64ECD46}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unscientificlab.ECS</RootNamespace>
-    <AssemblyName>Unscientificlab.ECS</AssemblyName>
+    <RootNamespace>Unscientific.ECS</RootNamespace>
+    <AssemblyName>Unscientific.ECS</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

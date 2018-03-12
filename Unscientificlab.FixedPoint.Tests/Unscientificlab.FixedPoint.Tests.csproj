@@ -8,8 +8,8 @@
     <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unscientificlab.FixedPoint.Tests</RootNamespace>
-    <AssemblyName>Unscientificlab.FixedPoint.Tests</AssemblyName>
+    <RootNamespace>Unscientific.FixedPoint.Tests</RootNamespace>
+    <AssemblyName>Unscientific.FixedPoint.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

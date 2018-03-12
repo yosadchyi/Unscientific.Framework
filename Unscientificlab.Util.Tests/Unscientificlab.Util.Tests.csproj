@@ -8,8 +8,8 @@
     <ProjectTypeGuids>{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unscientificlab.Util.Tests</RootNamespace>
-    <AssemblyName>Unscientificlab.Util.Tests</AssemblyName>
+    <RootNamespace>Unscientific.Util.Tests</RootNamespace>
+    <AssemblyName>Unscientific.Util.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

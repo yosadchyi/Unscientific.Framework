@@ -7,8 +7,8 @@
     <ProjectGuid>{65F332DF-36E8-426F-AE00-E8B22EED997A}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unscientificlab.ECS.Benchmark</RootNamespace>
-    <AssemblyName>Unscientificlab.ECS.Benchmark</AssemblyName>
+    <RootNamespace>Unscientific.ECS.Benchmark</RootNamespace>
+    <AssemblyName>Unscientific.ECS.Benchmark</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

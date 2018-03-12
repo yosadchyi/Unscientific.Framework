@@ -7,8 +7,8 @@
     <ProjectGuid>{1BDB76CF-DCB4-4448-B036-A1B35E28ACBF}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unscientificlab.Logging</RootNamespace>
-    <AssemblyName>Unscientificlab.Logging</AssemblyName>
+    <RootNamespace>Unscientific.Logging</RootNamespace>
+    <AssemblyName>Unscientific.Logging</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

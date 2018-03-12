@@ -7,8 +7,8 @@
     <ProjectGuid>{47EE4E51-9230-41EA-9503-0C79124348F7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unscientificlab.FixedPoint</RootNamespace>
-    <AssemblyName>Unscientificlab.FixedPoint</AssemblyName>
+    <RootNamespace>Unscientific.FixedPoint</RootNamespace>
+    <AssemblyName>Unscientific.FixedPoint</AssemblyName>
     <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
