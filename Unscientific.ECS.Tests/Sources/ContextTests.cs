@@ -260,9 +260,9 @@ namespace Unscientific.ECS.Tests
             var context = _contexts.Get<TestScope>();
             var entity = context.CreateEntity();
             var entityRef = entity.Retain();
-            entityRef.Release(entity);
+            var releasedEntity = entityRef.Release();
+            Assert.AreEqual(entity.Id, releasedEntity.Id);
             context.DestroyEntity(entityRef.Entity);
-            Assert.Pass();
         }
 
     }

@@ -16,7 +16,8 @@ namespace Unscientific.ECS
             Id = id;
         }
 
-        public Entity<TScope> Release<TScope1>(Entity<TScope1> owner) where TScope1 : IScope
+        [Pure]
+        public Entity<TScope> Release()
         {
             Context<TScope>.Instance.Release(Entity);
             return Entity;

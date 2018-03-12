@@ -2,16 +2,11 @@
 {
     public struct EntityDestroyed<TScope> where TScope : IScope
     {
-        private readonly int _entityId;
-
-        public Entity<TScope> Entity
-        {
-            get { return Context<TScope>.Instance[_entityId]; }
-        }
+        public readonly EntityRef<TScope> Reference;
 
         public EntityDestroyed(Entity<TScope> entity)
         {
-            _entityId = entity.Id;
+            Reference = entity.Retain();
         }
     }
 }

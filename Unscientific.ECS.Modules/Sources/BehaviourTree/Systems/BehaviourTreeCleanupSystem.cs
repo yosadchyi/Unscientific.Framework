@@ -15,7 +15,7 @@ namespace Unscientific.ECS.Modules.BehaviourTree
         {
             foreach (var message in _messageBus.All<EntityDestroyed<Simulation>>())
             {
-                var entity = message.Entity;
+                var entity = message.Reference.Entity;
 
                 if (!entity.Has<BehaviourTreeData>())
                     continue;
