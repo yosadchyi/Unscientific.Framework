@@ -439,7 +439,7 @@ namespace Unscientific.ECS
             }
         }
 
-        public static Context<TScope> Instance { get; private set; }
+        internal static Context<TScope> Instance { get; private set; }
 
         public int Capacity
         {
