@@ -1,7 +1,6 @@
 ﻿using NUnit.Framework;
-using Unscientificlab.FixedPoint;
 
-namespace Unscientificlab.FixedPoint
+namespace Unscientific.FixedPoint.Tests
 {
     public static class FixAssert
     {

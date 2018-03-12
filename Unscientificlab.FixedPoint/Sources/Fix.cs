@@ -19,7 +19,7 @@
 
 using System;
 
-namespace Unscientificlab.FixedPoint
+namespace Unscientific.FixedPoint
 {
     /// <summary>
     /// A Real value implements floating point operations on the CPU. It does not adhere any any

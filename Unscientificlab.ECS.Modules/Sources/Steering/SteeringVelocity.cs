@@ -1,6 +1,6 @@
-﻿using Unscientificlab.FixedPoint;
+﻿using Unscientific.FixedPoint;
 
-namespace Unscientificlab.ECS.Modules.Steering
+namespace Unscientific.ECS.Modules.Steering
 {
     public struct SteeringVelocity
     {

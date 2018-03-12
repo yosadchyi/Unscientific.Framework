@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Unscientificlab.BehaviourTree
+namespace Unscientific.BehaviourTree
 {
     public class BehaviourTreeMetadata<TBlackboard>
     {

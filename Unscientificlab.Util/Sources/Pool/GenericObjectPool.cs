@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.Util.Pool
+﻿namespace Unscientific.Util.Pool
 {
     public class GenericObjectPool<T>: ObjectPool<T> where T: new()
     {

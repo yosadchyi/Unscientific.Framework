@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.BehaviourTree
+﻿namespace Unscientific.BehaviourTree
 {
     public abstract class AbstractCondition<TBlackboard> : IAction<TBlackboard>
     {

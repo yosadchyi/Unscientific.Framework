@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Unscientificlab.ECS
+namespace Unscientific.ECS
 {
     public class CountingReferenceTracker<TScope> : IReferenceTracker
     {

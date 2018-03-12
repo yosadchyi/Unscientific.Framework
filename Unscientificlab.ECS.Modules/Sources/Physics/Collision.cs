@@ -1,7 +1,8 @@
-﻿using Unscientificlab.ECS.Modules.Core;
-using Unscientificlab.Util.Pool;
+﻿using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Modules.Physics.Shapes;
+using Unscientific.Util.Pool;
 
-namespace Unscientificlab.ECS.Modules.Physics
+namespace Unscientific.ECS.Modules.Physics
 {
     public struct EntitiesCollided
     {

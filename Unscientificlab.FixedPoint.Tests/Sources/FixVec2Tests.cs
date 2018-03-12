@@ -1,8 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
-using Unscientificlab.FixedPoint;
 
-namespace Assets.Tests.Unscientificlab.FixedPoint
+namespace Unscientific.FixedPoint.Tests
 {
     public class FixVec2Tests
     {

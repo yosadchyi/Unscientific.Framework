@@ -1,6 +1,6 @@
-using Unscientificlab.FixedPoint;
+using Unscientific.FixedPoint;
 
-namespace Unscientificlab.ECS.Modules.Navigation
+namespace Unscientific.ECS.Modules.Navigation
 {
     /// <summary>
     /// Flow field with fixed movement direction.

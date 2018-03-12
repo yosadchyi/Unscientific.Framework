@@ -1,8 +1,8 @@
-﻿using Unscientificlab.ECS.Modules.Core;
-using Unscientificlab.FixedPoint;
-using Unscientificlab.ECS.Modules.Navigation;
+﻿using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Modules.Navigation;
+using Unscientific.FixedPoint;
 
-namespace Unscientificlab.ECS.Modules.Steering
+namespace Unscientific.ECS.Modules.Steering
 {
     public struct Steering
     {

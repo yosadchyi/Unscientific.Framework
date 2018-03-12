@@ -1,6 +1,6 @@
-﻿using Unscientificlab.FixedPoint;
+﻿using Unscientific.FixedPoint;
 
-namespace Unscientificlab.ECS.Modules.Navigation
+namespace Unscientific.ECS.Modules.Navigation
 {
     /// <summary>
     /// Flow field which returns vector lying on circle with radius equivalent to distance from center to supplied position.

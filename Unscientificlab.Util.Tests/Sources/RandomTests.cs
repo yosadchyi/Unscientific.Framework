@@ -1,8 +1,7 @@
 ﻿using System.Linq;
 using NUnit.Framework;
-using Random = Unscientificlab.Util.Random;
 
-namespace Unscientificlab.Util.Tests
+namespace Unscientific.Util.Tests
 {
     [TestFixture]
     public class RandomTests

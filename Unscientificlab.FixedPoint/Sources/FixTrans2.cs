@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-namespace Unscientificlab.FixedPoint
+namespace Unscientific.FixedPoint
 {
     public struct FixTrans2
     {

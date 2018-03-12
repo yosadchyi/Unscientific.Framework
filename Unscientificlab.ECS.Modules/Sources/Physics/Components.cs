@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
-using Unscientificlab.FixedPoint;
+using Unscientific.ECS.Modules.Physics.Shapes;
+using Unscientific.FixedPoint;
 
-namespace Unscientificlab.ECS.Modules.Physics
+namespace Unscientific.ECS.Modules.Physics
 {
     public struct TimeStep
     {

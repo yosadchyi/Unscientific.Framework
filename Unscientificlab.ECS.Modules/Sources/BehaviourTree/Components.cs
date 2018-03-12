@@ -1,7 +1,7 @@
-﻿using Unscientificlab.BehaviourTree;
-using Unscientificlab.ECS.Modules.Core;
+﻿using Unscientific.BehaviourTree;
+using Unscientific.ECS.Modules.Core;
 
-namespace Unscientificlab.ECS.Modules.BehaviourTree
+namespace Unscientific.ECS.Modules.BehaviourTree
 {
     public struct BehaviourTreeData
     {

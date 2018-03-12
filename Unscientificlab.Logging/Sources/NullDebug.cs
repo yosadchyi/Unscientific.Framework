@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.Logging
+﻿namespace Unscientific.Logging
 {
 	public class NullDebug: IDebug
 	{

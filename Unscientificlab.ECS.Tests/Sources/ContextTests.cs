@@ -1,8 +1,6 @@
-﻿using System;
-using NUnit.Framework;
-using Unscientificlab.ECS;
+﻿using NUnit.Framework;
 
-namespace Unscientificlab.ECS.Tests
+namespace Unscientific.ECS.Tests
 {
     /// <summary>
     /// Context and Entity tests

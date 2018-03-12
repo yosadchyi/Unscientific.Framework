@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Unscientificlab.BehaviourTree
+namespace Unscientific.BehaviourTree
 {
     public interface INodeHandler<TBlackboard>
     {

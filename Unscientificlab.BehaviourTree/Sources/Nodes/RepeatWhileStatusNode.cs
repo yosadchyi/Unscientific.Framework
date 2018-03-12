@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.BehaviourTree
+﻿namespace Unscientific.BehaviourTree
 {
     public class RepeatWhileStatus<TBlackboard> : BaseDecoratorNode<TBlackboard>, ICompletionObserver<TBlackboard>
     {

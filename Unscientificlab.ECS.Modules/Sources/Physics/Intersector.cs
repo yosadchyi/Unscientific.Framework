@@ -1,6 +1,6 @@
-﻿using Unscientificlab.FixedPoint;
+﻿using Unscientific.FixedPoint;
 
-namespace Unscientificlab.ECS.Modules.Physics
+namespace Unscientific.ECS.Modules.Physics
 {
     public class Intersector
     {

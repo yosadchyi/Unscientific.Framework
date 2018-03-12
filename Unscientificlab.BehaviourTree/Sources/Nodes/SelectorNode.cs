@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.BehaviourTree
+﻿namespace Unscientific.BehaviourTree
 {
     public class SelectorNode<TBlackboard> : CompositeNode<TBlackboard>, ICompletionObserver<TBlackboard>
     {

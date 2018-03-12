@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics.Contracts;
 
-namespace Unscientificlab.ECS
+namespace Unscientific.ECS
 {
     public struct EntityRef<TScope> where TScope : IScope
     {

@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.ECS
+﻿namespace Unscientific.ECS
 {
     // ReSharper disable once UnusedTypeParameter
     public static class StaticIdAllocator<TIdHolder>

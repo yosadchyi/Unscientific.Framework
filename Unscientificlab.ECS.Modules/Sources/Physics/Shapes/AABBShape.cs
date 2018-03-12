@@ -1,7 +1,7 @@
-﻿using Unscientificlab.FixedPoint;
-using Unscientificlab.Util.Pool;
+﻿using Unscientific.FixedPoint;
+using Unscientific.Util.Pool;
 
-namespace Unscientificlab.ECS.Modules.Physics
+namespace Unscientific.ECS.Modules.Physics.Shapes
 {
     public class AABBShape: Shape
     {

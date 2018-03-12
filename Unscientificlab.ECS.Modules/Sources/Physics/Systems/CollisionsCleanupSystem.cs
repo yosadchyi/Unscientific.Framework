@@ -1,7 +1,7 @@
-using Unscientificlab.ECS.Modules.Core;
-using Unscientificlab.Util.Pool;
+using Unscientific.ECS.Modules.Core;
+using Unscientific.Util.Pool;
 
-namespace Unscientificlab.ECS.Modules.Physics
+namespace Unscientific.ECS.Modules.Physics.Systems
 {
     public class CollisionsCleanupSystem: ICleanupSystem
     {

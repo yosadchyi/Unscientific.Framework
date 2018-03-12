@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.Util
+﻿namespace Unscientific.Util
 {
     /// <summary>
     /// Random class, can be used as component (e.g. in Singletons scope).

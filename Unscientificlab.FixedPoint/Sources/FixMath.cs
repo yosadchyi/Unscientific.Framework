@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Unscientificlab.FixedPoint
+namespace Unscientific.FixedPoint
 {
     public static class FixMath
     {

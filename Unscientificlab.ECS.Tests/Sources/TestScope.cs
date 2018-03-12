@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.ECS.Tests
+﻿namespace Unscientific.ECS.Tests
 {
     public class TestScope: IScope
     {

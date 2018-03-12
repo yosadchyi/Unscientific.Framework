@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace Unscientificlab.ECS.Tests
+namespace Unscientific.ECS.Tests
 {
     [TestFixture]
     public class MessageBusTests

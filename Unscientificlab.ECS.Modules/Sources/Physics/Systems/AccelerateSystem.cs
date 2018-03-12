@@ -1,7 +1,7 @@
-﻿using Unscientificlab.ECS.Modules.Core;
-using Unscientificlab.FixedPoint;
+﻿using Unscientific.ECS.Modules.Core;
+using Unscientific.FixedPoint;
 
-namespace Unscientificlab.ECS.Modules.Physics
+namespace Unscientific.ECS.Modules.Physics.Systems
 {
     public class AccelerateSystem: IUpdateSystem
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Unscientificlab.ECS
+namespace Unscientific.ECS
 {
     public class Systems: ISetupSystem, IUpdateSystem, ICleanupSystem
     {

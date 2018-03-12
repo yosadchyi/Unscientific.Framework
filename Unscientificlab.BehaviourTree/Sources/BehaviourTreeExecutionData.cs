@@ -1,8 +1,8 @@
 ﻿using System;
-using Unscientificlab.Util.Collections;
-using Unscientificlab.Util.Pool;
+using Unscientific.Util.Collections;
+using Unscientific.Util.Pool;
 
-namespace Unscientificlab.BehaviourTree
+namespace Unscientific.BehaviourTree
 {
     public class BehaviourTreeExecutionData<TBlackboard>
     {

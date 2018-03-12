@@ -1,6 +1,6 @@
-﻿using Unscientificlab.Logging;
+﻿using Unscientific.Logging;
 
-namespace Unscientificlab.BehaviourTree
+namespace Unscientific.BehaviourTree
 {
     public abstract class BehaviourTreeNode<TBlackboard>
     {

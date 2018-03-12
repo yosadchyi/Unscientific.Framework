@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Unscientificlab.Util.Pool
+namespace Unscientific.Util.Pool
 {
     public class DictionaryPool<TKey, TValue> : GenericObjectPool<Dictionary<TKey, TValue>>
     {

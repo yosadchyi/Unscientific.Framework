@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.ECS.Modules.Steering
+﻿namespace Unscientific.ECS.Modules.Steering
 {
     public abstract class GroupSteeringBehaviour: SteeringBehaviour
     {

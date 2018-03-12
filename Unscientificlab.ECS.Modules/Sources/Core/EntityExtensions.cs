@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.ECS.Modules.Core
+﻿namespace Unscientific.ECS.Modules.Core
 {
     public static class EntityExtensions
     {

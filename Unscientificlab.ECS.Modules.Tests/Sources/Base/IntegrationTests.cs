@@ -1,7 +1,7 @@
 ﻿using NUnit.Framework;
-using Unscientificlab.ECS.Modules.Core;
+using Unscientific.ECS.Modules.Core;
 
-namespace Unscientificlab.ECS.Modules.Tests.Base
+namespace Unscientific.ECS.Modules.Tests.Base
 {
     public struct Vector2
     {

@@ -1,10 +1,8 @@
-﻿using Unscientificlab.ECS;
-using Unscientificlab.ECS.Modules.Core;
-using Unscientificlab.ECS.Modules.Physics;
-using Unscientificlab.FixedPoint;
-using Unscientificlab.ECS.Modules.Steering;
+﻿using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Modules.Physics;
+using Unscientific.FixedPoint;
 
-namespace Framework.Unscientificlab
+namespace Unscientific.ECS.Modules.Steering
 {
     public static class SteeringEntityExtensions
     {

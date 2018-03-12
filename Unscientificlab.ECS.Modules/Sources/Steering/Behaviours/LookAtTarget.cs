@@ -1,9 +1,8 @@
-﻿using Framework.Unscientificlab;
-using Unscientificlab.ECS.Modules.Core;
-using Unscientificlab.ECS.Modules.Physics;
-using Unscientificlab.FixedPoint;
+﻿using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Modules.Physics;
+using Unscientific.FixedPoint;
 
-namespace Unscientificlab.ECS.Modules.Steering
+namespace Unscientific.ECS.Modules.Steering
 {
     public class LookAtTarget : ReachOrientationBehaviour
     {

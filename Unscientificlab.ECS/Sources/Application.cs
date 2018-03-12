@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Unscientificlab.ECS
+namespace Unscientific.ECS
 {
     public class Application
     {

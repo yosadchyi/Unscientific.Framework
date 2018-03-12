@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Unscientificlab.Util.Collections
+namespace Unscientific.Util.Collections
 {
     /// <summary>
     /// A generic Deque class. It can be thought of as

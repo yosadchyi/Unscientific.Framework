@@ -1,7 +1,7 @@
-﻿using Unscientificlab.ECS.Modules.Core;
-using Unscientificlab.ECS.Modules.Physics;
+﻿using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Modules.Physics;
 
-namespace Unscientificlab.ECS.Modules.Steering
+namespace Unscientific.ECS.Modules.Steering
 {
     public abstract class SteeringModule: AbstractModule
     {

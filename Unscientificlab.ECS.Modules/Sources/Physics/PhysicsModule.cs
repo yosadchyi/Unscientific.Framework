@@ -1,6 +1,7 @@
-﻿using Unscientificlab.ECS.Modules.Core;
+﻿using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Modules.Physics.Systems;
 
-namespace Unscientificlab.ECS.Modules.Physics
+namespace Unscientific.ECS.Modules.Physics
 {
     public class PhysicsModule: IModule
     {
@@ -58,9 +59,9 @@ namespace Unscientificlab.ECS.Modules.Physics
                 .End();
         }
 
-        public Systems Systems(Contexts contexts, MessageBus bus)
+        public ECS.Systems Systems(Contexts contexts, MessageBus bus)
         {
-            return new Systems.Builder()
+            return new ECS.Systems.Builder()
                 .Add(new SpaceSetupSystem(contexts, _spatialDatabase))
                 .Add(new AccelerateSystem(contexts))
                 .Add(new AngularAccelerateSystem(contexts))

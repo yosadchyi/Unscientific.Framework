@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unscientificlab.ECS.Modules.Core;
-using Unscientificlab.FixedPoint;
+using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Modules.Physics.Shapes;
+using Unscientific.FixedPoint;
 
-namespace Unscientificlab.ECS.Modules.Physics
+namespace Unscientific.ECS.Modules.Physics.Systems
 {
     public class ProcessCollisionSystem: IUpdateSystem, ICleanupSystem
     {

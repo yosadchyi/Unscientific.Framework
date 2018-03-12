@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.ECS
+﻿namespace Unscientific.ECS
 {
     public class EntityHasNoComponentException<TScope, TComponent> : System.Exception
     {

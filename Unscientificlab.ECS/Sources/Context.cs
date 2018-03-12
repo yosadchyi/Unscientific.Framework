@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Unscientificlab.ECS
+namespace Unscientific.ECS
 {
     public struct EntityEnumerator<TScope> where TScope : IScope
     {

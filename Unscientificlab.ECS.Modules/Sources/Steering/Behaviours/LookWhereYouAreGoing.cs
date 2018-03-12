@@ -1,7 +1,7 @@
-﻿using Unscientificlab.ECS.Modules.Core;
-using Unscientificlab.FixedPoint;
+﻿using Unscientific.ECS.Modules.Core;
+using Unscientific.FixedPoint;
 
-namespace Unscientificlab.ECS.Modules.Steering
+namespace Unscientific.ECS.Modules.Steering
 {
     public class LookWhereYouAreGoing: ReachOrientationBehaviour
     {

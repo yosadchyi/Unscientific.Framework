@@ -1,6 +1,6 @@
-﻿using Unscientificlab.ECS.Modules.Core;
+﻿using Unscientific.ECS.Modules.Core;
 
-namespace Unscientificlab.ECS.Modules.BehaviourTree
+namespace Unscientific.ECS.Modules.BehaviourTree
 {
     public class BehaviourTreeUpdateSystem: IUpdateSystem
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Unscientificlab.ECS.Benchmark
+namespace Unscientific.ECS.Benchmark
 {
     public class Simulation : IScope
     {

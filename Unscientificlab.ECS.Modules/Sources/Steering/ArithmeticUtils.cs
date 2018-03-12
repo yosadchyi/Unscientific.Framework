@@ -1,6 +1,6 @@
-﻿using Unscientificlab.FixedPoint;
+﻿using Unscientific.FixedPoint;
 
-namespace Unscientificlab.Util
+namespace Unscientific.ECS.Modules.Steering
 {
     public class ArithmeticUtils
     {

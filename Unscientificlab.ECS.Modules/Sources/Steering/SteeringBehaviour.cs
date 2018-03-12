@@ -1,6 +1,6 @@
-﻿using Unscientificlab.ECS.Modules.Core;
+﻿using Unscientific.ECS.Modules.Core;
 
-namespace Unscientificlab.ECS.Modules.Steering
+namespace Unscientific.ECS.Modules.Steering
 {
     public abstract class SteeringBehaviour
     {

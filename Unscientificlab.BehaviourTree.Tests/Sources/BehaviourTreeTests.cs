@@ -1,6 +1,6 @@
 ﻿using NUnit.Framework;
 
-namespace Unscientificlab.BehaviourTree.Tests
+namespace Unscientific.BehaviourTree.Tests
 {
     public class BehaviourTreeTests
     {

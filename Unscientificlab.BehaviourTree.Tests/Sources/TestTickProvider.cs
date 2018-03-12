@@ -1,4 +1,4 @@
-﻿namespace Unscientificlab.BehaviourTree.Tests
+﻿namespace Unscientific.BehaviourTree.Tests
 {
     public class TestTickProvider: ITickProvider
     {

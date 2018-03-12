@@ -1,6 +1,7 @@
-﻿using Unscientificlab.ECS.Modules.Core;
+﻿using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Modules.Physics.Shapes;
 
-namespace Unscientificlab.ECS.Modules.Physics
+namespace Unscientific.ECS.Modules.Physics
 {
     public delegate void SpatialDatabaseCallback(Entity<Simulation> entity, Shape shape);
 

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Unscientificlab.ECS
+namespace Unscientific.ECS
 {
     public struct MessageEnumerator<TMessage>
     {

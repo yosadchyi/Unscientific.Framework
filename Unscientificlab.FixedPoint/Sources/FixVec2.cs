@@ -22,7 +22,7 @@
  */
 
 
-namespace Unscientificlab.FixedPoint
+namespace Unscientific.FixedPoint
 {
 	public struct FixVec2
 	{
