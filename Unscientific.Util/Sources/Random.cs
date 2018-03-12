@@ -16,14 +16,14 @@
 
         public int Next()
         {
-            return (int) (XorShift128() & 0x7FFFFFFF);
+            return (int) (XorShift128() & 0x7FFFFFFFUL);
         }
 
         public int Next(int max)
         {
-            var next = XorShift128() & 0x7FFFFFFF;
+            var next = XorShift128() & 0x7FFFFFFFUL;
 
-            return (int) (next * (ulong) max / 0x7FFFFFFF);
+            return (int) (next * (ulong) max / 0x7FFFFFFFUL);
         }
 
         public int Next(int min, int max)
@@ -40,9 +40,9 @@
         private static ulong MurmurHash3(ulong h)
         {
             h ^= h >> 33;
-            h *= 0xff51afd7ed558ccdUL;
+            h *= 0xFF51AFD7ED558CCDUL;
             h ^= h >> 33;
-            h *= 0xc4ceb9fe1a85ec53UL;
+            h *= 0xC4CEB9FE1A85EC53UL;
             h ^= h >> 33;
             return h;
         }
