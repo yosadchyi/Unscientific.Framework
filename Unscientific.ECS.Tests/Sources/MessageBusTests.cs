@@ -94,7 +94,7 @@ namespace Unscientific.ECS.Tests
 
             _bus.Clear<TestMessage>();
 
-            foreach (var message in _bus.All<TestMessage>())
+            foreach (var unused in _bus.All<TestMessage>())
             {
                 count++;
             }
