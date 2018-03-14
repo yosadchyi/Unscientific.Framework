@@ -41,10 +41,10 @@ namespace Unscientific.ECS
                 module.Components().Register();
 
             foreach (var module in sortedModules)
-                module.Messages().Register(MessageBus);
+                module.Contexts().Register(referenceTrackerFactory);
 
             foreach (var module in sortedModules)
-                module.Contexts().Register(referenceTrackerFactory);
+                module.Messages().Register(MessageBus);
 
             // add systems
             var builder = new Systems.Builder();
@@ -122,6 +122,12 @@ namespace Unscientific.ECS
         {
             Systems.Cleanup();
             MessageBus.Cleanup();
+        }
+
+        public void Clear()
+        {
+            MessageBus.Clear();
+            Contexts.Clear();
         }
     }
 }

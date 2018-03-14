@@ -117,6 +117,12 @@ namespace Unscientific.ECS.Modules.Tests.Base
                 .Build();
         }
 
+        [TearDown]
+        public void TearDown()
+        {
+            _application.Clear();
+        }
+
         [Test]
         public void TestUpdateSystem()
         {

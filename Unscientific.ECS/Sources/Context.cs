@@ -66,7 +66,10 @@ namespace Unscientific.ECS
         }
 
         public Entity<TScope> Current {
-            get { return new Entity<TScope>(_current); }
+            get
+            {
+                return new Entity<TScope>(_current);
+            }
         }
     }
 
@@ -246,89 +249,14 @@ namespace Unscientific.ECS
         }
     }
 
-    // ReSharper disable once UnusedTypeParameter
-    internal static class ScopeData<TScope>
-    {
-        // ReSharper disable once HeapView.ObjectAllocation.Evident
-        // ReSharper disable once StaticMemberInGenericType
-        internal static readonly List<Type> ComponentTypes = new List<Type>();
-        // ReSharper disable once HeapView.ObjectAllocation.Evident
-        // ReSharper disable once StaticMemberInGenericType
-        internal static readonly List<Action<int, int>> RemoveActions = new List<Action<int, int>>();
-        // ReSharper disable once HeapView.ObjectAllocation.Evident
-        // ReSharper disable once StaticMemberInGenericType
-        internal static readonly List<Action<int>> InitActions = new List<Action<int>>();
-        // ReSharper disable once HeapView.ObjectAllocation.Evident
-        // ReSharper disable once StaticMemberInGenericType
-        internal static readonly List<Action<int>> ExtendActions = new List<Action<int>>();
-        // ReSharper disable once StaticMemberInGenericType
-        internal static readonly List<Action> CleanupActions = new List<Action>();
-
-        internal static void Reset()
-        {
-            ComponentTypes.Clear();
-            RemoveActions.Clear();
-            InitActions.Clear();
-            ExtendActions.Clear();
-            CleanupActions.Clear();
-        }
-    }
-
-    // ReSharper disable once ClassNeverInstantiated.Global
-    internal class ComponentData<TScope, TComponent> where TScope : IScope
-    {
-        // ReSharper disable once StaticMemberInGenericType
-        internal static int Id = -1;
-        internal static TComponent[] Data;
-        // ReSharper disable once StaticMemberInGenericType
-        internal static BitArray Present;
-
-        internal static void Init()
-        {
-            if (Id != -1)
-                return;
-
-            Id = StaticIdAllocator<ComponentData<TScope, TComponent>>.AllocateId();
-            ScopeData<TScope>.ComponentTypes.Add(typeof(TComponent));
-            ScopeData<TScope>.RemoveActions.Add((pos, last) =>
-            {
-                Data[pos] = Data[last];
-                Present[pos] = Present[last];
-
-                Data[last] = default(TComponent);
-                Present[last] = false;
-            });
-            ScopeData<TScope>.InitActions.Add(capacity =>
-            {
-                // ReSharper disable once HeapView.ObjectAllocation.Evident
-                Data = new TComponent[capacity];
-                // ReSharper disable once HeapView.ObjectAllocation.Evident
-                Present = new BitArray(capacity);
-            });
-            ScopeData<TScope>.ExtendActions.Add(capacity =>
-            {
-                if (Data.Length < capacity)
-                    Array.Resize(ref Data, capacity);
-                if (Present.Length < capacity)
-                    Present.Length = capacity;
-            });
-            ScopeData<TScope>.CleanupActions.Add(() =>
-            {
-                Array.Clear(Data, 0, Data.Length);
-                Present.SetAll(false);
-            });
-        }
-    }
-    
     public class ComponentRegistrations
     {
-        private delegate void RegisterDelegate();
-
-        private Delegate _delegate;
+        private event Action OnRegister = delegate { };
 
         public class ScopedRegistrator<TScope> where TScope : IScope
         {
             private readonly ComponentRegistrations _componentRegistrations;
+            // ReSharper disable once StaticMemberInGenericType
             private static readonly HashSet<Type> RegisteredComponents = new HashSet<Type>();
 
             public ScopedRegistrator(ComponentRegistrations componentRegistrations)
@@ -338,18 +266,17 @@ namespace Unscientific.ECS
 
             public ScopedRegistrator<TScope> Add<TComponent>()
             {
-                RegisterDelegate registerDelegate = () =>
-                {
-                    if (RegisteredComponents.Contains(typeof(TComponent)))
-                        return;
-
-                    ComponentData<TScope, TComponent>.Init();
-                    RegisteredComponents.Add(typeof(TComponent));
-                };
-
-                _componentRegistrations._delegate = _componentRegistrations._delegate == null ? registerDelegate : Delegate.Combine(_componentRegistrations._delegate, registerDelegate);
-
+                _componentRegistrations.OnRegister += DoRegister<TComponent>;
                 return this;
+            }
+
+            private static void DoRegister<TComponent>()
+            {
+                if (RegisteredComponents.Contains(typeof(TComponent)))
+                    return;
+
+                Context<TScope>.ComponentData<TComponent>.Init();
+                RegisteredComponents.Add(typeof(TComponent));
             }
 
             public ComponentRegistrations End()
@@ -365,43 +292,83 @@ namespace Unscientific.ECS
 
         public void Register()
         {
-            _delegate?.DynamicInvoke();
-        }
-    }
-
-    public class ContextRegistrations
-    {
-        private delegate void RegisterDelegate(ReferenceTrackerFactory referenceTrackerFactory);
-
-        private static readonly HashSet<Type> RegisteredContexts = new HashSet<Type>();
-        private Delegate _delegate;
-
-        public ContextRegistrations Add<TScope>() where TScope : IScope
-        {
-            RegisterDelegate registerDelegate = RegisterContext<TScope>;
-
-            _delegate = _delegate == null ? registerDelegate : Delegate.Combine(_delegate, registerDelegate);
-
-            return this;
-        }
-
-        private static void RegisterContext<TScope>(ReferenceTrackerFactory referenceTrackerFactory) where TScope : IScope
-        {
-            if (RegisteredContexts.Contains(typeof(TScope)))
-                return;
-
-            new Context<TScope>.Initializer().Initialize();
-            RegisteredContexts.Add(typeof(TScope));
-        }
-
-        public void Register(ReferenceTrackerFactory referenceTrackerFactory)
-        {
-            _delegate?.DynamicInvoke(referenceTrackerFactory);
+            OnRegister();
         }
     }
 
     public class Context<TScope> where TScope : IScope
     {
+        #region Component Data
+        // ReSharper disable once HeapView.ObjectAllocation.Evident
+        // ReSharper disable once StaticMemberInGenericType
+        // ReSharper disable once CollectionNeverQueried.Global
+        internal static readonly List<Type> ComponentTypes = new List<Type>();
+        // ReSharper disable once HeapView.ObjectAllocation.Evident
+        // ReSharper disable once StaticMemberInGenericType
+        internal static event Action<int, int> OnRemove = delegate {  };
+        // ReSharper disable once HeapView.ObjectAllocation.Evident
+        // ReSharper disable once StaticMemberInGenericType
+        internal static event Action<int> OnInit = delegate {  };
+        // ReSharper disable once HeapView.ObjectAllocation.Evident
+        // ReSharper disable once StaticMemberInGenericType
+        internal static event Action<int> OnGrow = delegate {  };
+        // ReSharper disable once StaticMemberInGenericType
+        internal static event Action OnClear = delegate {  };
+
+        // ReSharper disable once ClassNeverInstantiated.Global
+        internal class ComponentData<TComponent>
+        {
+            // ReSharper disable once StaticMemberInGenericType
+            // ReSharper disable once MemberCanBePrivate.Global
+            internal static int Id = -1;
+            internal static TComponent[] Data;
+            // ReSharper disable once StaticMemberInGenericType
+            internal static BitArray Present;
+
+            internal static void Init()
+            {
+                if (Id != -1)
+                    return;
+
+                Id = StaticIdAllocator<ComponentData<TComponent>>.AllocateId();
+                ComponentTypes.Add(typeof(TComponent));
+                OnInit += Init;
+                OnRemove += Remove;
+                OnGrow += Grow;
+                OnClear += Clear;
+            }
+
+            private static void Clear()
+            {
+                Array.Clear(Data, 0, Data.Length);
+                Present.SetAll(false);
+            }
+
+            private static void Grow(int capacity)
+            {
+                if (Data.Length < capacity) Array.Resize(ref Data, capacity);
+                if (Present.Length < capacity) Present.Length = capacity;
+            }
+
+            private static void Init(int capacity)
+            {
+                // ReSharper disable once HeapView.ObjectAllocation.Evident
+                Data = new TComponent[capacity];
+                // ReSharper disable once HeapView.ObjectAllocation.Evident
+                Present = new BitArray(capacity);
+            }
+
+            private static void Remove(int pos, int last)
+            {
+                Data[pos] = Data[last];
+                Present[pos] = Present[last];
+
+                Data[last] = default(TComponent);
+                Present[last] = false;
+            }
+        }
+        #endregion
+
         public class Initializer
         {
             private int _initialCapacity = 128;
@@ -409,7 +376,7 @@ namespace Unscientific.ECS
 
             public Initializer()
             {
-                ComponentData<TScope, Identifier>.Init();
+                ComponentData<Identifier>.Init();
             }
 
             public Initializer WithReferenceTrackerFactory(ReferenceTrackerFactory referenceTrackerFactory)
@@ -480,27 +447,19 @@ namespace Unscientific.ECS
                 _freeList.Push(i + 1);
 
             // Initialize scopes
-            foreach (var initAction in ScopeData<TScope>.InitActions)
-                initAction(_capacity);
+            OnInit(_capacity);
 
             _count = 0;
             Instance = this;
         }
 
-        public void EnsureCapacity(int capacity)
+        public Entity<TScope> GetEntityById(int id)
         {
-            if (capacity > _capacity)
-                Grow(capacity);
-        }
-
-        internal void Retain(Entity<TScope> entity)
-        {
-            _referenceTracker.Retain(entity.Id);
-        }
-
-        internal void Release(Entity<TScope> entity)
-        {
-            _referenceTracker.Release(entity.Id);
+#if !UNSAFE_ECS
+            if (_id2Index[id - 1] == -1)
+                throw new EntityDoesNotExistsException<TScope>(id);
+#endif
+            return new Entity<TScope>(_id2Index[id - 1]);
         }
 
         public Entity<TScope> CreateEntity()
@@ -519,23 +478,14 @@ namespace Unscientific.ECS
             return entity;
         }
 
-        private void Grow(int newCapacity)
+        internal void Retain(Entity<TScope> entity)
         {
-            Array.Resize(ref _id2Index, newCapacity);
+            _referenceTracker.Retain(entity.Id);
+        }
 
-#if !UNSAFE_ECS
-            for (var i = _capacity; i < newCapacity; i++)
-                _id2Index[i] = -1;
-#endif
-            for (var i = newCapacity - 1; i >= _capacity; i--)
-                _freeList.Push(i + 1);
-
-            _referenceTracker.Grow(newCapacity);
-
-            foreach (var extend in ScopeData<TScope>.ExtendActions)
-                extend(newCapacity);
-
-            _capacity = newCapacity;
+        internal void Release(Entity<TScope> entity)
+        {
+            _referenceTracker.Release(entity.Id);
         }
 
         public void DestroyEntity(Entity<TScope> entity)
@@ -552,41 +502,56 @@ namespace Unscientific.ECS
 #endif
             var lastId = Get<Identifier>(lastIndex).Value;
 
-            foreach (var rm in ScopeData<TScope>.RemoveActions)
-                rm(index, lastIndex);
+            OnRemove(index, lastIndex);
 
             _id2Index[lastId - 1] = index;
             _count--;
         }
 
-        public Entity<TScope> GetEntityById(int id)
+        public void EnsureCapacity(int capacity)
         {
-#if !UNSAFE_ECS
-            if (_id2Index[id - 1] == -1)
-                throw new EntityDoesNotExistsException<TScope>(id);
-#endif
-            return new Entity<TScope>(_id2Index[id - 1]);
+            if (capacity > _capacity)
+                Grow(capacity);
         }
 
+        private void Grow(int newCapacity)
+        {
+            Array.Resize(ref _id2Index, newCapacity);
+
+#if !UNSAFE_ECS
+            for (var i = _capacity; i < newCapacity; i++)
+                _id2Index[i] = -1;
+#endif
+            for (var i = newCapacity - 1; i >= _capacity; i--)
+                _freeList.Push(i + 1);
+
+            _referenceTracker.Grow(newCapacity);
+
+            OnGrow(newCapacity);
+
+            _capacity = newCapacity;
+        }
+
+        #region Accessing Components
         internal TComponent Get<TComponent>(int index)
         {
 #if !UNSAFE_ECS
             EnsureComponentExists<TComponent>(index);
 #endif
-            return ComponentData<TScope, TComponent>.Data[index];
+            return ComponentData<TComponent>.Data[index];
         }
 
         internal void Add<TComponent>(int index, TComponent component)
         {
 #if !UNSAFE_ECS
-            if (ComponentData<TScope, TComponent>.Present[index])
+            if (ComponentData<TComponent>.Present[index])
             {
                 // ReSharper disable once HeapView.ObjectAllocation.Evident
                 throw new EntityAlreadyHasComponentException<TScope, TComponent>(index);
             }
 #endif
-            ComponentData<TScope, TComponent>.Present[index] = true;
-            ComponentData<TScope, TComponent>.Data[index] = component;
+            ComponentData<TComponent>.Present[index] = true;
+            ComponentData<TComponent>.Data[index] = component;
         }
 
         internal void Replace<TComponent>(int index, TComponent component)
@@ -594,7 +559,7 @@ namespace Unscientific.ECS
 #if !UNSAFE_ECS
             EnsureComponentExists<TComponent>(index);
 #endif
-            ComponentData<TScope, TComponent>.Data[index] = component;
+            ComponentData<TComponent>.Data[index] = component;
         }
 
         internal void Remove<TComponent>(int index)
@@ -602,29 +567,31 @@ namespace Unscientific.ECS
 #if !UNSAFE_ECS
             EnsureComponentExists<TComponent>(index);
 #endif
-            ComponentData<TScope, TComponent>.Present[index] = false;
-            ComponentData<TScope, TComponent>.Data[index] = default(TComponent);
+            ComponentData<TComponent>.Present[index] = false;
+            ComponentData<TComponent>.Data[index] = default(TComponent);
         }
 
         internal bool Has<TComponent>(int index)
         {
-            return ComponentData<TScope, TComponent>.Present[index];
+            return ComponentData<TComponent>.Present[index];
         }
 
         internal bool Is<TComponent>(int index)
         {
-            return ComponentData<TScope, TComponent>.Present[index];
+            return ComponentData<TComponent>.Present[index];
         }
 
         private static void EnsureComponentExists<TComponent>(int index)
         {
-            if (!ComponentData<TScope, TComponent>.Present[index])
+            if (!ComponentData<TComponent>.Present[index])
             {
                 // ReSharper disable once HeapView.ObjectAllocation.Evident
                 throw new EntityHasNoComponentException<TScope, TComponent>(index);
             }
         }
+        #endregion
 
+        #region Enumerators
         public Entity<TScope> First()
         {
             return All().First();
@@ -664,11 +631,21 @@ namespace Unscientific.ECS
         {
             return new FilteringEntityEnumerable<TScope, TComponent1, TComponent2, TComponent3>(_count);
         }
+        #endregion
 
-        public void Cleanup()
+        public void Clear()
         {
-            foreach (var cleanup in ScopeData<TScope>.CleanupActions)
-                cleanup();
+            // clear all components
+            OnClear();
+
+            // clear members
+            for (var i = 0; i < _capacity; i++)
+                _id2Index[i] = -1;
+
+            _freeList.Clear();
+
+            for (var i = _capacity - 1; i >= 0; i--)
+                _freeList.Push(i + 1);
 
             _count = 0;
         }

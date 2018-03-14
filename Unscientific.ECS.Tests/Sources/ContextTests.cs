@@ -29,7 +29,7 @@ namespace Unscientific.ECS.Tests
         [TearDown]
         public void Teardown()
         {
-            _contexts.Get<TestScope>().Cleanup();
+            _contexts.Get<TestScope>().Clear();
         }
 
         [Test]

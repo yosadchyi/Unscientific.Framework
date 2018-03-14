@@ -78,7 +78,17 @@ namespace Unscientific.ECS
                 Array.Resize(ref _data, _data.Length * 2);
             _data[_count++] = message;
         }
-            
+
+        public void Reset()
+        {
+            for (var i = 0; i < _count; i++)
+            {
+                _data[i] = default(TMessage);
+            }
+
+            _count = 0;
+        }
+
         public void Clear()
         {
             for (var i = 0; i < _count; i++)
@@ -116,7 +126,7 @@ namespace Unscientific.ECS
             _nextFrameQueue.Add(message);
         }
 
-        internal static void OnCleanup()
+        internal static void Cleanup()
         {
             if (_nextFrameQueue != null)
             {
@@ -134,37 +144,34 @@ namespace Unscientific.ECS
 
         internal static void Clear()
         {
+            _nextFrameQueue?.Clear();
             Queue.Clear();
         }
     }
 
     public class MessageRegistrations
     {
-        private delegate void RegisterDelegate(MessageBus bus);
-
-        private Delegate _delegate;
-        private static readonly HashSet<Type> _registeredMessages = new HashSet<Type>();
+        private event Action<MessageBus> OnRegister = delegate {  };
+        private static readonly HashSet<Type> RegisteredMessages = new HashSet<Type>();
 
         public MessageRegistrations Add<TMessage>(bool hasNextFrameQueue = false, int initialCapacity = 128)
         {
-            RegisterDelegate registerDelegate = (bus) =>
+            OnRegister += bus =>
             {
-                if (_registeredMessages.Contains(typeof(TMessage)))
+                if (RegisteredMessages.Contains(typeof(TMessage)))
                     return;
 
                 MessageData<TMessage>.Init(initialCapacity, hasNextFrameQueue ? initialCapacity : -1);
-                MessageBus.OnCleanup += MessageData<TMessage>.OnCleanup;
-                _registeredMessages.Add(typeof(TMessage));
+                MessageBus.OnCleanup += MessageData<TMessage>.Cleanup;
+                MessageBus.OnClear += MessageData<TMessage>.Clear;
+                RegisteredMessages.Add(typeof(TMessage));
             };
-
-            _delegate = _delegate == null ? registerDelegate : Delegate.Combine(_delegate, registerDelegate);
-
             return this;
         }
 
         public void Register(MessageBus bus)
         {
-            _delegate?.DynamicInvoke(bus);
+            OnRegister(bus);
         }
     }
     
@@ -173,6 +180,7 @@ namespace Unscientific.ECS
         public static MessageBus Instance { get; private set; }
 
         internal static event Action OnCleanup = delegate { };
+        internal static event Action OnClear = delegate { };
 
         public MessageBus()
         {
@@ -196,17 +204,22 @@ namespace Unscientific.ECS
             return new MessageEnumerable<TMessage>(MessageData<TMessage>.Queue.Count);
         }
 
-        public void Clear<TMessage>()
-        {
-            MessageData<TMessage>.Clear();
-        }
-        
         /// <summary>
-        /// Reset method must be called every frame.
+        /// Cleanup method must be called every frame.
         /// </summary>
         public void Cleanup()
         {
             OnCleanup();
+        }
+
+        public void Clear()
+        {
+            OnClear();
+        }
+
+        public void Clear<TMessage>()
+        {
+            MessageData<TMessage>.Clear();
         }
     }
 }
