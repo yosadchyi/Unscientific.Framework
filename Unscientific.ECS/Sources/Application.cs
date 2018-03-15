@@ -6,6 +6,8 @@ namespace Unscientific.ECS
 {
     public class Application
     {
+        public static Application Instance { get; private set; }
+
         public MessageBus MessageBus { get; } = new MessageBus();
         public Contexts Contexts { get; } = new Contexts();
         public Systems Systems { get; }
@@ -53,6 +55,7 @@ namespace Unscientific.ECS
                 builder.Add(module.Systems(Contexts, MessageBus));
 
             Systems = builder.ReverseCleanupSystemsOrder().Build();
+            Instance = this;
         }
 
         private static List<IModule> TopologicalSort(List<IModule> modules)
