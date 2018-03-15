@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Unscientific.ECS
 {
@@ -7,6 +8,11 @@ namespace Unscientific.ECS
     {
         private readonly int _count;
         private int _current;
+
+        public TMessage Current
+        {
+            get { return MessageBus.Data<TMessage>.Queue[_current]; }
+        }
 
         public MessageEnumerator(int count)
         {
@@ -27,11 +33,6 @@ namespace Unscientific.ECS
         {
             _current = -1;
         }
-
-        public TMessage Current
-        {
-            get { return MessageData<TMessage>.Queue[_current]; }
-        }
     }
 
     public struct MessageEnumerable<TMessage>
@@ -50,8 +51,28 @@ namespace Unscientific.ECS
         }
     }
 
-    internal class MessageQueue<TMessage>
+    internal interface IMessageQueue<TMessage>
     {
+        int Count { get; }
+        TMessage this[int index] { get; }
+
+        void Add(ref TMessage message);
+        void Cleanup();
+        void Clear();
+    }
+
+    public delegate TKey MessageKeyExtractor<in TMessage, out TKey>(TMessage message);
+
+    public interface IMessageAggregator<TMessage>
+    {
+        bool AddIfNotContains(ref TMessage message);
+        void Clear();
+    }
+
+    internal class SimpleMessageQueue<TMessage>: IMessageQueue<TMessage>
+    {
+        private readonly IMessageAggregator<TMessage> _aggregator;
+
         public int Count
         {
             get { return _count; }
@@ -65,13 +86,17 @@ namespace Unscientific.ECS
         private TMessage[] _data;
         private int _count;
 
-        public MessageQueue(int capacity)
+        public SimpleMessageQueue(int capacity, IMessageAggregator<TMessage> aggregator)
         {
+            _aggregator = aggregator ?? new NullMessageAggregator<TMessage>();
             _data = new TMessage[capacity];
         }
 
-        public void Add(TMessage message)
+        public void Add(ref TMessage message)
         {
+            if (!_aggregator.AddIfNotContains(ref message))
+                return;
+            
             if (_data == null)
                 throw new MessageNotRegisteredException<TMessage>();
             if (_count == _data.Length)
@@ -79,73 +104,105 @@ namespace Unscientific.ECS
             _data[_count++] = message;
         }
 
-        public void Reset()
+        public void Clear()
         {
+            _aggregator.Clear();
+            
             for (var i = 0; i < _count; i++)
             {
                 _data[i] = default(TMessage);
             }
 
             _count = 0;
+        }
+
+        public void Cleanup()
+        {
+            Clear();
+        }
+    }
+
+    internal class DelayedMessageQueue<TMessage> : IMessageQueue<TMessage>
+    {
+        private IMessageQueue<TMessage> _queue1;
+        private IMessageQueue<TMessage> _queue2;
+
+        public int Count
+        {
+            get { return _queue1.Count; }
+        }
+
+        public TMessage this[int index]
+        {
+            get { return _queue1[index]; }
+        }
+
+        public DelayedMessageQueue(int capacity, IMessageAggregator<TMessage> aggregator)
+        {
+            // same aggregator is shared between both queues
+            _queue1 = new SimpleMessageQueue<TMessage>(capacity, aggregator);
+            _queue2 = new SimpleMessageQueue<TMessage>(capacity, aggregator);
+        }
+
+        public void Add(ref TMessage message)
+        {
+            _queue2.Add(ref message);
+        }
+
+        public void Cleanup()
+        {
+            var tmp = _queue1;
+            _queue1 = _queue2;
+            _queue2 = tmp;
+            // shared aggregator is cleared, so messages with same key can be sent next frame
+            _queue2.Clear();
+        }
+        
+        public void Clear()
+        {
+            _queue1.Clear();
+            _queue2.Clear();
+        }
+    }
+
+    internal class NullMessageAggregator<TMessage>: IMessageAggregator<TMessage>
+    {
+        public static NullMessageAggregator<TMessage> Instance { get; } = new NullMessageAggregator<TMessage>();
+        
+        public bool AddIfNotContains(ref TMessage message)
+        {
+            return true;
         }
 
         public void Clear()
         {
-            for (var i = 0; i < _count; i++)
-            {
-                _data[i] = default(TMessage);
-            }
-
-            _count = 0;
         }
     }
 
-    internal static class MessageData<TMessage>
+    public class KeyMessageAggregator<TMessage, TKey>: IMessageAggregator<TMessage>
     {
-        internal static MessageQueue<TMessage> Queue;
-        private static MessageQueue<TMessage> _nextFrameQueue;
+        private readonly MessageKeyExtractor<TMessage, TKey> _keyExtractor;
+        private readonly HashSet<TKey> _presentKeys = new HashSet<TKey>();
 
-        internal static void Init(int capacity, int nextFrameCapacity)
+        public KeyMessageAggregator(MessageKeyExtractor<TMessage, TKey> keyExtractor)
         {
-            Queue = new MessageQueue<TMessage>(capacity);
-            _nextFrameQueue = nextFrameCapacity >= 0 ? new MessageQueue<TMessage>(nextFrameCapacity) : null;
-        }
-        
-        public static bool IsInitialized()
-        {
-            return Queue != null;
+            _keyExtractor = keyExtractor;
         }
 
-        internal static void Add(TMessage message)
+        public bool AddIfNotContains(ref TMessage message)
         {
-            Queue.Add(message);
+            var key = _keyExtractor(message);
+
+            if (_presentKeys.Contains(key))
+                return false;
+
+            _presentKeys.Add(key);
+            return true;
         }
 
-        public static void AddNextFrame(TMessage message)
+        public void Clear()
         {
-            _nextFrameQueue.Add(message);
-        }
-
-        internal static void Cleanup()
-        {
-            if (_nextFrameQueue != null)
-            {
-                // swap current and next frame queue
-                var tmp = Queue;
-                Queue = _nextFrameQueue;
-                _nextFrameQueue = tmp;
-                _nextFrameQueue.Clear();
-            }
-            else
-            {
-                Queue.Clear();
-            }
-        }
-
-        internal static void Clear()
-        {
-            _nextFrameQueue?.Clear();
-            Queue.Clear();
+            _presentKeys.Clear();
         }
     }
 
@@ -154,16 +211,24 @@ namespace Unscientific.ECS
         private event Action<MessageBus> OnRegister = delegate {  };
         private static readonly HashSet<Type> RegisteredMessages = new HashSet<Type>();
 
-        public MessageRegistrations Add<TMessage>(bool hasNextFrameQueue = false, int initialCapacity = 128)
+        public MessageRegistrations Add<TMessage>(IMessageAggregator<TMessage> aggregator = null, int initialCapacity = 128)
+        {
+            return DoAdd<TMessage>(initialCapacity, capacity => MessageBus.Init(capacity, aggregator));
+        }
+
+        public MessageRegistrations AddDelayed<TMessage>(IMessageAggregator<TMessage> aggregator = null, int initialCapacity = 128)
+        {
+            return DoAdd<TMessage>(initialCapacity, capacity => MessageBus.InitDelayed(capacity, aggregator));
+        }
+
+        private MessageRegistrations DoAdd<TMessage>(int initialCapacity, Action<int> initializer)
         {
             OnRegister += bus =>
             {
                 if (RegisteredMessages.Contains(typeof(TMessage)))
                     return;
 
-                MessageData<TMessage>.Init(initialCapacity, hasNextFrameQueue ? initialCapacity : -1);
-                MessageBus.OnCleanup += MessageData<TMessage>.Cleanup;
-                MessageBus.OnClear += MessageData<TMessage>.Clear;
+                initializer(initialCapacity);
                 RegisteredMessages.Add(typeof(TMessage));
             };
             return this;
@@ -175,8 +240,14 @@ namespace Unscientific.ECS
         }
     }
     
+    [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global")]
     public class MessageBus
     {
+        internal static class Data<TMessage>
+        {
+            internal static IMessageQueue<TMessage> Queue;
+        }
+        
         public static MessageBus Instance { get; private set; }
 
         internal static event Action OnCleanup = delegate { };
@@ -187,21 +258,30 @@ namespace Unscientific.ECS
             Instance = this;
         }
 
-        public void Send<TMessage>(TMessage message)
+        internal static void Init<TMessage>(int capacity, IMessageAggregator<TMessage> aggregator)
         {
-            MessageData<TMessage>.Add(message);
+            Data<TMessage>.Queue = new SimpleMessageQueue<TMessage>(capacity, aggregator);
+            OnCleanup += Data<TMessage>.Queue.Cleanup;
+            OnClear += Data<TMessage>.Queue.Clear;
         }
 
-        public void SendNextFrame<TMessage>(TMessage message)
+        internal static void InitDelayed<TMessage>(int capacity, IMessageAggregator<TMessage> aggregator)
         {
-            MessageData<TMessage>.AddNextFrame(message);
+            Data<TMessage>.Queue = new DelayedMessageQueue<TMessage>(capacity, aggregator);
+            OnCleanup += Data<TMessage>.Queue.Cleanup;
+            OnClear += Data<TMessage>.Queue.Clear;
+        }
+
+        public void Send<TMessage>(TMessage message)
+        {
+            Data<TMessage>.Queue.Add(ref message);
         }
 
         public MessageEnumerable<TMessage> All<TMessage>()
         {
-            if (!MessageData<TMessage>.IsInitialized())
+            if (Data<TMessage>.Queue == null)
                 throw new MessageNotRegisteredException<TMessage>();
-            return new MessageEnumerable<TMessage>(MessageData<TMessage>.Queue.Count);
+            return new MessageEnumerable<TMessage>(Data<TMessage>.Queue.Count);
         }
 
         /// <summary>
@@ -219,7 +299,7 @@ namespace Unscientific.ECS
 
         public void Clear<TMessage>()
         {
-            MessageData<TMessage>.Clear();
+            Data<TMessage>.Queue.Clear();
         }
     }
 }

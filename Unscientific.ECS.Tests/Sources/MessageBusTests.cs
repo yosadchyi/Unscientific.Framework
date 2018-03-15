@@ -13,7 +13,9 @@ namespace Unscientific.ECS.Tests
             _bus = new MessageBus();
 
             new MessageRegistrations()
-                .Add<TestMessage>(true)
+                .Add<TestMessage>()
+                .Add<AggregatedTestMessage>(new KeyMessageAggregator<AggregatedTestMessage, int>(m => m.Value))
+                .AddDelayed<DelayedTestMessage>()
                 .Register(_bus);
         }
 
@@ -40,27 +42,26 @@ namespace Unscientific.ECS.Tests
         }
 
         [Test]
-        public void SendNextFrameShouldDeliverMessageOnNextFrame()
+        public void DelayedMessagesShouldBeDeliveredNextFrame()
         {
             var count = 0;
             
-            _bus.Send(new TestMessage(1));
-            _bus.SendNextFrame(new TestMessage(2));
+            _bus.Send(new DelayedTestMessage(1));
 
-            foreach (var message in _bus.All<TestMessage>())
+            foreach (var message in _bus.All<DelayedTestMessage>())
             {
-                Assert.AreEqual(1, message.Value);
                 count++;
             }
 
-            Assert.AreEqual(1, count);
+            Assert.AreEqual(0, count);
 
             _bus.Cleanup();
+
             count = 0;
 
-            foreach (var message in _bus.All<TestMessage>())
+            foreach (var message in _bus.All<DelayedTestMessage>())
             {
-                Assert.AreEqual(2, message.Value);
+                Assert.AreEqual(1, message.Value);
                 count++;
             }
 
@@ -82,6 +83,23 @@ namespace Unscientific.ECS.Tests
             }
             
             Assert.AreEqual(16, count);
+        }
+
+        [Test]
+        public void MessagesWithSameKeyShouldBeAggregated()
+        {
+            var count = 0;
+            
+            for (var i = 0; i < 16; i++)
+                _bus.Send(new AggregatedTestMessage(i / 2));
+
+            foreach (var message in _bus.All<AggregatedTestMessage>())
+            {
+                Assert.AreEqual(count, message.Value);
+                count++;
+            }
+            
+            Assert.AreEqual(8, count);
         }
 
         [Test]
