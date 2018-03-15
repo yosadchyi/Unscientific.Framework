@@ -73,18 +73,11 @@ namespace Unscientific.ECS
     {
         private readonly IMessageAggregator<TMessage> _aggregator;
 
-        public int Count
-        {
-            get { return _count; }
-        }
+        public int Count { get; private set; }
 
-        public TMessage this[int index]
-        {
-            get { return _data[index]; }
-        }
-            
+        public TMessage this[int index] => _data[index];
+
         private TMessage[] _data;
-        private int _count;
 
         public SimpleMessageQueue(int capacity, IMessageAggregator<TMessage> aggregator)
         {
@@ -99,21 +92,21 @@ namespace Unscientific.ECS
             
             if (_data == null)
                 throw new MessageNotRegisteredException<TMessage>();
-            if (_count == _data.Length)
+            if (Count == _data.Length)
                 Array.Resize(ref _data, _data.Length * 2);
-            _data[_count++] = message;
+            _data[Count++] = message;
         }
 
         public void Clear()
         {
             _aggregator.Clear();
             
-            for (var i = 0; i < _count; i++)
+            for (var i = 0; i < Count; i++)
             {
                 _data[i] = default(TMessage);
             }
 
-            _count = 0;
+            Count = 0;
         }
 
         public void Cleanup()
