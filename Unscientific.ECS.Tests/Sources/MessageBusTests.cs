@@ -14,7 +14,7 @@ namespace Unscientific.ECS.Tests
 
             new MessageRegistrations()
                 .Add<TestMessage>()
-                .Add<AggregatedTestMessage>(new KeyMessageAggregator<AggregatedTestMessage, int>(m => m.Value))
+                .Add(new KeyMessageAggregator<AggregatedTestMessage, int>(m => m.Value))
                 .AddDelayed<DelayedTestMessage>()
                 .Register(_bus);
         }
@@ -48,10 +48,8 @@ namespace Unscientific.ECS.Tests
             
             _bus.Send(new DelayedTestMessage(1));
 
-            foreach (var message in _bus.All<DelayedTestMessage>())
-            {
+            foreach (var unused in _bus.All<DelayedTestMessage>())
                 count++;
-            }
 
             Assert.AreEqual(0, count);
 
@@ -113,10 +111,8 @@ namespace Unscientific.ECS.Tests
             _bus.Clear<TestMessage>();
 
             foreach (var unused in _bus.All<TestMessage>())
-            {
                 count++;
-            }
-            
+
             Assert.AreEqual(0, count);
         }
 
