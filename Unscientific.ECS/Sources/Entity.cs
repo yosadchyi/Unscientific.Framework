@@ -33,6 +33,11 @@ namespace Unscientific.ECS
             get { return Get<Identifier>().Value; }
         }
 
+        public Context<TScope> Context
+        {
+            get { return Context<TScope>.Instance; }
+        }
+
         internal Entity(int index)
         {
             Index = index;
@@ -40,43 +45,43 @@ namespace Unscientific.ECS
 
         public EntityRef<TScope> Retain()
         {
-            Context<TScope>.Instance.Retain(this);
+            Context.Retain(this);
             return new EntityRef<TScope>(Id);
         }
 
         [Pure]
         public TComponent Get<TComponent>()
         {
-            return Context<TScope>.Instance.Get<TComponent>(Index);
+            return Context.Get<TComponent>(Index);
         }
 
         [Pure]
         public bool Is<TComponent>()
         {
-            return Context<TScope>.Instance.Is<TComponent>(Index);
+            return Context.Is<TComponent>(Index);
         }
 
         [Pure]
         public bool Has<TComponent>()
         {
-            return Context<TScope>.Instance.Has<TComponent>(Index);
+            return Context.Has<TComponent>(Index);
         }
 
         public Entity<TScope> Add<TComponent>(TComponent component)
         {
-            Context<TScope>.Instance.Add(Index, component);
+            Context.Add(Index, component);
             return this;
         }
 
         public Entity<TScope> Remove<TComponent>()
         {
-            Context<TScope>.Instance.Remove<TComponent>(Index);
+            Context.Remove<TComponent>(Index);
             return this;
         }
 
         public Entity<TScope> Replace<TComponent>(TComponent component)
         {
-            Context<TScope>.Instance.Replace(Index, component);
+            Context.Replace(Index, component);
             return this;
         }
     }
