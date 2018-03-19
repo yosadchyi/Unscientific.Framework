@@ -9,7 +9,7 @@ namespace Unscientific.ECS.Modules.Physics
 
         public MoveSystem(Contexts contexts)
         {
-            _configuration = contexts.Get<Configuration>().First();
+            _configuration = contexts.Singleton<Configuration>();
             _simulation = contexts.Get<Simulation>();
         }
 

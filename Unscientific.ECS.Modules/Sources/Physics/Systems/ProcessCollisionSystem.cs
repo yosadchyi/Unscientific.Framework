@@ -23,7 +23,7 @@ namespace Unscientific.ECS.Modules.Physics
         {
             _messageBus = messageBus;
             _callback = CheckCollision;
-            _singletons = contexts.Get<Singletons>().First();
+            _singletons = contexts.Singleton<Singletons>();
             _simulation = contexts.Get<Simulation>();
         }
 

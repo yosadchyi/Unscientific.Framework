@@ -11,7 +11,7 @@ namespace Unscientific.ECS.Modules.Physics
         public AngularAccelerateSystem(Contexts contexts)
         {
             _simulation = contexts.Get<Simulation>();
-            _configuration = contexts.Get<Configuration>().First();
+            _configuration = contexts.Singleton<Configuration>();
         }
 
         public void Update()

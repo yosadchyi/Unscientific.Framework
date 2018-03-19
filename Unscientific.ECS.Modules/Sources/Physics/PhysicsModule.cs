@@ -1,5 +1,6 @@
 ﻿using System;
 using Unscientific.ECS.Modules.Core;
+using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Physics
 {
@@ -8,10 +9,17 @@ namespace Unscientific.ECS.Modules.Physics
         public class Builder : IModuleBuilder
         {
             private ISpatialDatabase _spatialDatabase;
+            private Fix _timeStep = Fix.Ratio(1, 60);
     
             public Builder WithSpatialDatabase(ISpatialDatabase spatialDatabase)
             {
                 _spatialDatabase = spatialDatabase;
+                return this;
+            }
+
+            public Builder WithTimeStep(Fix timeStep)
+            {
+                _timeStep = timeStep;
                 return this;
             }
             
@@ -54,7 +62,7 @@ namespace Unscientific.ECS.Modules.Physics
                         .AddComponentNotifications<Orientation>()
                     .End()
                     .Systems()
-                        .Add((contexts, messageBus) => new SpaceSetupSystem(contexts, _spatialDatabase))
+                        .Add((contexts, messageBus) => new SetupSystem(contexts, _spatialDatabase, _timeStep))
                         .Add((contexts, messageBus) => new AccelerateSystem(contexts))
                         .Add((contexts, messageBus) => new AngularAccelerateSystem(contexts))
                         .Add((contexts, messageBus) => new MoveSystem(contexts))

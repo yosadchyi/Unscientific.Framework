@@ -45,6 +45,7 @@
     <Compile Include="Sources\Core\Builders\ModuleUsagesBuilder.cs" />
     <Compile Include="Sources\Core\Builders\NotificationRegistrationsBuilder.cs" />
     <Compile Include="Sources\Core\Builders\SystemsBuilder.cs" />
+    <Compile Include="Sources\Core\ContextExtensions.cs" />
     <Compile Include="Sources\Core\CoreModule.cs" />
     <Compile Include="Sources\Core\Components.cs" />
     <Compile Include="Sources\Core\EntityExtensions.cs" />
@@ -79,7 +80,7 @@
     <Compile Include="Sources\Physics\Systems\AccelerateSystem.cs" />
     <Compile Include="Sources\Physics\Systems\AngularAccelerateSystem.cs" />
     <Compile Include="Sources\Physics\Systems\CollisionsCleanupSystem.cs" />
-    <Compile Include="Sources\Physics\Systems\SpaceSetupSystem.cs" />
+    <Compile Include="Sources\Physics\Systems\SetupSystem.cs" />
     <Compile Include="Sources\Physics\Systems\MoveSystem.cs" />
     <Compile Include="Sources\Physics\Systems\ProcessCollisionSystem.cs" />
     <Compile Include="Sources\Physics\Systems\RotateSystem.cs" />
