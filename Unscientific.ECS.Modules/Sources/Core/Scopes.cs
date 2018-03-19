@@ -3,21 +3,21 @@
     /// <summary>
     /// Simulation scope, used for deterministic simulation
     /// </summary>
-    public class Simulation : IScope
+    public abstract class Simulation : IScope
     {
     }
 
     /// <summary>
     /// Configuration scope
     /// </summary>
-    public class Configuration : IScope
+    public abstract class Configuration : IScope
     {
     }
 
     /// <summary>
     /// Singleton scope
     /// </summary>
-    public class Singletons : IScope
+    public abstract class Singletons : IScope
     {
     }
 }

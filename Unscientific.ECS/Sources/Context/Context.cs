@@ -376,6 +376,7 @@ namespace Unscientific.ECS
         public class Initializer
         {
             private int _initialCapacity = 128;
+            private int _maxCapacity = int.MaxValue;
             private ReferenceTrackerFactory _referenceTrackerFactory;
 
             public Initializer()
@@ -395,6 +396,12 @@ namespace Unscientific.ECS
                 return this;
             }
 
+            public Initializer WithMaxCapacity(int capacity)
+            {
+                _maxCapacity = capacity;
+                return this;
+            }
+
             public Context<TScope> Initialize()
             {
                 if (_referenceTrackerFactory == null)
@@ -406,7 +413,7 @@ namespace Unscientific.ECS
 #endif
                 }
                 // ReSharper disable once HeapView.ObjectAllocation.Evident
-                return new Context<TScope>(_initialCapacity, _referenceTrackerFactory);
+                return new Context<TScope>(_initialCapacity, _maxCapacity, _referenceTrackerFactory);
             }
         }
 
@@ -433,13 +440,15 @@ namespace Unscientific.ECS
         private int _count;
 
         private int _capacity;
+        private readonly int _maxCapacity;
         private readonly IReferenceTracker _referenceTracker;
         private readonly Stack<int> _freeList;
         private int[] _id2Index;
 
-        private Context(int initialCapacity, ReferenceTrackerFactory referenceTrackerFactory)
+        private Context(int initialCapacity, int maxCapacity, ReferenceTrackerFactory referenceTrackerFactory)
         {
             _capacity = initialCapacity;
+            _maxCapacity = maxCapacity;
             _referenceTracker = referenceTrackerFactory(_capacity);
             _freeList = new Stack<int>(_capacity);
             _id2Index = new int[_capacity];
@@ -469,7 +478,12 @@ namespace Unscientific.ECS
         public Entity<TScope> CreateEntity()
         {
             if (_count == _capacity)
-                Grow(_capacity * 2);
+            {
+                if (_capacity == _maxCapacity)
+                    throw new ContextReachedMaximalCapacity<TScope>(_maxCapacity);
+
+                Grow(Math.Min(_maxCapacity, _capacity * 2));
+            }
 
             var index = _count;
             _count++;
@@ -510,12 +524,6 @@ namespace Unscientific.ECS
 
             _id2Index[lastId - 1] = index;
             _count--;
-        }
-
-        public void EnsureCapacity(int capacity)
-        {
-            if (capacity > _capacity)
-                Grow(capacity);
         }
 
         private void Grow(int newCapacity)

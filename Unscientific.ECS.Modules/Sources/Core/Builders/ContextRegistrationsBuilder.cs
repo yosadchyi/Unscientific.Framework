@@ -13,9 +13,9 @@
                     _builder = builder;
                 }
 
-                public ContextRegistrationsBuilder Add<TScope>(int initialCapacity = 128) where TScope : IScope
+                public ContextRegistrationsBuilder Add<TScope>(int initialCapacity = 128, int maxCapacity = int.MaxValue) where TScope : IScope
                 {
-                    _builder._contextRegistrations.Add<TScope>(initialCapacity);
+                    _builder._contextRegistrations.Add<TScope>(initialCapacity, maxCapacity);
                     return this;
                 }
 
