@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
-using Unscientific.ECS.Listener;
 
 namespace Unscientific.ECS
 {
@@ -248,28 +247,6 @@ namespace Unscientific.ECS
 
             throw new NoEntitiesException();
         }
-    }
-
-    public interface IComponentAddedListener<TScope, in TComponent> where TScope : IScope
-    {
-        void OnComponentAdded(Entity<TScope> entity, TComponent component);
-    }
-
-    public interface IComponentRemovedListener<TScope, in TComponent> where TScope : IScope
-    {
-        void OnComponentRemoved(Entity<TScope> entity, TComponent component);
-    }
-
-    public interface IComponentReplacedListener<TScope, in TComponent> where TScope : IScope
-    {
-        void OnComponentReplaced(Entity<TScope> entity, TComponent oldComponent, TComponent newComponent);
-    }
-
-    public interface IComponentListener<TScope, in TComponent>
-        : IComponentAddedListener<TScope, TComponent>,
-          IComponentRemovedListener<TScope, TComponent>,
-          IComponentReplacedListener<TScope, TComponent> where TScope : IScope
-    {
     }
 
     public delegate void ComponentAddedHandler<TScope, in TComponent>(Entity<TScope> entity, TComponent component) where TScope : IScope;

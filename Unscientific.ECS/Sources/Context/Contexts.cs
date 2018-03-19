@@ -7,18 +7,21 @@ namespace Unscientific.ECS
     {
         private event Action<ReferenceTrackerFactory> OnRegister = delegate { };
 
-        public ContextRegistrations Add<TScope>() where TScope : IScope
+        public ContextRegistrations Add<TScope>(int initialCapacity) where TScope : IScope
         {
-            OnRegister += RegisterContext<TScope>;
+            OnRegister += referenceTrackerFactory => RegisterContext<TScope>(referenceTrackerFactory, initialCapacity);
             return this;
         }
 
-        private static void RegisterContext<TScope>(ReferenceTrackerFactory referenceTrackerFactory) where TScope : IScope
+        private static void RegisterContext<TScope>(ReferenceTrackerFactory referenceTrackerFactory, int initialCapacity) where TScope : IScope
         {
             if (Contexts.RegisteredContexts.Contains(typeof(TScope)))
                 return;
 
-            var context = new Context<TScope>.Initializer().Initialize();
+            var context = new Context<TScope>.Initializer()
+                .WithReferenceTrackerFactory(referenceTrackerFactory)
+                .WithInitialCapacity(initialCapacity)
+                .Initialize();
             Contexts.OnClear += context.Clear;
             Contexts.RegisteredContexts.Add(typeof(TScope));
         }

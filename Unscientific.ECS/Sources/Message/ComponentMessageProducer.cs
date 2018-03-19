@@ -1,4 +1,4 @@
-﻿namespace Unscientific.ECS.Listener
+﻿namespace Unscientific.ECS
 {
     public struct ComponentAdded<TScope, TComponent> where TScope : IScope
     {

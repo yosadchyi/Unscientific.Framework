@@ -49,7 +49,7 @@ namespace Unscientific.ECS
                 module.Messages().Register(MessageBus);
 
             foreach (var module in sortedModules)
-                module.MessageProducers().Register(Contexts, MessageBus);
+                module.Notifications().Register(Contexts, MessageBus);
 
             // add systems
             var builder = new Systems.Builder();
@@ -64,7 +64,7 @@ namespace Unscientific.ECS
         private static List<IModule> TopologicalSort(List<IModule> modules)
         {
             var types = modules.Select(m => m.GetType()).ToList();
-            var type2Module = modules.ToDictionary(m => m.GetType(), m => m);
+            var type2Module = modules.Select(m => m).ToDictionary(m => m.GetType(), m => m);
             var inDegree = modules.ToDictionary(m => m.GetType(), m => 0);
             var stack = new Stack<Type>();
             var queue = new Queue<Type>();

@@ -3,7 +3,7 @@ using Unscientific.ECS.Modules.Core;
 
 namespace Unscientific.ECS.Modules.Physics
 {
-    public class PhysicsModule: IModuleTag
+    public abstract class PhysicsModule: IModuleTag
     {
         public class Builder : IModuleBuilder
         {
@@ -48,6 +48,10 @@ namespace Unscientific.ECS.Modules.Physics
                     .End()
                     .Components<Singletons>()
                         .Add<Space>()
+                    .End()
+                    .Notifications<Simulation>()
+                        .AddComponentNotifications<Position>()
+                        .AddComponentNotifications<Orientation>()
                     .End()
                     .Systems()
                         .Add((contexts, messageBus) => new SpaceSetupSystem(contexts, _spatialDatabase))

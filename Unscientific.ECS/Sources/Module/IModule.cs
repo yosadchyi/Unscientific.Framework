@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unscientific.ECS.Listener;
 
 namespace Unscientific.ECS
 {
@@ -21,7 +20,7 @@ namespace Unscientific.ECS
         ContextRegistrations Contexts();
         MessageRegistrations Messages();
         ComponentRegistrations Components();
-        MessageProducerRegistrations MessageProducers();
+        NotificationRegistrations Notifications();
         Systems Systems(Contexts contexts, MessageBus bus);
     }
 }

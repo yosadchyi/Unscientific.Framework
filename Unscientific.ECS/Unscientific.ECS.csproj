@@ -58,13 +58,14 @@
     <Compile Include="Sources\Exception\ReleasingRetainedEntityException.cs" />
     <Compile Include="Sources\Exception\TryingToDestroyReferencedEntity.cs" />
     <Compile Include="Sources\Message\ComponentMessageProducer.cs" />
+    <Compile Include="Sources\Message\ComponentAddedNotificationSystem.cs" />
+    <Compile Include="Sources\Message\IComponentListener.cs" />
     <Compile Include="Sources\Message\MessageBus.cs" />
-    <Compile Include="Sources\Message\MessageProducerRegistrations.cs" />
+    <Compile Include="Sources\Message\NotificationRegistrations.cs" />
     <Compile Include="Sources\Message\MessageRegistrations.cs" />
     <Compile Include="Sources\Module\IModule.cs" />
     <Compile Include="Sources\Module\IModuleBuilder.cs" />
     <Compile Include="Sources\Module\IModuleTag.cs" />
-    <Compile Include="Sources\Module\Module.cs" />
     <Compile Include="Sources\ReferenceTracking\CountingReferenceTracker.cs" />
     <Compile Include="Sources\ReferenceTracking\IReferenceTracker.cs" />
     <Compile Include="Sources\ReferenceTracking\ReferenceTrackerFactory.cs" />

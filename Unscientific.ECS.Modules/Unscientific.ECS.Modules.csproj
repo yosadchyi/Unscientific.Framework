@@ -38,10 +38,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sources\Core\Builders\ComponentRegistrationsBuilder.cs" />
+    <Compile Include="Sources\Core\Builders\ContextRegistrationsBuilder.cs" />
+    <Compile Include="Sources\Core\Builders\MessageRegistrationsBuilder.cs" />
+    <Compile Include="Sources\Core\Builders\ModuleBuilder.cs" />
+    <Compile Include="Sources\Core\Builders\ModuleUsagesBuilder.cs" />
+    <Compile Include="Sources\Core\Builders\NotificationRegistrationsBuilder.cs" />
+    <Compile Include="Sources\Core\Builders\SystemsBuilder.cs" />
     <Compile Include="Sources\Core\CoreModule.cs" />
     <Compile Include="Sources\Core\Components.cs" />
     <Compile Include="Sources\Core\EntityExtensions.cs" />
     <Compile Include="Sources\Core\Messages.cs" />
+    <Compile Include="Sources\Core\Module.cs" />
     <Compile Include="Sources\Core\Scopes.cs" />
     <Compile Include="Sources\Core\Systems\DestroySystem.cs" />
     <Compile Include="Sources\Core\Systems\IncrementTickSystem.cs" />

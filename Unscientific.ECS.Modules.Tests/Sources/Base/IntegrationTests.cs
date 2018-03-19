@@ -78,7 +78,7 @@ namespace Unscientific.ECS.Modules.Tests.Base
         }
     }
 
-    public class MoveModule : IModuleTag
+    public abstract class MoveModule : IModuleTag
     {
         public class Builder: IModuleBuilder
         {

@@ -2,7 +2,7 @@
 
 namespace Unscientific.ECS.Modules.BehaviourTree
 {
-    public class BehaviourTreeModule: IModuleTag
+    public abstract class BehaviourTreeModule: IModuleTag
     {
         public class Builder: IModuleBuilder
         {

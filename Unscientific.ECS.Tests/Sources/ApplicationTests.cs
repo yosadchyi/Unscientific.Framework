@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
-using Unscientific.ECS.Listener;
 
 namespace Unscientific.ECS.Tests
 {
@@ -46,9 +45,9 @@ namespace Unscientific.ECS.Tests
                 return new ComponentRegistrations();
             }
 
-            public virtual MessageProducerRegistrations MessageProducers()
+            public virtual NotificationRegistrations Notifications()
             {
-                return new MessageProducerRegistrations();
+                return new NotificationRegistrations();
             }
 
             public abstract Systems Systems(Contexts contexts, MessageBus bus);
@@ -61,9 +60,9 @@ namespace Unscientific.ECS.Tests
                 return new Systems.Builder().Add(new AddModuleSystem(this)).Build();
             }
 
-            public override MessageProducerRegistrations MessageProducers()
+            public override NotificationRegistrations Notifications()
             {
-                return new MessageProducerRegistrations();
+                return new NotificationRegistrations();
             }
         }
 
