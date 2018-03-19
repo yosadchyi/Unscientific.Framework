@@ -85,7 +85,7 @@ namespace Unscientific.ECS.Benchmark
         }
     }
 
-    internal class Benchmark
+    public class Benchmark
     {
         private const int EntitiesCount = 1000;
         private const int RepeatCount = 10000;

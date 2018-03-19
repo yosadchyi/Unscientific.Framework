@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using NUnit.Framework;
+using Unscientific.ECS.Listener;
 
 namespace Unscientific.ECS.Tests
 {
@@ -22,42 +23,77 @@ namespace Unscientific.ECS.Tests
                 _modules.Add(_module);
             }
         }
-        
+
+        private abstract class AbstractModule: IModule
+        {
+            public virtual ModuleUsages Usages()
+            {
+                return new ModuleUsages();
+            }
+
+            public virtual ContextRegistrations Contexts()
+            {
+                return new ContextRegistrations();
+            }
+
+            public virtual MessageRegistrations Messages()
+            {
+                return new MessageRegistrations();
+            }
+
+            public virtual ComponentRegistrations Components()
+            {
+                return new ComponentRegistrations();
+            }
+
+            public virtual MessageProducerRegistrations MessageProducers()
+            {
+                return new MessageProducerRegistrations();
+            }
+
+            public abstract Systems Systems(Contexts contexts, MessageBus bus);
+        }
+
         private class EmptyModule : AbstractModule
         {
             public override Systems Systems(Contexts contexts, MessageBus bus)
             {
                 return new Systems.Builder().Add(new AddModuleSystem(this)).Build();
             }
+
+            public override MessageProducerRegistrations MessageProducers()
+            {
+                return new MessageProducerRegistrations();
+            }
         }
 
         private class ModuleA : EmptyModule
         {
-            public override ModuleImports Imports()
+            public override ModuleUsages Usages()
             {
-                return base.Imports()
-                    .Import<ModuleB>()
-                    .Import<ModuleD>();
+                return base.Usages()
+                    .Uses<ModuleB>()
+                    .Uses<ModuleD>();
             }
         }
 
         private class ModuleB : EmptyModule
         {
-            public override ModuleImports Imports()
+            public override ModuleUsages Usages()
             {
-                return base.Imports()
-                    .Import<ModuleC>()
-                    .Import<ModuleE>();
+                return base.Usages()
+                    .Uses<ModuleC>()
+                    .Uses<ModuleE>();
             }
         }
 
         private class ModuleC : EmptyModule
         {
-            public override ModuleImports Imports()
+            public override ModuleUsages Usages()
             {
-                return base.Imports()
-                    .Import<ModuleD>()
-                    .Import<ModuleE>();
+                return base.Usages()
+                    .Uses<ModuleD>()
+                    .Uses<ModuleE>();
             }
         }
 
@@ -70,13 +106,13 @@ namespace Unscientific.ECS.Tests
                 _cyclic = cyclic;
             }
 
-            public override ModuleImports Imports()
+            public override ModuleUsages Usages()
             {
                 if (!_cyclic)
-                    return base.Imports();
+                    return base.Usages();
 
-                return base.Imports()
-                    .Import<ModuleB>();
+                return base.Usages()
+                    .Uses<ModuleB>();
             }
         }
 
@@ -93,7 +129,7 @@ namespace Unscientific.ECS.Tests
             var moduleD = new ModuleD(false);
             var moduleE = new ModuleE();
 
-            var application = new Application.Builder()
+            var application = new Game.Builder()
                 .Using(moduleA)
                 .Using(moduleB)
                 .Using(moduleC)
@@ -120,7 +156,7 @@ namespace Unscientific.ECS.Tests
             var moduleE = new ModuleE();
 
             TestDelegate testDelegate = () => 
-                new Application.Builder()
+                new Game.Builder()
                     .Using(moduleA)
                     .Using(moduleB)
                     .Using(moduleC)
@@ -137,7 +173,7 @@ namespace Unscientific.ECS.Tests
             var moduleA = new ModuleA();
 
             TestDelegate testDelegate = () => 
-                new Application.Builder()
+                new Game.Builder()
                     .Using(moduleA)
                     .Build();
 

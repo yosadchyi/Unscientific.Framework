@@ -1,44 +1,34 @@
 ﻿namespace Unscientific.ECS.Modules.Core
 {
-    public class CoreModule : IModule
+    public class CoreModule: IModuleTag
     {
-        public ModuleImports Imports()
+        public class Builder : IModuleBuilder
         {
-            return new ModuleImports();
-        }
-
-        public ContextRegistrations Contexts()
-        {
-            return new ContextRegistrations()
-                .Add<Simulation>()
-                .Add<Configuration>()
-                .Add<Singletons>();
-        }
-
-        public MessageRegistrations Messages()
-        {
-            return new MessageRegistrations()
-                .Add<EntityDestroyed<Simulation>>();
-        }
-
-        public ComponentRegistrations Components()
-        {
-            return new ComponentRegistrations()
-                .For<Singletons>()
-                    .Add<Tick>()
-                .End()
-                .For<Simulation>()
-                    .Add<Destroyed>()
-                .End();
-        }
-
-        public ECS.Systems Systems(Contexts contexts, MessageBus bus)
-        {
-            return new ECS.Systems.Builder()
-                .Add(new BaseSetupSystem(contexts))
-                .Add(new IncrementTickSystem(contexts))
-                .Add(new DestroySystem<Simulation>(contexts, bus))
-                .Build();
+            public IModule Build()
+            {
+                return new Module<CoreModule>.Builder()
+                        .Contexts()
+                            .Add<Simulation>()
+                            .Add<Configuration>()
+                            .Add<Singletons>()
+                        .End()
+                        .Components<Simulation>()
+                            .Add<Destroyed>()
+                        .End()
+                        .Components<Singletons>()
+                            .Add<Tick>()
+                        .End()
+                        .Messages()
+                            .Add<EntityDestroyed<Simulation>>()
+                        .End()
+                        .Systems()
+                            .Add((contexts, messageBus) => new BaseSetupSystem(contexts))
+                            .Add((contexts, messageBus) => new IncrementTickSystem(contexts))
+                            .Add((contexts, messageBus) => new DestroySystem<Simulation>(contexts, messageBus))
+                        .End()
+                    .Build();
+            }
         }
     }
+
 }

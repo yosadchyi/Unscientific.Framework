@@ -78,67 +78,64 @@ namespace Unscientific.ECS.Modules.Tests.Base
         }
     }
 
-    public class MoveModule : AbstractModule
+    public class MoveModule : IModuleTag
     {
-        public override ModuleImports Imports()
+        public class Builder: IModuleBuilder
         {
-            return base.Imports()
-                .Import<CoreModule>();
-        }
-
-        public override ComponentRegistrations Components()
-        {
-            return base.Components()
-                .For<Simulation>()
-                    .Add<Position>()
-                    .Add<Velocity>()
-                .End();
-        }
-
-        public override Systems Systems(Contexts contexts, MessageBus bus)
-        {
-            return new Systems.Builder()
-                .Add(new MoveSystem(contexts))
-                .Build();
+            public IModule Build()
+            {
+                return new Module<MoveModule>.Builder()
+                        .Usages()
+                            .Uses<CoreModule>()
+                        .End()
+                        .Components<Simulation>()
+                            .Add<Position>()
+                            .Add<Velocity>()
+                        .End()
+                        .Systems()
+                            .Add((contexts, bus) => new MoveSystem(contexts))
+                        .End()
+                    .Build();
+            }
         }
     }
 
     [TestFixture]
     public class IntegrationTests
     {
-        private Application _application;
+        private Game _game;
 
         [SetUp]
         public void SetUp()
         {
-            _application = new Application.Builder()
-                .Using(new CoreModule())
-                .Using(new MoveModule())
+            _game = new Game.Builder()
+                    .Using(new CoreModule.Builder().Build())
+                    .Using(new MoveModule.Builder().Build())
                 .Build();
         }
 
         [TearDown]
         public void TearDown()
         {
-            _application.Clear();
+            _game.Clear();
         }
 
         [Test]
         public void TestUpdateSystem()
         {
             const float eps = 0.0001f;
-            var context = _application.Contexts.Get<Simulation>();
+            var context = _game.Contexts.Get<Simulation>();
 
             context.CreateEntity()
                 .Add(new Position(new Vector2(0, 1), 0))
                 .Add(new Velocity(new Vector2(1, 1), 360));
 
-            _application.Setup();
+            _game.Setup();
 
             for (var i = 0; i < 60; i++)
-                _application.Update();
+                _game.Update();
 
-            _application.Cleanup();
+            _game.Cleanup();
 
             var entity = context.First();
             var position = entity.Get<Position>();
@@ -151,16 +148,16 @@ namespace Unscientific.ECS.Modules.Tests.Base
         [Test]
         public void TestDestroySystem()
         {
-            var context = _application.Contexts.Get<Simulation>();
+            var context = _game.Contexts.Get<Simulation>();
 
-            _application.Setup();
+            _game.Setup();
 
             context.CreateEntity().Destroy();
             context.CreateEntity().Destroy();
             context.CreateEntity().Destroy();
 
             Assert.AreEqual(3, context.Count);
-            _application.Cleanup();
+            _game.Cleanup();
             Assert.AreEqual(0, context.Count);
         }
     }

@@ -25,7 +25,7 @@ namespace Unscientific.ECS
 
         public void Register(ReferenceTrackerFactory referenceTrackerFactory)
         {
-            OnRegister?.DynamicInvoke(referenceTrackerFactory);
+            OnRegister(referenceTrackerFactory);
         }
     }
 

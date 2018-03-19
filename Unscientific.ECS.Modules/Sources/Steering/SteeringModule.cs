@@ -3,35 +3,31 @@ using Unscientific.ECS.Modules.Physics;
 
 namespace Unscientific.ECS.Modules.Steering
 {
-    public abstract class SteeringModule: AbstractModule
+    public abstract class SteeringModule: IModuleTag
     {
-        public override ModuleImports Imports()
+        public class Builder : IModuleBuilder
         {
-            return base.Imports()
-                .Import<CoreModule>()
-                .Import<PhysicsModule>();
-        }
-
-        public override ComponentRegistrations Components()
-        {
-            return base.Components()
-                .For<Simulation>()
-                    .Add<Steering>()
-                    .Add<FlowField>()
-                    .Add<TargetEntity>()
-                    .Add<TargetPosition>()
-                    .Add<TargetOrientation>()
-                    .Add<ArrivalTolerance>()
-                    .Add<AlignTolerance>()
-                .End();
-
-        }
-
-        public override Systems Systems(Contexts contexts, MessageBus bus)
-        {
-            return new Systems.Builder()
-                .Add(new SteeringSystem(contexts))
-                .Build();
+            public IModule Build()
+            {
+                return new Module<SteeringModule>.Builder()
+                        .Usages()
+                            .Uses<CoreModule>()
+                            .Uses<PhysicsModule>()
+                        .End()
+                        .Components<Simulation>()
+                            .Add<Steering>()
+                            .Add<FlowField>()
+                            .Add<TargetEntity>()
+                            .Add<TargetPosition>()
+                            .Add<TargetOrientation>()
+                            .Add<ArrivalTolerance>()
+                            .Add<AlignTolerance>()
+                        .End()
+                        .Systems()
+                            .Add((contexts, messageBus) => new SteeringSystem(contexts))
+                        .End()
+                    .Build();
+            }
         }
     }
 }

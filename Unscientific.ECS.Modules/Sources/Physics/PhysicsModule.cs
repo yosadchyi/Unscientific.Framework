@@ -1,67 +1,67 @@
-﻿using Unscientific.ECS.Modules.Core;
+﻿using System;
+using Unscientific.ECS.Modules.Core;
 
 namespace Unscientific.ECS.Modules.Physics
 {
-    public class PhysicsModule: AbstractModule
+    public class PhysicsModule: IModuleTag
     {
-        private readonly ISpatialDatabase _spatialDatabase;
-
-        public PhysicsModule(ISpatialDatabase spatialDatabase)
+        public class Builder : IModuleBuilder
         {
-            _spatialDatabase = spatialDatabase;
-        }
-
-        public override ModuleImports Imports()
-        {
-            return new ModuleImports()
-                .Import<CoreModule>();
-        }
-
-        public override MessageRegistrations Messages()
-        {
-            return new MessageRegistrations()
-                .Add<EntitiesCollided>();
-        }
-
-        public override ComponentRegistrations Components()
-        {
-            return new ComponentRegistrations()
-                .For<Simulation>()
-                    .Add<Position>()
-                    .Add<Velocity>()
-                    .Add<Damping>()
-                    .Add<Force>()
-                    .Add<MaxVelocity>()
-                    .Add<Mass>()
-                    .Add<Orientation>()
-                    .Add<AngularVelocity>()
-                    .Add<MaxAngularVelocity>()
-                    .Add<AngularDamping>()
-                    .Add<Torque>()
-                    .Add<Inertia>()
-                    .Add<BoundingShape>()
-                    .Add<Collisions>()
-                .End()
-                .For<Configuration>()
-                    .Add<TimeStep>()
-                .End()
-                .For<Singletons>()
-                    .Add<Space>()
-                .End();
-        }
-
-        public override Systems Systems(Contexts contexts, MessageBus bus)
-        {
-            return new Systems.Builder()
-                .Add(new SpaceSetupSystem(contexts, _spatialDatabase))
-                .Add(new AccelerateSystem(contexts))
-                .Add(new AngularAccelerateSystem(contexts))
-                .Add(new MoveSystem(contexts))
-                .Add(new RotateSystem(contexts))
-                .Add(new ProcessCollisionSystem(contexts, bus))
-                .Add(new CollisionsCleanupSystem(contexts))
-                .Add(new ShapesCleanupSystem(bus))
+            private ISpatialDatabase _spatialDatabase;
+    
+            public Builder WithSpatialDatabase(ISpatialDatabase spatialDatabase)
+            {
+                _spatialDatabase = spatialDatabase;
+                return this;
+            }
+            
+            public IModule Build()
+            {
+                if (_spatialDatabase == null)
+                    throw new ArgumentException("Spatial Database not specified!");
+    
+                return new Module<PhysicsModule>.Builder()
+                    .Usages()
+                        .Uses<CoreModule>()
+                    .End()
+                    .Messages()
+                        .Add<EntitiesCollided>()
+                    .End()
+                    .Components<Simulation>()
+                        .Add<Position>()
+                        .Add<Velocity>()
+                        .Add<Damping>()
+                        .Add<Force>()
+                        .Add<MaxVelocity>()
+                        .Add<Mass>()
+                        .Add<Orientation>()
+                        .Add<AngularVelocity>()
+                        .Add<MaxAngularVelocity>()
+                        .Add<AngularDamping>()
+                        .Add<Torque>()
+                        .Add<Inertia>()
+                        .Add<BoundingShape>()
+                        .Add<Collisions>()
+                    .End()
+                    .Components<Configuration>()
+                        .Add<TimeStep>()
+                    .End()
+                    .Components<Singletons>()
+                        .Add<Space>()
+                    .End()
+                    .Systems()
+                        .Add((contexts, messageBus) => new SpaceSetupSystem(contexts, _spatialDatabase))
+                        .Add((contexts, messageBus) => new AccelerateSystem(contexts))
+                        .Add((contexts, messageBus) => new AngularAccelerateSystem(contexts))
+                        .Add((contexts, messageBus) => new MoveSystem(contexts))
+                        .Add((contexts, messageBus) => new RotateSystem(contexts))
+                        .Add((contexts, messageBus) => new ProcessCollisionSystem(contexts, messageBus))
+                        .Add((contexts, messageBus) => new CollisionsCleanupSystem(contexts))
+                        .Add((contexts, messageBus) => new ShapesCleanupSystem(messageBus))
+                    .End()
                 .Build();
+            }
         }
+
     }
 }

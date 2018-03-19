@@ -27,7 +27,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
+    <DefineConstants>TRACE;UNSAFE_ECS</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
@@ -38,10 +38,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sources\Application.cs" />
-    <Compile Include="Sources\Context.cs" />
-    <Compile Include="Sources\Contexts.cs" />
-    <Compile Include="Sources\Entity.cs" />
+    <Compile Include="Sources\Context\ComponentRegistrations.cs" />
+    <Compile Include="Sources\Context\Context.cs" />
+    <Compile Include="Sources\Context\Contexts.cs" />
+    <Compile Include="Sources\Context\Entity.cs" />
+    <Compile Include="Sources\Context\Identity.cs" />
+    <Compile Include="Sources\Context\IScope.cs" />
+    <Compile Include="Sources\Game.cs" />
     <Compile Include="Sources\Exception\EntityAlreadyHasComponentException.cs" />
     <Compile Include="Sources\Exception\EntityDoesNotExistsException.cs" />
     <Compile Include="Sources\Exception\EntityHasNoComponentException.cs" />
@@ -54,11 +57,14 @@
     <Compile Include="Sources\Exception\ReleasingNonRetainedEntityException.cs" />
     <Compile Include="Sources\Exception\ReleasingRetainedEntityException.cs" />
     <Compile Include="Sources\Exception\TryingToDestroyReferencedEntity.cs" />
-    <Compile Include="Sources\Identity.cs" />
-    <Compile Include="Sources\IModule.cs" />
-    <Compile Include="Sources\IScope.cs" />
-    <Compile Include="Sources\MessageBus.cs" />
-    <Compile Include="Sources\AbstractModule.cs" />
+    <Compile Include="Sources\Message\ComponentMessageProducer.cs" />
+    <Compile Include="Sources\Message\MessageBus.cs" />
+    <Compile Include="Sources\Message\MessageProducerRegistrations.cs" />
+    <Compile Include="Sources\Message\MessageRegistrations.cs" />
+    <Compile Include="Sources\Module\IModule.cs" />
+    <Compile Include="Sources\Module\IModuleBuilder.cs" />
+    <Compile Include="Sources\Module\IModuleTag.cs" />
+    <Compile Include="Sources\Module\Module.cs" />
     <Compile Include="Sources\ReferenceTracking\CountingReferenceTracker.cs" />
     <Compile Include="Sources\ReferenceTracking\IReferenceTracker.cs" />
     <Compile Include="Sources\ReferenceTracking\ReferenceTrackerFactory.cs" />

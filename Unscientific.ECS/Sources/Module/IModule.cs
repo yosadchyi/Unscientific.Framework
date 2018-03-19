@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using Unscientific.ECS.Listener;
 
 namespace Unscientific.ECS
 {
-    public class ModuleImports
+    public class ModuleUsages
     {
         internal List<Type> Imports { get; } = new List<Type>();
 
-        public ModuleImports Import<TModule>() where TModule: IModule
+        public ModuleUsages Uses<TModule>()
         {
             Imports.Add(typeof(TModule));
             return this;
@@ -16,10 +17,11 @@ namespace Unscientific.ECS
     
     public interface IModule
     {
-        ModuleImports Imports();
+        ModuleUsages Usages();
         ContextRegistrations Contexts();
         MessageRegistrations Messages();
         ComponentRegistrations Components();
+        MessageProducerRegistrations MessageProducers();
         Systems Systems(Contexts contexts, MessageBus bus);
     }
 }

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unscientific.ECS.Listener;
 
 namespace Unscientific.ECS
 {
@@ -249,52 +250,31 @@ namespace Unscientific.ECS
         }
     }
 
-    public class ComponentRegistrations
+    public interface IComponentAddedListener<TScope, in TComponent> where TScope : IScope
     {
-        private event Action OnRegister = delegate { };
-
-        public class ScopedRegistrator<TScope> where TScope : IScope
-        {
-            private readonly ComponentRegistrations _componentRegistrations;
-            // ReSharper disable once StaticMemberInGenericType
-            private static readonly HashSet<Type> RegisteredComponents = new HashSet<Type>();
-
-            public ScopedRegistrator(ComponentRegistrations componentRegistrations)
-            {
-                _componentRegistrations = componentRegistrations;
-            }
-
-            public ScopedRegistrator<TScope> Add<TComponent>()
-            {
-                _componentRegistrations.OnRegister += DoRegister<TComponent>;
-                return this;
-            }
-
-            private static void DoRegister<TComponent>()
-            {
-                if (RegisteredComponents.Contains(typeof(TComponent)))
-                    return;
-
-                Context<TScope>.ComponentData<TComponent>.Init();
-                RegisteredComponents.Add(typeof(TComponent));
-            }
-
-            public ComponentRegistrations End()
-            {
-                return _componentRegistrations;
-            }
-        }
-
-        public ScopedRegistrator<TScope> For<TScope>() where TScope : IScope
-        {
-            return new ScopedRegistrator<TScope>(this);
-        }
-
-        public void Register()
-        {
-            OnRegister();
-        }
+        void OnComponentAdded(Entity<TScope> entity, TComponent component);
     }
+
+    public interface IComponentRemovedListener<TScope, in TComponent> where TScope : IScope
+    {
+        void OnComponentRemoved(Entity<TScope> entity, TComponent component);
+    }
+
+    public interface IComponentReplacedListener<TScope, in TComponent> where TScope : IScope
+    {
+        void OnComponentReplaced(Entity<TScope> entity, TComponent oldComponent, TComponent newComponent);
+    }
+
+    public interface IComponentListener<TScope, in TComponent>
+        : IComponentAddedListener<TScope, TComponent>,
+          IComponentRemovedListener<TScope, TComponent>,
+          IComponentReplacedListener<TScope, TComponent> where TScope : IScope
+    {
+    }
+
+    public delegate void ComponentAddedHandler<TScope, in TComponent>(Entity<TScope> entity, TComponent component) where TScope : IScope;
+    public delegate void ComponentRemovedHandler<TScope, in TComponent>(Entity<TScope> entity, TComponent component) where TScope : IScope;
+    public delegate void ComponentReplacedHandler<TScope, in TComponent>(Entity<TScope> entity, TComponent oldComponent, TComponent newComponent) where TScope : IScope;
 
     public class Context<TScope> where TScope : IScope
     {
@@ -324,6 +304,12 @@ namespace Unscientific.ECS
             internal static TComponent[] Data;
             // ReSharper disable once StaticMemberInGenericType
             internal static BitArray Present;
+
+            #region Component Event Handlers
+            internal static event ComponentAddedHandler<TScope, TComponent> OnComponentAdded; 
+            internal static event ComponentRemovedHandler<TScope, TComponent> OnComponentRemoved; 
+            internal static event ComponentReplacedHandler<TScope, TComponent> OnComponentReplaced;
+            #endregion
 
             internal static void Init()
             {
@@ -365,6 +351,47 @@ namespace Unscientific.ECS
 
                 Data[last] = default(TComponent);
                 Present[last] = false;
+            }
+
+            internal static void Add(int index, ref TComponent component)
+            {
+                Present[index] = true;
+                Data[index] = component;
+                if (OnComponentAdded != null)
+                    OnComponentAdded(new Entity<TScope>(index), component);
+            }
+
+            internal static void Replace(int index, ref TComponent component)
+            {
+                if (OnComponentReplaced != null) {
+                    var oldComponent = Data[index];
+
+                    Data[index] = component;
+
+                    OnComponentReplaced(new Entity<TScope>(index), oldComponent, component);
+                }
+                else
+                {
+                    Data[index] = component;
+                }
+            }
+
+            internal static void Remove(int index)
+            {
+                if (OnComponentRemoved != null)
+                {
+                    var component = Data[index];
+                    
+                    Present[index] = false;
+                    Data[index] = default(TComponent);
+
+                    OnComponentRemoved(new Entity<TScope>(index), component);
+                }
+                else
+                {
+                    Present[index] = false;
+                    Data[index] = default(TComponent);
+                }
             }
         }
         #endregion
@@ -550,8 +577,7 @@ namespace Unscientific.ECS
                 throw new EntityAlreadyHasComponentException<TScope, TComponent>(index);
             }
 #endif
-            ComponentData<TComponent>.Present[index] = true;
-            ComponentData<TComponent>.Data[index] = component;
+            ComponentData<TComponent>.Add(index, ref component);
         }
 
         internal void Replace<TComponent>(int index, TComponent component)
@@ -559,7 +585,7 @@ namespace Unscientific.ECS
 #if !UNSAFE_ECS
             EnsureComponentExists<TComponent>(index);
 #endif
-            ComponentData<TComponent>.Data[index] = component;
+            ComponentData<TComponent>.Replace(index, ref component);
         }
 
         internal void Remove<TComponent>(int index)
@@ -567,8 +593,7 @@ namespace Unscientific.ECS
 #if !UNSAFE_ECS
             EnsureComponentExists<TComponent>(index);
 #endif
-            ComponentData<TComponent>.Present[index] = false;
-            ComponentData<TComponent>.Data[index] = default(TComponent);
+            ComponentData<TComponent>.Remove(index);
         }
 
         internal bool Has<TComponent>(int index)
@@ -648,6 +673,36 @@ namespace Unscientific.ECS
                 _freeList.Push(i + 1);
 
             _count = 0;
+        }
+
+        public void AddComponentAddedListener<TComponent>(ComponentAddedHandler<TScope, TComponent> handler)
+        {
+            ComponentData<TComponent>.OnComponentAdded += handler;
+        }
+
+        public void AddComponentRemovedListener<TComponent>(ComponentRemovedHandler<TScope, TComponent> handler)
+        {
+            ComponentData<TComponent>.OnComponentRemoved += handler;
+        }
+
+        public void AddComponentReplacedListener<TComponent>(ComponentReplacedHandler<TScope, TComponent> handler)
+        {
+            ComponentData<TComponent>.OnComponentReplaced += handler;
+        }
+
+        public void RemoveComponentAddedListener<TComponent>(ComponentAddedHandler<TScope, TComponent> handler)
+        {
+            ComponentData<TComponent>.OnComponentAdded -= handler;
+        }
+
+        public void RemoveComponentRemovedListener<TComponent>(ComponentRemovedHandler<TScope, TComponent> handler)
+        {
+            ComponentData<TComponent>.OnComponentRemoved -= handler;
+        }
+
+        public void RemoveComponentReplacedListener<TComponent>(ComponentReplacedHandler<TScope, TComponent> handler)
+        {
+            ComponentData<TComponent>.OnComponentReplaced -= handler;
         }
     }
 }

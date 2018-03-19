@@ -4,9 +4,9 @@ using System.Linq;
 
 namespace Unscientific.ECS
 {
-    public class Application
+    public class Game
     {
-        public static Application Instance { get; private set; }
+        public static Game Instance { get; private set; }
 
         public MessageBus MessageBus { get; } = new MessageBus();
         public Contexts Contexts { get; } = new Contexts();
@@ -29,13 +29,13 @@ namespace Unscientific.ECS
                 return this;
             }
 
-            public Application Build()
+            public Game Build()
             {
-                return new Application(_referenceTrackerFactory, _modules);
+                return new Game(_referenceTrackerFactory, _modules);
             }
         }
 
-        private Application(ReferenceTrackerFactory referenceTrackerFactory, List<IModule> modules)
+        private Game(ReferenceTrackerFactory referenceTrackerFactory, List<IModule> modules)
         {
             var sortedModules = TopologicalSort(modules);
 
@@ -47,6 +47,9 @@ namespace Unscientific.ECS
 
             foreach (var module in sortedModules)
                 module.Messages().Register(MessageBus);
+
+            foreach (var module in sortedModules)
+                module.MessageProducers().Register(Contexts, MessageBus);
 
             // add systems
             var builder = new Systems.Builder();
@@ -70,7 +73,7 @@ namespace Unscientific.ECS
             {
                 var module = type2Module[type];
 
-                foreach (var import in module.Imports().Imports)
+                foreach (var import in module.Usages().Imports)
                 {
                     if (!type2Module.ContainsKey(import))
                         throw new NoRequiredModuleException(import);
@@ -94,7 +97,7 @@ namespace Unscientific.ECS
 
                 stack.Push(type);
                 
-                foreach (var import in module.Imports().Imports)
+                foreach (var import in module.Usages().Imports)
                 {
                     inDegree[import] = inDegree[import] - 1;
                     

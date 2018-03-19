@@ -2,28 +2,25 @@
 
 namespace Unscientific.ECS.Modules.BehaviourTree
 {
-    public abstract class BehaviourTreeModule: AbstractModule
+    public class BehaviourTreeModule: IModuleTag
     {
-        public override ModuleImports Imports()
+        public class Builder: IModuleBuilder
         {
-            return base.Imports()
-                .Import<CoreModule>();
-        }
-
-        public override ComponentRegistrations Components()
-        {
-            return base.Components()
-                .For<Simulation>()
-                    .Add<BehaviourTreeData>()
-                .End();
-        }
-
-        public override Systems Systems(Contexts contexts, MessageBus bus)
-        {
-            return new Systems.Builder()
-                .Add(new BehaviourTreeUpdateSystem(contexts))
-                .Add(new BehaviourTreeCleanupSystem(bus))
-                .Build();
+            public IModule Build()
+            {
+                return new Module<BehaviourTreeModule>.Builder()
+                        .Usages()
+                            .Uses<CoreModule>()
+                        .End()
+                        .Components<Simulation>()
+                            .Add<BehaviourTreeData>()
+                        .End()
+                        .Systems()
+                            .Add((contexts, messageBus) => new BehaviourTreeUpdateSystem(contexts))
+                            .Add((contexts, messageBus) => new BehaviourTreeCleanupSystem(messageBus))
+                        .End()
+                    .Build();
+            }
         }
     }
 }
