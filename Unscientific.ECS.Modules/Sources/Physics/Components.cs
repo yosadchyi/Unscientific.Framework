@@ -18,6 +18,11 @@ namespace Unscientific.ECS.Modules.Physics
     {
         public readonly FixVec2 Value;
 
+        public Position(Fix x, Fix y)
+        {
+            Value = new FixVec2(x, y);
+        }
+        
         public Position(FixVec2 value)
         {
             Value = value;
@@ -28,6 +33,11 @@ namespace Unscientific.ECS.Modules.Physics
     {
         public readonly FixVec2 Value;
 
+        public Velocity(Fix x, Fix y)
+        {
+            Value = new FixVec2(x, y);
+        }
+        
         public Velocity(FixVec2 value)
         {
             Value = value;
@@ -47,6 +57,11 @@ namespace Unscientific.ECS.Modules.Physics
     public struct Force
     {
         public readonly FixVec2 Value;
+
+        public Force(Fix x, Fix y)
+        {
+            Value = new FixVec2(x, y);
+        }
 
         public Force(FixVec2 value)
         {
