@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Unscientific.ECS</RootNamespace>
     <AssemblyName>Unscientific.ECS</AssemblyName>
-    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -45,7 +45,7 @@
     <Compile Include="Sources\Context\Identity.cs" />
     <Compile Include="Sources\Context\IScope.cs" />
     <Compile Include="Sources\Exception\ContextReachedMaximalCapacity.cs" />
-    <Compile Include="Sources\Game.cs" />
+    <Compile Include="Sources\World.cs" />
     <Compile Include="Sources\Exception\EntityAlreadyHasComponentException.cs" />
     <Compile Include="Sources\Exception\EntityDoesNotExistsException.cs" />
     <Compile Include="Sources\Exception\EntityHasNoComponentException.cs" />

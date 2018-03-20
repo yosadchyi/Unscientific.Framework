@@ -12,7 +12,7 @@ namespace Unscientific.ECS.Modules.Physics
             public static readonly ObjectPool<Proxy> Pool = new GenericObjectPool<Proxy>(128);
 
             public Proxy Next;
-            public Entity<Simulation> Entity;
+            public Entity<Game> Entity;
             public Shape Shape;
         }
 
@@ -28,7 +28,7 @@ namespace Unscientific.ECS.Modules.Physics
             Proxy.Pool.EnsureHaveInstances(size * 2);
         }
 
-        public void Add(Entity<Simulation> entity, Shape shape, ref AABB aabb)
+        public void Add(Entity<Game> entity, Shape shape, ref AABB aabb)
         {
             var l = (int) FixMath.Floor(aabb.L / CellSize);
             var b = (int) FixMath.Floor(aabb.B / CellSize);
@@ -60,7 +60,7 @@ namespace Unscientific.ECS.Modules.Physics
             }
         }
 
-        public void Remove(Entity<Simulation> entity, ref AABB aabb)
+        public void Remove(Entity<Game> entity, ref AABB aabb)
         {
             var l = (int) FixMath.Floor(aabb.L / CellSize);
             var b = (int) FixMath.Floor(aabb.B / CellSize);
@@ -92,7 +92,7 @@ namespace Unscientific.ECS.Modules.Physics
             }
         }
 
-        private void RemoveProxyAt(Entity<Simulation> entity, int x, int y)
+        private void RemoveProxyAt(Entity<Game> entity, int x, int y)
         {
             var hash = HashFunction(x, y);
             Proxy prev = null;
@@ -126,7 +126,7 @@ namespace Unscientific.ECS.Modules.Physics
             }
         }
 
-        private Proxy Find(Entity<Simulation> entity, int x, int y)
+        private Proxy Find(Entity<Game> entity, int x, int y)
         {
             var hash = HashFunction(x, y);
 
@@ -138,7 +138,7 @@ namespace Unscientific.ECS.Modules.Physics
             return null;
         }
 
-        private void AddProxyAt(Entity<Simulation> entity, Shape shape, int x, int y)
+        private void AddProxyAt(Entity<Game> entity, Shape shape, int x, int y)
         {
             var hash = HashFunction(x, y);
             var proxy = Proxy.Pool.Get();

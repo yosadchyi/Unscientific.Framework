@@ -48,9 +48,9 @@
             _messageBus = messageBus;
         }
 
-        public void OnComponentAdded(Entity<TScope> entity, TComponent component)
+        public void OnComponentAdded(Entity<TScope> entity, TComponent view)
         {
-            _messageBus.Send(new ComponentAdded<TScope, TComponent>(entity, component));
+            _messageBus.Send(new ComponentAdded<TScope, TComponent>(entity, view));
         }
     }
 

@@ -4,7 +4,7 @@ namespace Unscientific.ECS
 {
     public class Systems: ISetupSystem, IUpdateSystem, ICleanupSystem
     {
-        private readonly List<ISetupSystem> _setupSystems;
+        public readonly List<ISetupSystem> _setupSystems;
         private readonly List<IUpdateSystem> _updateSystems;
         private readonly List<ICleanupSystem> _cleanupSystems;
 

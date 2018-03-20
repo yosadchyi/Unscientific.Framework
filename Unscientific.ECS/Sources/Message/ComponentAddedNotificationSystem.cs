@@ -4,7 +4,7 @@ namespace Unscientific.ECS
 {
     public class ComponentAddedListeners<TScope, TComponent> where TScope : IScope
     {
-        public List<IComponentAddedListener<TScope, TComponent>> Listeners;
+        public readonly List<IComponentAddedListener<TScope, TComponent>> Listeners;
 
         public ComponentAddedListeners()
         {
@@ -14,7 +14,7 @@ namespace Unscientific.ECS
 
     public class ComponentRemovedListeners<TScope, TComponent> where TScope : IScope
     {
-        public List<IComponentRemovedListener<TScope, TComponent>> Listeners;
+        public readonly List<IComponentRemovedListener<TScope, TComponent>> Listeners;
 
         public ComponentRemovedListeners()
         {
@@ -24,7 +24,7 @@ namespace Unscientific.ECS
 
     public class ComponentReplacedListeners<TScope, TComponent> where TScope : IScope
     {
-        public List<IComponentReplacedListener<TScope, TComponent>> Listeners;
+        public readonly List<IComponentReplacedListener<TScope, TComponent>> Listeners;
 
         public ComponentReplacedListeners()
         {
@@ -32,7 +32,7 @@ namespace Unscientific.ECS
         }
     }
 
-    public class ComponentAddedNotificationSystem<TScope, TSingletonScope, TComponent>: IUpdateSystem
+    public class ComponentAddedNotificationSystem<TScope, TSingletonScope, TComponent>: ISetupSystem, IUpdateSystem
         where TScope : IScope
         where TSingletonScope : IScope
     {
@@ -43,6 +43,11 @@ namespace Unscientific.ECS
         {
             _singletonContext = contexts.Get<TSingletonScope>();
             _messageBus = messageBus;
+        }
+
+        public void Setup()
+        {
+            _singletonContext.First().Add(new ComponentAddedListeners<TScope, TComponent>());
         }
 
         public void Update()
@@ -59,19 +64,22 @@ namespace Unscientific.ECS
         }
     }
     
-    public class ComponentRemovedNotificationSystem<TScope, TSingletonScope, TComponent>: IUpdateSystem
+    public class ComponentRemovedNotificationSystem<TScope, TSingletonScope, TComponent>: ISetupSystem, IUpdateSystem
         where TScope : IScope
         where TSingletonScope : IScope
     {
         private readonly MessageBus _messageBus;
-        private Context<TScope> _entityContext;
-        private Context<TSingletonScope> _singletonContext;
+        private readonly Context<TSingletonScope> _singletonContext;
 
         public ComponentRemovedNotificationSystem(Contexts contexts, MessageBus messageBus)
         {
-            _entityContext = contexts.Get<TScope>();
             _singletonContext = contexts.Get<TSingletonScope>();
             _messageBus = messageBus;
+        }
+
+        public void Setup()
+        {
+            _singletonContext.First().Add(new ComponentRemovedListeners<TScope, TComponent>());
         }
 
         public void Update()
@@ -88,19 +96,22 @@ namespace Unscientific.ECS
         }
     }
 
-    public class ComponentReplacedNotificationSystem<TScope, TSingletonScope, TComponent>: IUpdateSystem
+    public class ComponentReplacedNotificationSystem<TScope, TSingletonScope, TComponent>: ISetupSystem, IUpdateSystem
         where TScope : IScope
         where TSingletonScope : IScope
     {
         private readonly MessageBus _messageBus;
-        private Context<TScope> _entityContext;
-        private Context<TSingletonScope> _singletonContext;
+        private readonly Context<TSingletonScope> _singletonContext;
 
         public ComponentReplacedNotificationSystem(Contexts contexts, MessageBus messageBus)
         {
-            _entityContext = contexts.Get<TScope>();
             _singletonContext = contexts.Get<TSingletonScope>();
             _messageBus = messageBus;
+        }
+
+        public void Setup()
+        {
+            _singletonContext.First().Add(new ComponentReplacedListeners<TScope, TComponent>());
         }
 
         public void Update()

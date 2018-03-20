@@ -8,7 +8,7 @@ namespace Unscientific.ECS.Modules.Steering
     {
         #region implemented abstract members of SteeringBehaviour
 
-        public override SteeringVelocity DoCalculate (Entity<Simulation> owner, ref SteeringVelocity accumulatedSteering)
+        public override SteeringVelocity DoCalculate (Entity<Game> owner, ref SteeringVelocity accumulatedSteering)
         {
             var steering = new SteeringVelocity();
 
@@ -24,7 +24,7 @@ namespace Unscientific.ECS.Modules.Steering
             if (flowVector.MagnitudeSqr <= ZeroVelocity * ZeroVelocity)
                 return SteeringVelocity.Zero;
 
-            var targetOrientation = FixMath.Atan2 (-flowVector.X, flowVector.Y);
+            var targetOrientation = FixMath.Atan2(-flowVector.X, flowVector.Y);
 
             return ReachOrientation(owner, targetOrientation);
         }

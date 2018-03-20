@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+// ReSharper disable HeapView.ObjectAllocation.Evident
 
 namespace Unscientific.ECS
 {
-    public class Game
+    public class World
     {
-        public static Game Instance { get; private set; }
+        public static World Instance { get; private set; }
 
         public MessageBus MessageBus { get; } = new MessageBus();
         public Contexts Contexts { get; } = new Contexts();
@@ -29,13 +30,13 @@ namespace Unscientific.ECS
                 return this;
             }
 
-            public Game Build()
+            public World Build()
             {
-                return new Game(_referenceTrackerFactory, _modules);
+                return new World(_referenceTrackerFactory, _modules);
             }
         }
 
-        private Game(ReferenceTrackerFactory referenceTrackerFactory, List<IModule> modules)
+        private World(ReferenceTrackerFactory referenceTrackerFactory, List<IModule> modules)
         {
             var sortedModules = TopologicalSort(modules);
 

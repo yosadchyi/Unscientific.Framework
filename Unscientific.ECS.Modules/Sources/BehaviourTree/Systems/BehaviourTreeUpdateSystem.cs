@@ -4,11 +4,11 @@ namespace Unscientific.ECS.Modules.BehaviourTree
 {
     public class BehaviourTreeUpdateSystem: IUpdateSystem
     {
-        private readonly Context<Simulation> _simulation;
+        private readonly Context<Game> _simulation;
 
         public BehaviourTreeUpdateSystem(Contexts contexts)
         {
-            _simulation = contexts.Get<Simulation>();
+            _simulation = contexts.Get<Game>();
         }
 
         public void Update()

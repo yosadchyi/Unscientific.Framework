@@ -1,6 +1,4 @@
-﻿using System.Diagnostics.Contracts;
-
-namespace Unscientific.ECS
+﻿namespace Unscientific.ECS
 {
     public struct EntityRef<TScope> where TScope : IScope
     {
@@ -16,7 +14,6 @@ namespace Unscientific.ECS
             Id = id;
         }
 
-        [Pure]
         public Entity<TScope> Release()
         {
             Context<TScope>.Instance.Release(Entity);
@@ -49,19 +46,16 @@ namespace Unscientific.ECS
             return new EntityRef<TScope>(Id);
         }
 
-        [Pure]
         public TComponent Get<TComponent>()
         {
             return Context.Get<TComponent>(Index);
         }
 
-        [Pure]
         public bool Is<TComponent>()
         {
             return Context.Is<TComponent>(Index);
         }
 
-        [Pure]
         public bool Has<TComponent>()
         {
             return Context.Has<TComponent>(Index);

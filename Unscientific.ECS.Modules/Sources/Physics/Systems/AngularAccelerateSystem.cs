@@ -5,18 +5,18 @@ namespace Unscientific.ECS.Modules.Physics
 {
     public class AngularAccelerateSystem: IUpdateSystem
     {
-        private readonly Entity<Configuration> _configuration;
-        private readonly Context<Simulation> _simulation;
+        private readonly Context<Configuration> _configuration;
+        private readonly Context<Game> _simulation;
 
         public AngularAccelerateSystem(Contexts contexts)
         {
-            _simulation = contexts.Get<Simulation>();
-            _configuration = contexts.Singleton<Configuration>();
+            _simulation = contexts.Get<Game>();
+            _configuration = contexts.Get<Configuration>();
         }
 
         public void Update()
         {
-            var dt = _configuration.Get<TimeStep>().Value;
+            var dt = _configuration.Singleton().Get<TimeStep>().Value;
 
             foreach (var entity in _simulation.AllWith<AngularVelocity, Torque, Inertia>())
             {

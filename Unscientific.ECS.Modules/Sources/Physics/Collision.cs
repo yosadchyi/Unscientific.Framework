@@ -6,12 +6,12 @@ namespace Unscientific.ECS.Modules.Physics
 {
     public struct EntitiesCollided
     {
-        public readonly Entity<Simulation> EntityA;
+        public readonly Entity<Game> EntityA;
         public readonly Shape ShapeA;
-        public readonly Entity<Simulation> EntityB;
+        public readonly Entity<Game> EntityB;
         public readonly Shape ShapeB;
 
-        public EntitiesCollided(Entity<Simulation> entityA, Shape shapeA, Entity<Simulation> entityB, Shape shapeB)
+        public EntitiesCollided(Entity<Game> entityA, Shape shapeA, Entity<Game> entityB, Shape shapeB)
         {
             this.EntityA = entityA;
             this.ShapeA = shapeA;
@@ -28,7 +28,7 @@ namespace Unscientific.ECS.Modules.Physics
         public int Other;
         public Shape OtherShape;
 
-        public static Collision New(Shape selfShape, Entity<Simulation> other, Shape otherShape)
+        public static Collision New(Shape selfShape, Entity<Game> other, Shape otherShape)
         {
             var collision = Pool.Get();
             collision.SelfShape = selfShape;

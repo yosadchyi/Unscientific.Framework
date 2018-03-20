@@ -5,7 +5,7 @@ namespace Unscientific.ECS.Modules.Steering
 {
     public class FollowFlowField : SteeringBehaviour
     {
-        public override SteeringVelocity DoCalculate(Entity<Simulation> owner, ref SteeringVelocity accumulatedSteering)
+        public override SteeringVelocity DoCalculate(Entity<Game> owner, ref SteeringVelocity accumulatedSteering)
         {
             var steering = new SteeringVelocity();
 

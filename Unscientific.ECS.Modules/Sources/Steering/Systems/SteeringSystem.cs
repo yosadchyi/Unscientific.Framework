@@ -5,11 +5,11 @@ namespace Unscientific.ECS.Modules.Steering
 {
     public class SteeringSystem: IUpdateSystem
     {
-        private readonly Context<Simulation> _simulation;
+        private readonly Context<Game> _simulation;
 
         public SteeringSystem(Contexts contexts)
         {
-            _simulation = contexts.Get<Simulation>();
+            _simulation = contexts.Get<Game>();
         }
 
         public void Update()

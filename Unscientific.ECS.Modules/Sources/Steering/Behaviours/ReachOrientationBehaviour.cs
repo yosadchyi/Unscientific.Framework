@@ -8,7 +8,7 @@ namespace Unscientific.ECS.Modules.Steering
     {
         public Fix ZeroVelocity = FixMath.Epsilon;
 
-        public override SteeringVelocity DoCalculate(Entity<Simulation> owner, ref SteeringVelocity accumulatedSteering)
+        public override SteeringVelocity DoCalculate(Entity<Game> owner, ref SteeringVelocity accumulatedSteering)
         {
             if (!owner.Has<TargetOrientation>())
                 return SteeringVelocity.Zero;
@@ -16,7 +16,7 @@ namespace Unscientific.ECS.Modules.Steering
             return ReachOrientation(owner, owner.Get<TargetOrientation>().Value);
         }
 
-        protected SteeringVelocity ReachOrientation(Entity<Simulation> owner, Fix targetOrientation)
+        protected SteeringVelocity ReachOrientation(Entity<Game> owner, Fix targetOrientation)
         {
             var tolerance = owner.Get<AlignTolerance>();
             var steering = SteeringVelocity.Zero;

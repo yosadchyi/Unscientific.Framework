@@ -6,7 +6,7 @@ namespace Unscientific.ECS.Modules.Steering
 {
     public static class SteeringEntityExtensions
     {
-        public static bool TryGetTargetPosition(this Entity<Simulation> entity, Context<Simulation> simulation, ref FixVec2 output)
+        public static bool TryGetTargetPosition(this Entity<Game> entity, Context<Game> simulation, ref FixVec2 output)
         {
             if (entity.Has<TargetEntity>())
             {

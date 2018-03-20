@@ -13,7 +13,7 @@ namespace Unscientific.ECS.Modules.Physics
 
         public void Cleanup()
         {
-            foreach (var message in _messageBus.All<EntityDestroyed<Simulation>>())
+            foreach (var message in _messageBus.All<EntityDestroyed<Game>>())
             {
                 var entity = message.Reference.Entity;
 

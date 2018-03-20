@@ -16,9 +16,9 @@ namespace Unscientific.ECS.Modules.Steering
     
     public struct TargetEntity
     {
-        public EntityRef<Simulation> Reference;
+        public EntityRef<Game> Reference;
 
-        public TargetEntity(EntityRef<Simulation> entityRef)
+        public TargetEntity(EntityRef<Game> entityRef)
         {
             Reference = entityRef;
         }

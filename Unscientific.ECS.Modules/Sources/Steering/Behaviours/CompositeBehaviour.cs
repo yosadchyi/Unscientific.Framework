@@ -37,7 +37,7 @@ namespace Unscientific.ECS.Modules.Steering
             return null;
         }
 
-        public override SteeringVelocity DoCalculate(Entity<Simulation> owner, ref SteeringVelocity accumulatedVelocity)
+        public override SteeringVelocity DoCalculate(Entity<Game> owner, ref SteeringVelocity accumulatedVelocity)
         {
             var steering = SteeringVelocity.Zero;
             var maxVelocity = Fix.MaxValue;

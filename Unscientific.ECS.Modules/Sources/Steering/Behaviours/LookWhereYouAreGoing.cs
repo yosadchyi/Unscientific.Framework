@@ -7,7 +7,7 @@ namespace Unscientific.ECS.Modules.Steering
     {
         #region implemented abstract members of SteeringBehaviour
 
-        public override SteeringVelocity DoCalculate (Entity<Simulation> owner, ref SteeringVelocity steering)
+        public override SteeringVelocity DoCalculate (Entity<Game> owner, ref SteeringVelocity steering)
         {
             var linearVelocity = steering.Linear;
 

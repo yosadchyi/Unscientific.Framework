@@ -6,10 +6,20 @@
         {
             return self.First();
         }
-        
+
         public static Entity<TScope> Singleton<TScope>(this Contexts self) where TScope : IScope
         {
             return self.Get<TScope>().Singleton();
+        }
+
+        public static Entity<Configuration> Configuration(this Contexts self)
+        {
+            return self.Singleton<Configuration>();
+        }
+
+        public static Entity<Singletons> Singleton(this Contexts self)
+        {
+            return self.Singleton<Singletons>();
         }
     }
 }

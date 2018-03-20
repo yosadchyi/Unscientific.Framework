@@ -6,16 +6,16 @@ namespace Unscientific.ECS.Modules.Steering
 {
     public class LookAtTarget : ReachOrientationBehaviour
     {
-        private readonly Context<Simulation> _simulation;
+        private readonly Context<Game> _simulation;
         
         #region implemented abstract members of SteeringBehaviour
 
-        public LookAtTarget(Context<Simulation> simulation)
+        public LookAtTarget(Context<Game> simulation)
         {
             _simulation = simulation;
         }
 
-        public override SteeringVelocity DoCalculate(Entity<Simulation> owner, ref SteeringVelocity steering)
+        public override SteeringVelocity DoCalculate(Entity<Game> owner, ref SteeringVelocity steering)
         {
             var targetLocation = FixVec2.Zero;
 

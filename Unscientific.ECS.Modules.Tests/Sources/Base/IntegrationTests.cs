@@ -57,11 +57,11 @@ namespace Unscientific.ECS.Modules.Tests.Base
 
     public class MoveSystem : IUpdateSystem
     {
-        private Context<Simulation> _context;
+        private Context<Game> _context;
 
         public MoveSystem(Contexts contexts)
         {
-            _context = contexts.Get<Simulation>();
+            _context = contexts.Get<Game>();
         }
 
         public void Update()
@@ -88,7 +88,7 @@ namespace Unscientific.ECS.Modules.Tests.Base
                         .Usages()
                             .Uses<CoreModule>()
                         .End()
-                        .Components<Simulation>()
+                        .Components<Game>()
                             .Add<Position>()
                             .Add<Velocity>()
                         .End()
@@ -103,12 +103,12 @@ namespace Unscientific.ECS.Modules.Tests.Base
     [TestFixture]
     public class IntegrationTests
     {
-        private Game _game;
+        private World _world;
 
         [SetUp]
         public void SetUp()
         {
-            _game = new Game.Builder()
+            _world = new World.Builder()
                     .Using(new CoreModule.Builder().Build())
                     .Using(new MoveModule.Builder().Build())
                 .Build();
@@ -117,25 +117,25 @@ namespace Unscientific.ECS.Modules.Tests.Base
         [TearDown]
         public void TearDown()
         {
-            _game.Clear();
+            _world.Clear();
         }
 
         [Test]
         public void TestUpdateSystem()
         {
             const float eps = 0.0001f;
-            var context = _game.Contexts.Get<Simulation>();
+            var context = _world.Contexts.Get<Game>();
 
             context.CreateEntity()
                 .Add(new Position(new Vector2(0, 1), 0))
                 .Add(new Velocity(new Vector2(1, 1), 360));
 
-            _game.Setup();
+            _world.Setup();
 
             for (var i = 0; i < 60; i++)
-                _game.Update();
+                _world.Update();
 
-            _game.Cleanup();
+            _world.Cleanup();
 
             var entity = context.First();
             var position = entity.Get<Position>();
@@ -148,16 +148,16 @@ namespace Unscientific.ECS.Modules.Tests.Base
         [Test]
         public void TestDestroySystem()
         {
-            var context = _game.Contexts.Get<Simulation>();
+            var context = _world.Contexts.Get<Game>();
 
-            _game.Setup();
+            _world.Setup();
 
             context.CreateEntity().Destroy();
             context.CreateEntity().Destroy();
             context.CreateEntity().Destroy();
 
             Assert.AreEqual(3, context.Count);
-            _game.Cleanup();
+            _world.Cleanup();
             Assert.AreEqual(0, context.Count);
         }
     }

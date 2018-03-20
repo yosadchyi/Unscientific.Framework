@@ -9,27 +9,27 @@ namespace Unscientific.ECS.Modules.Physics
     public class ProcessCollisionSystem: IUpdateSystem, ICleanupSystem
     {
         private readonly MessageBus _messageBus;
-        private readonly Entity<Singletons> _singletons;
+        private readonly Context<Singletons> _singletons;
 
-        private Entity<Simulation> _entity;
+        private Entity<Game> _entity;
         private Shape _shape;
         private AABB _shapeBB = new AABB(0, 0, 0, 0);
         private Transform _transform;
         private int _stamp = 1;
         private readonly SpatialDatabaseCallback _callback;
-        private readonly Context<Simulation> _simulation;
+        private readonly Context<Game> _simulation;
 
         public ProcessCollisionSystem(Contexts contexts, MessageBus messageBus)
         {
             _messageBus = messageBus;
             _callback = CheckCollision;
-            _singletons = contexts.Singleton<Singletons>();
-            _simulation = contexts.Get<Simulation>();
+            _singletons = contexts.Get<Singletons>();
+            _simulation = contexts.Get<Game>();
         }
 
         public void Update()
         {
-            var space = _singletons.Get<Space>();
+            var space = _singletons.Singleton().Get<Space>();
             var hash = space.SpatialDatabase;
 
             foreach (var entity in _simulation.AllWith<Position, BoundingShape>())
@@ -72,7 +72,7 @@ namespace Unscientific.ECS.Modules.Physics
 
         public void Cleanup()
         {
-            _singletons.Get<Space>().SpatialDatabase.Clear();
+            _singletons.Singleton().Get<Space>().SpatialDatabase.Clear();
         }
 
         private static void ResetCollisions(List<Collision> collisions)
@@ -84,7 +84,7 @@ namespace Unscientific.ECS.Modules.Physics
             collisions.Clear();
         }
 
-        private static Transform GetEntityTransform(Entity<Simulation> entity)
+        private static Transform GetEntityTransform(Entity<Game> entity)
         {
             var position = entity.Get<Position>().Value;
             var orientation = entity.Has<Orientation>() ? entity.Get<Orientation>().Value : Fix.Zero;
@@ -92,7 +92,7 @@ namespace Unscientific.ECS.Modules.Physics
             return transform;
         }
 
-        private void CheckCollision(Entity<Simulation> entity, Shape shape)
+        private void CheckCollision(Entity<Game> entity, Shape shape)
         {
             if (entity.Id == _entity.Id || shape == _shape || shape.IsShapeFilterRejected(shape))
                 return;
@@ -147,14 +147,14 @@ namespace Unscientific.ECS.Modules.Physics
             }
         }
 
-        private void AddCollisions(Entity<Simulation> entity, Shape shape)
+        private void AddCollisions(Entity<Game> entity, Shape shape)
         {
             _messageBus.Send(new EntitiesCollided(_entity, _shape, entity, shape));
             AddCollision(_entity, _shape, entity, shape);
             AddCollision(entity, shape, _entity, _shape);
         }
 
-        private static void AddCollision(Entity<Simulation> entity1, Shape shape1, Entity<Simulation> entity2, Shape shape2)
+        private static void AddCollision(Entity<Game> entity1, Shape shape1, Entity<Game> entity2, Shape shape2)
         {
             if (entity1.Has<Collisions>())
             {

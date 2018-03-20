@@ -6,10 +6,10 @@ namespace Unscientific.ECS.Modules.Steering
 {
     public class CollisionsProximity: Proximity
     {
-        private readonly Context<Simulation> _simulation;
+        private readonly Context<Game> _simulation;
         public Fix MaxDistance;
 
-        public CollisionsProximity(Context<Simulation> simulation): this(-1)
+        public CollisionsProximity(Context<Game> simulation): this(-1)
         {
             _simulation = simulation;
         }
@@ -19,7 +19,7 @@ namespace Unscientific.ECS.Modules.Steering
             MaxDistance = maxDistance;
         }
 
-        public override int FindNeighbors(Entity<Simulation> entity, Callback callback)
+        public override int FindNeighbors(Entity<Game> entity, Callback callback)
         {
             if (!entity.Has<Collisions>())
                 return 0;

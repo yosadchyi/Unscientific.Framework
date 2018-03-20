@@ -2,7 +2,7 @@
 {
     public interface IComponentAddedListener<TScope, in TComponent> where TScope : IScope
     {
-        void OnComponentAdded(Entity<TScope> entity, TComponent component);
+        void OnComponentAdded(Entity<TScope> entity, TComponent view);
     }
 
     public interface IComponentRemovedListener<TScope, in TComponent> where TScope : IScope

@@ -14,7 +14,7 @@ namespace Unscientific.ECS.Modules.Steering
                             .Uses<CoreModule>()
                             .Uses<PhysicsModule>()
                         .End()
-                        .Components<Simulation>()
+                        .Components<Game>()
                             .Add<Steering>()
                             .Add<FlowField>()
                             .Add<TargetEntity>()

@@ -1,9 +1,9 @@
 ﻿namespace Unscientific.ECS.Modules.Core
 {
     /// <summary>
-    /// Simulation scope, used for deterministic simulation
+    /// Game scope, used for deterministic simulation
     /// </summary>
-    public abstract class Simulation : IScope
+    public abstract class Game : IScope
     {
     }
 

@@ -6,14 +6,14 @@ namespace Unscientific.ECS.Modules.Steering
 {
     public class SeekBehaviour : SteeringBehaviour
     {
-        private readonly Context<Simulation> _simulation;
+        private readonly Context<Game> _simulation;
 
-        public SeekBehaviour(Context<Simulation> simulation)
+        public SeekBehaviour(Context<Game> simulation)
         {
             _simulation = simulation;
         }
 
-        public override SteeringVelocity DoCalculate(Entity<Simulation> owner, ref SteeringVelocity accumulatedSteering)
+        public override SteeringVelocity DoCalculate(Entity<Game> owner, ref SteeringVelocity accumulatedSteering)
         {
             var target = FixVec2.Zero;
 

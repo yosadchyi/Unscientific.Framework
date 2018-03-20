@@ -6,14 +6,14 @@ namespace Unscientific.ECS.Modules.Steering
 {
     public class ArriveBehaviour : SteeringBehaviour
     {
-        private readonly Context<Simulation> _simulation;
+        private readonly Context<Game> _simulation;
 
-        public ArriveBehaviour(Context<Simulation> simulation)
+        public ArriveBehaviour(Context<Game> simulation)
         {
             _simulation = simulation;
         }
 
-        public override SteeringVelocity DoCalculate(Entity<Simulation> owner, ref SteeringVelocity accumulatedSteering)
+        public override SteeringVelocity DoCalculate(Entity<Game> owner, ref SteeringVelocity accumulatedSteering)
         {
             var target = FixVec2.Zero;
 
@@ -23,7 +23,7 @@ namespace Unscientific.ECS.Modules.Steering
             return Arrive(owner, target);
         }
 
-        protected SteeringVelocity Arrive(Entity<Simulation> owner, FixVec2 target)
+        protected SteeringVelocity Arrive(Entity<Game> owner, FixVec2 target)
         {
             var tolerance = owner.Get<ArrivalTolerance>();
             var position = owner.Get<Position>().Value;

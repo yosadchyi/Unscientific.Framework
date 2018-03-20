@@ -15,7 +15,7 @@ namespace Unscientific.ECS.Modules.Steering
             _proximityCallback = ProximityCallback;
         }
 
-        public override SteeringVelocity DoCalculate(Entity<Simulation> owner, ref SteeringVelocity accumulatedSteering)
+        public override SteeringVelocity DoCalculate(Entity<Game> owner, ref SteeringVelocity accumulatedSteering)
         {
             _linear = FixVec2.Zero;
             _position = owner.Get<Position>().Value;
@@ -33,7 +33,7 @@ namespace Unscientific.ECS.Modules.Steering
             return new SteeringVelocity(_linear);
         }
 
-        private bool ProximityCallback(Entity<Simulation> neighbor, Fix sqrRange)
+        private bool ProximityCallback(Entity<Game> neighbor, Fix sqrRange)
         {
             var toAgent = _position - neighbor.Get<Position>().Value;
 

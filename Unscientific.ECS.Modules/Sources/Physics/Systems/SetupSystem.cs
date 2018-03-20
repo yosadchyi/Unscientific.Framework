@@ -5,21 +5,24 @@ namespace Unscientific.ECS.Modules.Physics
 {
     public class SetupSystem: ISetupSystem
     {
-        private readonly Entity<Configuration> _singleton;
+        private readonly Context<Configuration> _configuration;
+        private readonly Context<Singletons> _singletons;
         private readonly ISpatialDatabase _spatialDatabase;
         private readonly Fix _timeStep;
 
         public SetupSystem(Contexts contexts, ISpatialDatabase spatialDatabase, Fix timeStep)
         {
-            _singleton = contexts.Singleton<Configuration>();
+            _configuration = contexts.Get<Configuration>();
+            _singletons = contexts.Get<Singletons>();
             _spatialDatabase = spatialDatabase;
             _timeStep = timeStep;
         }
 
         public void Setup()
         {
-            _singleton
-                .Add(new Space(_spatialDatabase))
+            _singletons.Singleton()
+                .Add(new Space(_spatialDatabase));
+            _configuration.Singleton()
                 .Add(new TimeStep(_timeStep));
         }
     }

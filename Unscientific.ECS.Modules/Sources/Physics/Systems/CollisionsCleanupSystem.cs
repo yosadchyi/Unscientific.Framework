@@ -5,11 +5,11 @@ namespace Unscientific.ECS.Modules.Physics
 {
     public class CollisionsCleanupSystem: ICleanupSystem
     {
-        private readonly Context<Simulation> _simulation;
+        private readonly Context<Game> _simulation;
 
         public CollisionsCleanupSystem(Contexts contexts)
         {
-            _simulation = contexts.Get<Simulation>();
+            _simulation = contexts.Get<Game>();
         }
 
         public void Cleanup()

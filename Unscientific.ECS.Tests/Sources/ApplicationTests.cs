@@ -128,7 +128,7 @@ namespace Unscientific.ECS.Tests
             var moduleD = new ModuleD(false);
             var moduleE = new ModuleE();
 
-            var application = new Game.Builder()
+            var application = new World.Builder()
                 .Using(moduleA)
                 .Using(moduleB)
                 .Using(moduleC)
@@ -155,7 +155,7 @@ namespace Unscientific.ECS.Tests
             var moduleE = new ModuleE();
 
             TestDelegate testDelegate = () => 
-                new Game.Builder()
+                new World.Builder()
                     .Using(moduleA)
                     .Using(moduleB)
                     .Using(moduleC)
@@ -172,7 +172,7 @@ namespace Unscientific.ECS.Tests
             var moduleA = new ModuleA();
 
             TestDelegate testDelegate = () => 
-                new Game.Builder()
+                new World.Builder()
                     .Using(moduleA)
                     .Build();
 

@@ -22,7 +22,7 @@ namespace Unscientific.ECS.Modules.Physics
         private readonly SpatialDatabaseCallback _addToListCallback;
         private Fix _circleRadius;
         private FixVec2 _circlePosition;
-        private List<Entity<Simulation>> _list;
+        private List<Entity<Game>> _list;
 
         internal ISpatialDatabase SpatialDatabase { get { return _spatialDatabase; } }
 
@@ -34,14 +34,14 @@ namespace Unscientific.ECS.Modules.Physics
             _addToListCallback = AddToList;
         }
 
-        public void QueryCircle(ref FixVec2 position, Fix radius, List<Entity<Simulation>> list)
+        public void QueryCircle(ref FixVec2 position, Fix radius, List<Entity<Game>> list)
         {
             _list = list;
             QueryCircle(ref position, radius, _addToListCallback);
             _list = null;
         }
 
-        private void AddToList(Entity<Simulation> entity, Shape shape)
+        private void AddToList(Entity<Game> entity, Shape shape)
         {
             _list.Add(entity);
         }
@@ -59,7 +59,7 @@ namespace Unscientific.ECS.Modules.Physics
             _callback = null;
         }
 
-        private void CircleCallback(Entity<Simulation> entity, Shape shape)
+        private void CircleCallback(Entity<Game> entity, Shape shape)
         {
             var transform = new Transform(entity.Get<Position>().Value, entity.Get<Orientation>().Value);
 
@@ -91,7 +91,7 @@ namespace Unscientific.ECS.Modules.Physics
             }
         }
 
-        public void QueryAABB(ref AABB aabb, List<Entity<Simulation>> list)
+        public void QueryAABB(ref AABB aabb, List<Entity<Game>> list)
         {
             _list = list;
             QueryAABB(ref aabb, _addToListCallback);
@@ -107,7 +107,7 @@ namespace Unscientific.ECS.Modules.Physics
             _callback = null;
         }
 
-        private void AABBCallback(Entity<Simulation> entity, Shape shape)
+        private void AABBCallback(Entity<Game> entity, Shape shape)
         {
             var transform = new Transform(entity.Get<Position>().Value, entity.Get<Orientation>().Value);
 

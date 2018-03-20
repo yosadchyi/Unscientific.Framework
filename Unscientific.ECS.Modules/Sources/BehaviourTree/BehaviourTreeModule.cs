@@ -12,7 +12,7 @@ namespace Unscientific.ECS.Modules.BehaviourTree
                         .Usages()
                             .Uses<CoreModule>()
                         .End()
-                        .Components<Simulation>()
+                        .Components<Game>()
                             .Add<BehaviourTreeData>()
                         .End()
                         .Systems()
