@@ -2,6 +2,7 @@
 
 namespace Unscientific.ECS.Unity
 {
+    [RequireComponent(typeof(UnityHandlers))]
     public class WorldController : MonoBehaviour
     {
         #region Configuration
@@ -29,7 +30,7 @@ namespace Unscientific.ECS.Unity
         private void Awake()
         {
             World = World.Instance;
-            _handlers = new UnityHandlers();
+            _handlers = gameObject.GetComponent<UnityHandlers>();
             _systems = World.Systems;
             _messageBus = World.MessageBus;
         }
@@ -37,7 +38,7 @@ namespace Unscientific.ECS.Unity
         private void Start()
         {
             _systems.Setup();
-            _handlers.Initialize(World.Contexts, World.MessageBus, ParentTransform);
+            _handlers.Initialize(World.Contexts, ParentTransform);
             System.GC.Collect();
         }
 
