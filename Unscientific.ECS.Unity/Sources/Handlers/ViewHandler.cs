@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using Unscientific.ECS.Modules.Core;
 using Unscientific.ECS.Modules.Physics;
@@ -10,8 +11,7 @@ namespace Unscientific.ECS.Unity
     public class ViewHandler<TScope>: 
         IComponentListener<TScope, View>,
         IComponentListener<TScope, Position>,
-        IComponentListener<TScope, Orientation>
-        where TScope : IScope
+        IComponentListener<TScope, Orientation> where TScope : IScope
     {
         private readonly Contexts _contexts;
         private readonly Transform _parentTransform;
@@ -113,7 +113,7 @@ namespace Unscientific.ECS.Unity
 
             return gameObjectPool.Get();
         }
-        
+
         private void MoveView(Entity<TScope> entity, Position position)
         {
             GameObject view;

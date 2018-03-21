@@ -13,10 +13,9 @@
         
         public void Cleanup()
         {
-            foreach (var message in _messageBus.All<EntityDestroyed<TScope>>())
+            foreach (var message in _messageBus.All<ComponentAdded<TScope, Destroyed>>())
             {
-                var entity = message.Reference.Release();
-                _context.DestroyEntity(entity);
+                _context.DestroyEntity(message.Entity);
             }
         }
     }

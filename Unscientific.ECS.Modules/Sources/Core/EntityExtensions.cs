@@ -7,7 +7,6 @@
             if (!self.Has<Destroyed>())
             {
                 self.Add(new Destroyed());
-                MessageBus.Instance.Send(new EntityDestroyed<TScope>(self));
             }
         }
 

@@ -13,9 +13,9 @@ namespace Unscientific.ECS.Modules.BehaviourTree
         
         public void Cleanup()
         {
-            foreach (var message in _messageBus.All<EntityDestroyed<Game>>())
+            foreach (var message in _messageBus.All<ComponentAdded<Game, Destroyed>>())
             {
-                var entity = message.Reference.Entity;
+                var entity = message.Entity;
 
                 if (!entity.Has<BehaviourTreeData>())
                     continue;

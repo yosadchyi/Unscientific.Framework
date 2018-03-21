@@ -50,7 +50,6 @@
     <Compile Include="Sources\Core\Components.cs" />
     <Compile Include="Sources\Core\EntityExtensions.cs" />
     <Compile Include="Sources\Core\IGameComponentListener.cs" />
-    <Compile Include="Sources\Core\Messages.cs" />
     <Compile Include="Sources\Core\Module.cs" />
     <Compile Include="Sources\Core\Scopes.cs" />
     <Compile Include="Sources\Core\Systems\DestroySystem.cs" />
