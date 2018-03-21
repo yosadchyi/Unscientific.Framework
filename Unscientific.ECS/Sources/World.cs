@@ -24,7 +24,7 @@ namespace Unscientific.ECS
                 return this;
             }
 
-            public Builder Using(IModule module)
+            public Builder Uses(IModule module)
             {
                 _modules.Add(module);
                 return this;
@@ -51,11 +51,11 @@ namespace Unscientific.ECS
 
             foreach (var module in sortedModules)
                 module.Notifications().Register(Contexts, MessageBus);
-
-            // add systems
+    
+            // add systems, in order matching module order in Uses clauses
             var builder = new Systems.Builder();
 
-            foreach (var module in sortedModules)
+            foreach (var module in modules)
                 builder.Add(module.Systems(Contexts, MessageBus));
 
             Systems = builder.ReverseCleanupSystemsOrder().Build();

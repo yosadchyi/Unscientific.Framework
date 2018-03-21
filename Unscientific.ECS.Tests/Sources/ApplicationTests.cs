@@ -129,11 +129,11 @@ namespace Unscientific.ECS.Tests
             var moduleE = new ModuleE();
 
             var application = new World.Builder()
-                .Using(moduleA)
-                .Using(moduleB)
-                .Using(moduleC)
-                .Using(moduleD)
-                .Using(moduleE)
+                .Uses(moduleA)
+                .Uses(moduleB)
+                .Uses(moduleC)
+                .Uses(moduleD)
+                .Uses(moduleE)
                 .Build();
             
             application.Setup();
@@ -156,11 +156,11 @@ namespace Unscientific.ECS.Tests
 
             TestDelegate testDelegate = () => 
                 new World.Builder()
-                    .Using(moduleA)
-                    .Using(moduleB)
-                    .Using(moduleC)
-                    .Using(moduleD)
-                    .Using(moduleE)
+                    .Uses(moduleA)
+                    .Uses(moduleB)
+                    .Uses(moduleC)
+                    .Uses(moduleD)
+                    .Uses(moduleE)
                     .Build();
 
             Assert.Throws(typeof(ModulesHaveCircularReferenceException), testDelegate);
@@ -173,7 +173,7 @@ namespace Unscientific.ECS.Tests
 
             TestDelegate testDelegate = () => 
                 new World.Builder()
-                    .Using(moduleA)
+                    .Uses(moduleA)
                     .Build();
 
             Assert.Throws(typeof(NoRequiredModuleException), testDelegate);
