@@ -29,9 +29,9 @@ namespace Unscientific.ECS.Modules.Core
                 return new MessageRegistrationsBuilder(this);
             }
 
-            public NotificationRegistrationsBuilder<TScope> Notifications<TScope>() where TScope : IScope
+            public MessageNotificationRegistrationsBuilder MessageNotifications()
             {
-                return new NotificationRegistrationsBuilder<TScope>(this);
+                return new MessageNotificationRegistrationsBuilder(this);
             }
 
             public ContextRegistrationsBuilder Contexts()
@@ -42,6 +42,11 @@ namespace Unscientific.ECS.Modules.Core
             public ComponentRegistrationsBuilder<TScope> Components<TScope>() where TScope : IScope
             {
                 return new ComponentRegistrationsBuilder<TScope>(this);
+            }
+
+            public ComponentNotificationRegistrationsBuilder<TScope> ComponentNotifications<TScope>() where TScope : IScope
+            {
+                return new ComponentNotificationRegistrationsBuilder<TScope>(this);
             }
 
             public IModule Build()

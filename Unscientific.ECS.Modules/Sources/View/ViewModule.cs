@@ -12,8 +12,8 @@ namespace Unscientific.ECS.Modules.View
                     .Components<Game>()
                         .Add<View>()
                     .End()
-                    .Notifications<Game>()
-                        .AddComponentNotifications<View>()
+                    .ComponentNotifications<Game>()
+                        .AddAllNotifications<View>()
                     .End()
                 .Build();
             }

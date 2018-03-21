@@ -7,7 +7,7 @@ namespace Unscientific.ECS.Modules.Core
     {
         public partial class Builder
         {
-            public class NotificationRegistrationsBuilder<TScope> where TScope : IScope
+            public class ComponentNotificationRegistrationsBuilder<TScope> where TScope : IScope
             {
                 // ReSharper disable once StaticMemberInGenericType
                 private static readonly HashSet<Type> RegisteredComponentMessageProducers = new HashSet<Type>();
@@ -16,12 +16,12 @@ namespace Unscientific.ECS.Modules.Core
                 private readonly List<Action<Contexts, MessageBus>> _registrations = new List<Action<Contexts, MessageBus>>();
                 private readonly List<SystemFactory> _systemFactories = new List<SystemFactory>();
 
-                public NotificationRegistrationsBuilder(Builder parent)
+                public ComponentNotificationRegistrationsBuilder(Builder parent)
                 {
                     _parent = parent;
                 }
 
-                public NotificationRegistrationsBuilder<TScope> AddComponentAddedNotifications<TComponent>()
+                public ComponentNotificationRegistrationsBuilder<TScope> AddAddedNotifications<TComponent>()
                 {
                     _parent._componentRegistrations.For<Singletons>()
                         .Add<ComponentAddedListeners<TScope, TComponent>>()
@@ -40,7 +40,7 @@ namespace Unscientific.ECS.Modules.Core
                     return this;
                 }
 
-                public NotificationRegistrationsBuilder<TScope> AddComponentRemovedNotifications<TComponent>()
+                public ComponentNotificationRegistrationsBuilder<TScope> AddRemovedNotifications<TComponent>()
                 {
                     _parent._componentRegistrations.For<Singletons>()
                         .Add<ComponentRemovedListeners<TScope, TComponent>>()
@@ -59,7 +59,7 @@ namespace Unscientific.ECS.Modules.Core
                     return this;
                 }
 
-                public NotificationRegistrationsBuilder<TScope> AddComponentReplacedNotifications<TComponent>()
+                public ComponentNotificationRegistrationsBuilder<TScope> AddReplacedNotifications<TComponent>()
                 {
                     _parent._componentRegistrations.For<Singletons>()
                         .Add<ComponentReplacedListeners<TScope, TComponent>>()
@@ -78,11 +78,11 @@ namespace Unscientific.ECS.Modules.Core
                     return this;
                 }
 
-                public NotificationRegistrationsBuilder<TScope> AddComponentNotifications<TComponent>()
+                public ComponentNotificationRegistrationsBuilder<TScope> AddAllNotifications<TComponent>()
                 {
-                    return AddComponentAddedNotifications<TComponent>()
-                        .AddComponentRemovedNotifications<TComponent>()
-                        .AddComponentReplacedNotifications<TComponent>();
+                    return AddAddedNotifications<TComponent>()
+                        .AddRemovedNotifications<TComponent>()
+                        .AddReplacedNotifications<TComponent>();
                 }
 
                 public Builder End()

@@ -48,6 +48,7 @@
     <Compile Include="Sources\Notifications\ComponentNotificationSystems.cs" />
     <Compile Include="Sources\Notifications\IComponentListener.cs" />
     <Compile Include="Sources\Notifications\IMessageListener.cs" />
+    <Compile Include="Sources\Notifications\MessageNotificationSystem.cs" />
     <Compile Include="Sources\Notifications\NotificationRegistrations.cs" />
     <Compile Include="Sources\World.cs" />
     <Compile Include="Sources\Exception\EntityAlreadyHasComponentException.cs" />
