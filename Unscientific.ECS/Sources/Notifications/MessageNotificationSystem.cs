@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Runtime.Serialization.Formatters;
 
 namespace Unscientific.ECS
 {
@@ -35,7 +34,7 @@ namespace Unscientific.ECS
 
             if (listeners.Count == 0)
                 return;
-            
+
             foreach (var message in _messageBus.All<TMessage>())
             {
                 foreach (var listener in listeners)

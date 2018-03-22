@@ -1,10 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using UnityEngine;
-using Unscientific.ECS.Modules.Core;
-using Unscientific.ECS.Modules.Physics;
+﻿using Unscientific.ECS.Modules.Core;
 using Unscientific.ECS.Modules.View;
-using Transform = UnityEngine.Transform;
 
 namespace Unscientific.ECS.Unity
 {
