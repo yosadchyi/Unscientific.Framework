@@ -1,40 +1,36 @@
-﻿using UnityEngine;
-using Unscientific.ECS.Modules.Core;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 namespace Unscientific.ECS.Unity
 {
-    public class UnityHandlers: MonoBehaviour
+    public class UnityHandlers: MonoBehaviour, IHandler
     {
-        public AssetFactory AssetFactory;
-        public EntityViewDatabase<Game> EntityViewDatabase;
-        public DestroyHandler<Game> DestroyHandler;
-        public ViewHandler<Game> ViewHandler;
-        public PositionHandler<Game> PositionHandler;
-        public OrientationHandler<Game> OrientationHandler;
+        private List<IHandler> _handlers;
 
-        public void Initialize(Contexts contexts, Transform parenTransform)
+        private void Awake()
         {
-            AssetFactory = new AssetFactory(parenTransform);
-            EntityViewDatabase = new EntityViewDatabase<Game>();
-            DestroyHandler = new DestroyHandler<Game>(contexts);
-            ViewHandler = new ViewHandler<Game>(contexts, AssetFactory, EntityViewDatabase);
-            PositionHandler = new PositionHandler<Game>(contexts, EntityViewDatabase);
-            OrientationHandler = new OrientationHandler<Game>(contexts, EntityViewDatabase);
+            _handlers = GetComponents<IHandler>().Where(handler => !ReferenceEquals(handler, this)).ToList();
+            foreach (var handler in _handlers)
+            {
+                Debug.Log(handler);
+            }
+        }
+
+        public void Initialize(Contexts contexts, MessageBus messageBus)
+        {
+            foreach (var handler in _handlers)
+            {
+                handler.Initialize(contexts, messageBus);
+            }
         }
 
         public void Destroy()
         {
-            DestroyHandler.Destroy();
-            ViewHandler.Destroy();
-            PositionHandler.Destroy();
-            OrientationHandler.Destroy();
-
-            AssetFactory = null;
-            EntityViewDatabase = null;
-            DestroyHandler = null;
-            ViewHandler = null;
-            PositionHandler = null;
-            OrientationHandler = null;
+            foreach (var handler in _handlers)
+            {
+                handler.Destroy();
+            }
         }
     }
 }

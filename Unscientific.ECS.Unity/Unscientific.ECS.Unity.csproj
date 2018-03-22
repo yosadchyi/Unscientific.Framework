@@ -43,6 +43,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sources\Handlers\AssetFactory.cs" />
     <Compile Include="Sources\Handlers\DestroyHandler.cs" />
+    <Compile Include="Sources\Handlers\GameHandlers.cs" />
+    <Compile Include="Sources\Handlers\IHandler.cs" />
     <Compile Include="Sources\Handlers\UnityHandlers.cs" />
     <Compile Include="Sources\Handlers\EntityViewDatabase.cs" />
     <Compile Include="Sources\Handlers\OrientationHandler.cs" />

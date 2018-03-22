@@ -1,25 +1,21 @@
-﻿using Unscientific.ECS.Modules.Core;
+﻿using UnityEngine;
+using Unscientific.ECS.Modules.Core;
 using Unscientific.ECS.Modules.View;
 
 namespace Unscientific.ECS.Unity
 {
-    public class ViewHandler<TScope>: IComponentListener<TScope, View> where TScope : IScope
+    public class ViewHandler<TScope>: MonoBehaviour, IHandler, IComponentListener<TScope, View> where TScope : IScope
     {
-        private readonly Contexts _contexts;
-        private readonly AssetFactory _assetFactory;
-        private readonly EntityViewDatabase<TScope> _entityViewDatabase;
+        private Contexts _contexts;
+        private AssetFactory _assetFactory;
+        private EntityViewDatabase<TScope> _entityViewDatabase;
 
-        public ViewHandler(Contexts contexts, AssetFactory assetFactory, EntityViewDatabase<TScope> entityViewDatabase)
+        public void Initialize(Contexts contexts, MessageBus messageBus)
         {
             _contexts = contexts;
-            _assetFactory = assetFactory;
-            _entityViewDatabase = entityViewDatabase;
+            _assetFactory = GetComponent<AssetFactory>();
+            _entityViewDatabase = GetComponent<EntityViewDatabase<TScope>>();
             _contexts.Singleton().AddComponentListener(this);
-        }
-
-        public void Destroy()
-        {
-            _contexts.Singleton().RemoveComponentListener(this);
         }
 
         public void OnComponentAdded(Entity<TScope> entity, View view)
@@ -36,6 +32,11 @@ namespace Unscientific.ECS.Unity
         {
             OnComponentRemoved(entity, oldComponent);
             OnComponentAdded(entity, newComponent);
+        }
+
+        public void Destroy()
+        {
+            _contexts.Singleton().RemoveComponentListener(this);
         }
     }
 }

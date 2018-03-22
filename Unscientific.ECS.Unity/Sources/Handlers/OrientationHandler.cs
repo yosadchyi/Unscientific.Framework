@@ -5,21 +5,16 @@ using Unscientific.ECS.Modules.View;
 
 namespace Unscientific.ECS.Unity
 {
-    public class OrientationHandler<TScope>: IComponentListener<TScope, Orientation> where TScope : IScope
+    public class OrientationHandler<TScope>: MonoBehaviour, IHandler, IComponentListener<TScope, Orientation> where TScope : IScope
     {
-        private readonly Contexts _contexts;
-        private readonly EntityViewDatabase<TScope> _entityViewDatabase;
+        private Contexts _contexts;
+        private EntityViewDatabase<TScope> _entityViewDatabase;
 
-        public OrientationHandler(Contexts contexts, EntityViewDatabase<TScope> entityViewDatabase)
+        public void Initialize(Contexts contexts, MessageBus messageBus)
         {
             _contexts = contexts;
-            _entityViewDatabase = entityViewDatabase;
+            _entityViewDatabase = GetComponent<EntityViewDatabase<TScope>>();
             _contexts.Singleton().AddComponentListener(this);
-        }
-
-        public void Destroy()
-        {
-            _contexts.Singleton().RemoveComponentListener(this);
         }
 
         public void OnComponentAdded(Entity<TScope> entity, Orientation orientation)
@@ -34,6 +29,11 @@ namespace Unscientific.ECS.Unity
         public void OnComponentReplaced(Entity<TScope> entity, Orientation oldOrientation, Orientation newOrientation)
         {
             if (entity.Has<View>()) RotateView(entity, newOrientation);
+        }
+
+        public void Destroy()
+        {
+            _contexts.Singleton().RemoveComponentListener(this);
         }
 
         private void RotateView(Entity<TScope> entity, Orientation orientation)

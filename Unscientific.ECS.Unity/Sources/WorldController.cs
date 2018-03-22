@@ -38,7 +38,7 @@ namespace Unscientific.ECS.Unity
         private void Start()
         {
             _systems.Setup();
-            _handlers.Initialize(World.Contexts, ParentTransform);
+            _handlers.Initialize(World.Contexts, World.MessageBus);
             System.GC.Collect();
         }
 

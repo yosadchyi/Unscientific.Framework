@@ -3,14 +3,14 @@ using UnityEngine;
 
 namespace Unscientific.ECS.Unity
 {
-    public class AssetFactory
+    public class AssetFactory: MonoBehaviour, IHandler
     {
-        private readonly Transform _parentTransform;
+        public Transform ParentTransform;
+
         private readonly Dictionary<string, GameObjectPool> _assetNameToPool = new Dictionary<string, GameObjectPool>();
 
-        public AssetFactory(Transform parentTransform)
+        public void Initialize(Contexts contexts, MessageBus messageBus)
         {
-            _parentTransform = parentTransform;
         }
 
         public GameObject CreateAsset(string name)
@@ -19,11 +19,15 @@ namespace Unscientific.ECS.Unity
 
             if (!_assetNameToPool.TryGetValue(name, out gameObjectPool))
             {
-                gameObjectPool = new GameObjectPool(name, _parentTransform);
+                gameObjectPool = new GameObjectPool(name, ParentTransform);
                 _assetNameToPool[name] = gameObjectPool;
             }
 
             return gameObjectPool.Get();
+        }
+
+        public void Destroy()
+        {
         }
     }
 }

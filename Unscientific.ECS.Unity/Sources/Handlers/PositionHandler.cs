@@ -1,24 +1,20 @@
-﻿using Unscientific.ECS.Modules.Core;
+﻿using UnityEngine;
+using Unscientific.ECS.Modules.Core;
 using Unscientific.ECS.Modules.Physics;
 using Unscientific.ECS.Modules.View;
 
 namespace Unscientific.ECS.Unity
 {
-    public class PositionHandler<TScope>: IComponentListener<TScope, Position> where TScope : IScope
+    public class PositionHandler<TScope>: MonoBehaviour, IHandler, IComponentListener<TScope, Position> where TScope : IScope
     {
-        private readonly Contexts _contexts;
-        private readonly EntityViewDatabase<TScope> _entityViewDatabase;
+        private Contexts _contexts;
+        private EntityViewDatabase<TScope> _entityViewDatabase;
 
-        public PositionHandler(Contexts contexts, EntityViewDatabase<TScope> entityViewDatabase)
+        public void Initialize(Contexts contexts, MessageBus messageBus)
         {
             _contexts = contexts;
-            _entityViewDatabase = entityViewDatabase;
+            _entityViewDatabase = GetComponent<EntityViewDatabase<TScope>>();
             _contexts.Singleton().AddComponentListener(this);
-        }
-
-        public void Destroy()
-        {
-            _contexts.Singleton().RemoveComponentListener(this);
         }
 
         public void OnComponentAdded(Entity<TScope> entity, Position position)
@@ -33,6 +29,11 @@ namespace Unscientific.ECS.Unity
         public void OnComponentReplaced(Entity<TScope> entity, Position oldPosition, Position newPosition)
         {
             if (entity.Has<View>()) MoveView(entity, newPosition);
+        }
+
+        public void Destroy()
+        {
+            _contexts.Singleton().RemoveComponentListener(this);
         }
 
         private void MoveView(Entity<TScope> entity, Position position)

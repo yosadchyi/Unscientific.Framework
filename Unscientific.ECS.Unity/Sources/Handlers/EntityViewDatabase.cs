@@ -3,9 +3,13 @@ using UnityEngine;
 
 namespace Unscientific.ECS.Unity
 {
-    public class EntityViewDatabase<TScope> where TScope : IScope
+    public class EntityViewDatabase<TScope>: MonoBehaviour, IHandler where TScope : IScope
     {
         private readonly Dictionary<int, GameObject> _entityToView = new Dictionary<int, GameObject>();
+
+        public void Initialize(Contexts contexts, MessageBus messageBus)
+        {
+        }
 
         public void AddView(Entity<TScope> entity, GameObject view)
         {
@@ -16,12 +20,16 @@ namespace Unscientific.ECS.Unity
         {
             return _entityToView[entity.Id];
         }
-        
+
         public GameObject RemoveView(Entity<TScope> entity)
         {
-            var gameObject = GetView(entity);
+            var view = GetView(entity);
             _entityToView.Remove(entity.Id);
-            return gameObject;
+            return view;
+        }
+
+        public void Destroy()
+        {
         }
     }
 }
