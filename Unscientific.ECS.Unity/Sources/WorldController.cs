@@ -2,7 +2,7 @@
 
 namespace Unscientific.ECS.Unity
 {
-    [RequireComponent(typeof(UnityHandlers))]
+    [RequireComponent(typeof(Handlers))]
     public class WorldController : MonoBehaviour
     {
         #region Exposed properties
@@ -13,7 +13,7 @@ namespace Unscientific.ECS.Unity
 
         #region Internal state
 
-        private UnityHandlers _handlers;
+        private Handlers _handlers;
         private Systems _systems;
         private MessageBus _messageBus;
 
@@ -24,7 +24,7 @@ namespace Unscientific.ECS.Unity
         private void Awake()
         {
             World = World.Instance;
-            _handlers = gameObject.GetComponent<UnityHandlers>();
+            _handlers = gameObject.GetComponent<Handlers>();
             _systems = World.Systems;
             _messageBus = World.MessageBus;
         }

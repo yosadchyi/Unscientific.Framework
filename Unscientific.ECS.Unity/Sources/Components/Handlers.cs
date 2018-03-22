@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Unscientific.ECS.Unity
 {
-    public class UnityHandlers: MonoBehaviour, IHandler
+    public class Handlers: MonoBehaviour, IHandler
     {
         private List<IHandler> _handlers;
 
