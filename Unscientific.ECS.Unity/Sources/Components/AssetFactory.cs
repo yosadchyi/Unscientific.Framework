@@ -12,6 +12,8 @@ namespace Unscientific.ECS.Unity
 
         public void Initialize(Contexts contexts, MessageBus messageBus)
         {
+            // default to root game object transform
+            ParentTransform = transform;
         }
 
         public GameObject CreateAsset(string name)
