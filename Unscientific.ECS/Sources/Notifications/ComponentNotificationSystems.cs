@@ -53,6 +53,9 @@ namespace Unscientific.ECS
         public void Update()
         {
             var listeners = _singletonContext.First().Get<ComponentAddedListeners<TScope, TComponent>>().Listeners;
+            
+            if (listeners.Count == 0)
+                return;
 
             foreach (var message in _messageBus.All<ComponentAdded<TScope, TComponent>>())
             {
@@ -85,6 +88,9 @@ namespace Unscientific.ECS
         public void Update()
         {
             var listeners = _singletonContext.First().Get<ComponentRemovedListeners<TScope, TComponent>>().Listeners;
+            
+            if (listeners.Count == 0)
+                return;
 
             foreach (var message in _messageBus.All<ComponentRemoved<TScope, TComponent>>())
             {
@@ -117,6 +123,9 @@ namespace Unscientific.ECS
         public void Update()
         {
             var listeners = _singletonContext.First().Get<ComponentReplacedListeners<TScope, TComponent>>().Listeners;
+            
+            if (listeners.Count == 0)
+                return;
 
             foreach (var message in _messageBus.All<ComponentReplaced<TScope, TComponent>>())
             {
