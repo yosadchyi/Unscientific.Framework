@@ -41,17 +41,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Sources\Handlers\AssetFactory.cs" />
-    <Compile Include="Sources\Handlers\DestroyHandler.cs" />
-    <Compile Include="Sources\Handlers\GameHandlers.cs" />
-    <Compile Include="Sources\Handlers\IHandler.cs" />
-    <Compile Include="Sources\Handlers\UnityHandlers.cs" />
-    <Compile Include="Sources\Handlers\EntityViewDatabase.cs" />
-    <Compile Include="Sources\Handlers\OrientationHandler.cs" />
-    <Compile Include="Sources\Handlers\PositionHandler.cs" />
+    <Compile Include="Sources\Components\AssetFactory.cs" />
+    <Compile Include="Sources\Components\DestroyHandler.cs" />
+    <Compile Include="Sources\Components\GameHandlers.cs" />
+    <Compile Include="Sources\Components\IHandler.cs" />
+    <Compile Include="Sources\Components\UnityHandlers.cs" />
+    <Compile Include="Sources\Components\EntityViewDatabase.cs" />
+    <Compile Include="Sources\Components\OrientationHandler.cs" />
+    <Compile Include="Sources\Components\PositionHandler.cs" />
     <Compile Include="Sources\ViewPlane.cs" />
     <Compile Include="Sources\WorldController.cs" />
-    <Compile Include="Sources\Handlers\ViewHandler.cs" />
+    <Compile Include="Sources\Components\ViewHandler.cs" />
     <Compile Include="Sources\Pool\GameObjectPool.cs" />
     <Compile Include="Sources\Pool\GameObjectPoolLink.cs" />
     <Compile Include="Sources\Util\FixVec2Extensions.cs" />
