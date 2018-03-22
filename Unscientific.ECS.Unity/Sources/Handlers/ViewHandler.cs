@@ -6,6 +6,8 @@ namespace Unscientific.ECS.Unity
 {
     public class ViewHandler<TScope>: MonoBehaviour, IHandler, IComponentListener<TScope, View> where TScope : IScope
     {
+        public ViewPlane ViewPlane = ViewPlane.XZ;
+
         private Contexts _contexts;
         private AssetFactory _assetFactory;
         private EntityViewDatabase<TScope> _entityViewDatabase;

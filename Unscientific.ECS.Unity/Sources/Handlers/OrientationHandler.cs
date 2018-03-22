@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Unscientific.ECS.Modules.Core;
 using Unscientific.ECS.Modules.Physics;
 using Unscientific.ECS.Modules.View;
@@ -8,12 +9,14 @@ namespace Unscientific.ECS.Unity
     public class OrientationHandler<TScope>: MonoBehaviour, IHandler, IComponentListener<TScope, Orientation> where TScope : IScope
     {
         private Contexts _contexts;
+        private ViewHandler<TScope> _viewHandler;
         private EntityViewDatabase<TScope> _entityViewDatabase;
 
         public void Initialize(Contexts contexts, MessageBus messageBus)
         {
             _contexts = contexts;
             _entityViewDatabase = GetComponent<EntityViewDatabase<TScope>>();
+            _viewHandler = GetComponent<ViewHandler<TScope>>();
             _contexts.Singleton().AddComponentListener(this);
         }
 
@@ -40,7 +43,17 @@ namespace Unscientific.ECS.Unity
         {
             var view = _entityViewDatabase.GetView(entity);
 
-            view.transform.eulerAngles = new Vector3(0, -orientation.Value.AsFloat * Mathf.Rad2Deg, 0);
+            switch (_viewHandler.ViewPlane)
+            {
+                case ViewPlane.XY:
+                    view.transform.eulerAngles = new Vector3(0, 0, -orientation.Value.AsFloat * Mathf.Rad2Deg);
+                    break;
+                case ViewPlane.XZ:
+                    view.transform.eulerAngles = new Vector3(0, -orientation.Value.AsFloat * Mathf.Rad2Deg, 0);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

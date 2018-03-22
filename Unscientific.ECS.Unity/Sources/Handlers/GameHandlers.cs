@@ -11,7 +11,7 @@ namespace Unscientific.ECS.Unity
     {
     }
 
-    [RequireComponent(typeof(AssetFactory), typeof(GameEntityViewDatabase))]
+    [RequireComponent(typeof(AssetFactory), typeof(GameEntityViewDatabase), typeof(GameDestroyHandler))]
     public class GameViewHandler : ViewHandler<Game>
     {
     }

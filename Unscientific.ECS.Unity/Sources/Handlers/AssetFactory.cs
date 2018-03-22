@@ -6,6 +6,7 @@ namespace Unscientific.ECS.Unity
     public class AssetFactory: MonoBehaviour, IHandler
     {
         public Transform ParentTransform;
+        public bool ClearOnDestroy;
 
         private readonly Dictionary<string, GameObjectPool> _assetNameToPool = new Dictionary<string, GameObjectPool>();
 
@@ -28,6 +29,11 @@ namespace Unscientific.ECS.Unity
 
         public void Destroy()
         {
+            if (ClearOnDestroy)
+            {
+                foreach (var pool in _assetNameToPool.Values)
+                    pool.Clear();
+            }
         }
     }
 }

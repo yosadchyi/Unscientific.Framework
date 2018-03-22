@@ -47,6 +47,11 @@ namespace Unscientific.Util.Pool
             _pool.Enqueue(instance);
         }
 
+        public void Clear()
+        {
+            _pool.Clear();
+        }
+
         protected virtual void Deactivate(T instance)
         {
         }

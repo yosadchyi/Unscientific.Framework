@@ -5,12 +5,6 @@ namespace Unscientific.ECS.Unity
     [RequireComponent(typeof(UnityHandlers))]
     public class WorldController : MonoBehaviour
     {
-        #region Configuration
-
-        public Transform ParentTransform;
-
-        #endregion
-
         #region Exposed properties
 
         public World World { get; private set; }

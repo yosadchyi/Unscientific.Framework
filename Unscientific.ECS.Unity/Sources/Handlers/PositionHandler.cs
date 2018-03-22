@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using Unscientific.ECS.Modules.Core;
 using Unscientific.ECS.Modules.Physics;
 using Unscientific.ECS.Modules.View;
@@ -8,11 +9,13 @@ namespace Unscientific.ECS.Unity
     public class PositionHandler<TScope>: MonoBehaviour, IHandler, IComponentListener<TScope, Position> where TScope : IScope
     {
         private Contexts _contexts;
+        private ViewHandler<TScope> _viewHandler;
         private EntityViewDatabase<TScope> _entityViewDatabase;
 
         public void Initialize(Contexts contexts, MessageBus messageBus)
         {
             _contexts = contexts;
+            _viewHandler = GetComponent<ViewHandler<TScope>>();
             _entityViewDatabase = GetComponent<EntityViewDatabase<TScope>>();
             _contexts.Singleton().AddComponentListener(this);
         }
@@ -40,7 +43,17 @@ namespace Unscientific.ECS.Unity
         {
             var view = _entityViewDatabase.GetView(entity);
 
-            view.transform.localPosition = position.Value.ToVector3();
+            switch (_viewHandler.ViewPlane)
+            {
+                case ViewPlane.XY:
+                    view.transform.localPosition = position.Value.ToVector3();
+                    break;
+                case ViewPlane.XZ:
+                    view.transform.localPosition = position.Value.ToVector3XZ();
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

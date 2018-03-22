@@ -49,6 +49,7 @@
     <Compile Include="Sources\Handlers\EntityViewDatabase.cs" />
     <Compile Include="Sources\Handlers\OrientationHandler.cs" />
     <Compile Include="Sources\Handlers\PositionHandler.cs" />
+    <Compile Include="Sources\ViewPlane.cs" />
     <Compile Include="Sources\WorldController.cs" />
     <Compile Include="Sources\Handlers\ViewHandler.cs" />
     <Compile Include="Sources\Pool\GameObjectPool.cs" />

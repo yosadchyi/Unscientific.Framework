@@ -11,10 +11,6 @@ namespace Unscientific.ECS.Unity
         private void Awake()
         {
             _handlers = GetComponents<IHandler>().Where(handler => !ReferenceEquals(handler, this)).ToList();
-            foreach (var handler in _handlers)
-            {
-                Debug.Log(handler);
-            }
         }
 
         public void Initialize(Contexts contexts, MessageBus messageBus)
