@@ -24,7 +24,7 @@ namespace Unscientific.ECS.Unity
         private void Awake()
         {
             World = World.Instance;
-            _handlers = gameObject.GetComponent<Handlers>();
+            _handlers = GetComponent<Handlers>();
             _systems = World.Systems;
             _messageBus = World.MessageBus;
         }
