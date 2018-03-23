@@ -1,0 +1,97 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E1CD49D0-5286-4706-A92C-C915C64ECD46}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Unscientific.ECS</RootNamespace>
+    <AssemblyName>Unscientific.ECS</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE;UNSAFE_ECS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sources\Context\ComponentRegistrations.cs" />
+    <Compile Include="Sources\Context\Context.cs" />
+    <Compile Include="Sources\Context\Contexts.cs" />
+    <Compile Include="Sources\Context\Entity.cs" />
+    <Compile Include="Sources\Context\Identity.cs" />
+    <Compile Include="Sources\Context\IScope.cs" />
+    <Compile Include="Sources\Exception\ContextReachedMaximalCapacity.cs" />
+    <Compile Include="Sources\Notifications\ComponentNotificationSystems.cs" />
+    <Compile Include="Sources\Notifications\IComponentListener.cs" />
+    <Compile Include="Sources\Notifications\IMessageListener.cs" />
+    <Compile Include="Sources\Notifications\MessageNotificationSystem.cs" />
+    <Compile Include="Sources\Notifications\NotificationRegistrations.cs" />
+    <Compile Include="Sources\World.cs" />
+    <Compile Include="Sources\Exception\EntityAlreadyHasComponentException.cs" />
+    <Compile Include="Sources\Exception\EntityDoesNotExistsException.cs" />
+    <Compile Include="Sources\Exception\EntityHasNoComponentException.cs" />
+    <Compile Include="Sources\Exception\EntityIsAlreadyRetainedException.cs" />
+    <Compile Include="Sources\Exception\MessageNotRegisteredException.cs" />
+    <Compile Include="Sources\Exception\ModulesHaveCircularReferenceException.cs" />
+    <Compile Include="Sources\Exception\NoEntitiesException.cs" />
+    <Compile Include="Sources\Exception\NoRequiredModuleException.cs" />
+    <Compile Include="Sources\Exception\ReleasingNonOwnedEntityException.cs" />
+    <Compile Include="Sources\Exception\ReleasingNonRetainedEntityException.cs" />
+    <Compile Include="Sources\Exception\ReleasingRetainedEntityException.cs" />
+    <Compile Include="Sources\Exception\TryingToDestroyReferencedEntity.cs" />
+    <Compile Include="Sources\Messages\ComponentMessageProducer.cs" />
+    <Compile Include="Sources\Messages\MessageBus.cs" />
+    <Compile Include="Sources\Messages\MessageRegistrations.cs" />
+    <Compile Include="Sources\Module\IModule.cs" />
+    <Compile Include="Sources\Module\IModuleBuilder.cs" />
+    <Compile Include="Sources\Module\IModuleTag.cs" />
+    <Compile Include="Sources\ReferenceTracking\CountingReferenceTracker.cs" />
+    <Compile Include="Sources\ReferenceTracking\IReferenceTracker.cs" />
+    <Compile Include="Sources\ReferenceTracking\ReferenceTrackerFactory.cs" />
+    <Compile Include="Sources\ReferenceTracking\UnsafeReferenceTracker.cs" />
+    <Compile Include="Sources\System\ICleanupSystem.cs" />
+    <Compile Include="Sources\System\ISetupSystem.cs" />
+    <Compile Include="Sources\System\ISystem.cs" />
+    <Compile Include="Sources\System\IUpdateSystem.cs" />
+    <Compile Include="Sources\System\Systems.cs" />
+    <Compile Include="Sources\Util\StaticIdAllocator.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Unscientific.Util\Unscientific.Util.csproj">
+      <Project>{A3FE74BD-FE34-4044-BA6E-17DF27DDE780}</Project>
+      <Name>Unscientific.Util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+</Project>
