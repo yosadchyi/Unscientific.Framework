@@ -6,7 +6,7 @@ namespace Unscientific.ECS.Unity
     public class AssetFactory: MonoBehaviour, IHandler
     {
         public Transform ParentTransform;
-        public bool ClearOnDestroy;
+        public bool ClearPoolsOnDestroy;
 
         private readonly Dictionary<string, GameObjectPool> _assetNameToPool = new Dictionary<string, GameObjectPool>();
 
@@ -32,7 +32,7 @@ namespace Unscientific.ECS.Unity
 
         public void Destroy()
         {
-            if (ClearOnDestroy)
+            if (ClearPoolsOnDestroy)
             {
                 foreach (var pool in _assetNameToPool.Values)
                     pool.Clear();
