@@ -553,6 +553,23 @@ namespace Unscientific.ECS
             return ComponentData<TComponent>.Data[index];
         }
 
+        internal bool TryGet<TComponent>(int index, out TComponent component)
+        {
+#if !UNSAFE_ECS
+            EnsureComponentExists<TComponent>(index);
+#endif
+            if (ComponentData<TComponent>.Present[index])
+            {
+                component = ComponentData<TComponent>.Data[index];
+                return true;
+            }
+            else
+            {
+                component = default(TComponent);
+                return false;
+            }
+        }
+
         internal void Add<TComponent>(int index, TComponent component)
         {
 #if !UNSAFE_ECS
@@ -581,6 +598,12 @@ namespace Unscientific.ECS
             ComponentData<TComponent>.Remove(index);
         }
 
+        public void RemoveIfExists<TComponent>(int index)
+        {
+            if (ComponentData<TComponent>.Present[index])
+                ComponentData<TComponent>.Remove(index);
+        }
+
         internal bool Has<TComponent>(int index)
         {
             return ComponentData<TComponent>.Present[index];
@@ -599,9 +622,11 @@ namespace Unscientific.ECS
                 throw new EntityHasNoComponentException<TScope, TComponent>(index);
             }
         }
+
         #endregion
 
         #region Enumerators
+
         public Entity<TScope> First()
         {
             return All().First();
@@ -641,6 +666,7 @@ namespace Unscientific.ECS
         {
             return new FilteringEntityEnumerable<TScope, TComponent1, TComponent2, TComponent3>(_count);
         }
+
         #endregion
 
         public void Clear()

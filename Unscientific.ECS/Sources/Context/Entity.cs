@@ -51,6 +51,11 @@
             return Context.Get<TComponent>(Index);
         }
 
+        public bool TryGet<TComponent>(out TComponent component)
+        {
+            return Context.TryGet<TComponent>(Index, out component);
+        }
+
         public bool Is<TComponent>()
         {
             return Context.Is<TComponent>(Index);
@@ -70,6 +75,12 @@
         public Entity<TScope> Remove<TComponent>()
         {
             Context.Remove<TComponent>(Index);
+            return this;
+        }
+
+        public Entity<TScope> RemoveIfExists<TComponent>()
+        {
+            Context.RemoveIfExists<TComponent>(Index);
             return this;
         }
 

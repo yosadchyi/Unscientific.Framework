@@ -16,7 +16,7 @@ namespace Unscientific.ECS.Unity
 
         public void OnComponentAdded(Entity<TScope> entity, Destroyed destroyed)
         {
-            if (entity.Has<View>()) entity.Remove<View>();
+            entity.RemoveIfExists<View>();
         }
 
         public void Destroy()
