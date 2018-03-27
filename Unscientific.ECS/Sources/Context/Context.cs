@@ -29,9 +29,7 @@ namespace Unscientific.ECS
             _current = -1;
         }
 
-        public Entity<TScope> Current {
-            get { return new Entity<TScope>(_current); }
-        }
+        public Entity<TScope> Current => new Entity<TScope>(_current);
     }
 
     public struct FilteringEntityEnumerator<TScope, TComponent> where TScope : IScope
@@ -65,12 +63,7 @@ namespace Unscientific.ECS
             _current = -1;
         }
 
-        public Entity<TScope> Current {
-            get
-            {
-                return new Entity<TScope>(_current);
-            }
-        }
+        public Entity<TScope> Current => new Entity<TScope>(_current);
     }
 
     public struct FilteringEntityEnumerator<TScope, TComponent1, TComponent2> where TScope : IScope
@@ -104,9 +97,7 @@ namespace Unscientific.ECS
             _current = -1;
         }
 
-        public Entity<TScope> Current {
-            get { return new Entity<TScope>(_current); }
-        }
+        public Entity<TScope> Current => new Entity<TScope>(_current);
     }
 
     public struct FilteringEntityEnumerator<TScope, TComponent1, TComponent2, TComponent3> where TScope : IScope
@@ -140,9 +131,7 @@ namespace Unscientific.ECS
             _current = -1;
         }
 
-        public Entity<TScope> Current {
-            get { return new Entity<TScope>(_current); }
-        }
+        public Entity<TScope> Current => new Entity<TScope>(_current);
     }
 
     public struct EntityEnumerable<TScope> where TScope: IScope
@@ -419,20 +408,11 @@ namespace Unscientific.ECS
 
         internal static Context<TScope> Instance { get; private set; }
 
-        public int Capacity
-        {
-            get { return _capacity; }
-        }
-        
-        public int Count
-        {
-            get { return _count; }
-        }
+        public int Capacity => _capacity;
 
-        public Entity<TScope> this[int id]
-        {
-            get { return GetEntityById(id); }
-        }
+        public int Count => _count;
+
+        public Entity<TScope> this[int id] => GetEntityById(id);
 
         /// <summary>
         /// Count of allocated entities/slots in component arrays

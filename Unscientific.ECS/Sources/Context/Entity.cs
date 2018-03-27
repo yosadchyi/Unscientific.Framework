@@ -4,10 +4,7 @@
     {
         public readonly int Id;
 
-        public Entity<TScope> Entity
-        {
-            get { return Context<TScope>.Instance[Id]; }
-        }
+        public Entity<TScope> Entity => Context<TScope>.Instance[Id];
 
         internal EntityRef(int id)
         {
@@ -25,15 +22,9 @@
     {
         internal readonly int Index;
 
-        public int Id
-        {
-            get { return Get<Identifier>().Value; }
-        }
+        public int Id => Get<Identifier>().Value;
 
-        public Context<TScope> Context
-        {
-            get { return Context<TScope>.Instance; }
-        }
+        public Context<TScope> Context => Context<TScope>.Instance;
 
         internal Entity(int index)
         {

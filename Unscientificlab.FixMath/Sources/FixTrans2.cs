@@ -21,7 +21,7 @@
  * THE SOFTWARE.
  */
 
-namespace Unscientific.FixedPoint
+namespace Unscientificlab.FixedPoint
 {
     public struct FixTrans2
     {
@@ -109,17 +109,35 @@ namespace Unscientific.FixedPoint
             _m23 = position.Y;
         }
 
-        public Fix M11 => _m11;
+        public Fix M11
+        {
+            get { return _m11; }
+        }
 
-        public Fix M12 => _m12;
+        public Fix M12
+        {
+            get { return _m12; }
+        }
 
-        public Fix M13 => _m13;
+        public Fix M13
+        {
+            get { return _m13; }
+        }
 
-        public Fix M21 => _m21;
+        public Fix M21
+        {
+            get { return _m21; }
+        }
 
-        public Fix M22 => _m22;
+        public Fix M22
+        {
+            get { return _m22; }
+        }
 
-        public Fix M23 => _m23;
+        public Fix M23
+        {
+            get { return _m23; }
+        }
 
         public FixTrans2 Rotate(Fix radians)
         {

@@ -21,10 +21,7 @@ namespace Unscientific.ECS.Modules.Physics.Shapes
 
         public Fix Radius;
 
-        public override ShapeType Type
-        {
-            get { return ShapeType.Circle; }
-        }
+        public override ShapeType Type => ShapeType.Circle;
 
         public override AABB GetBoundingBox(ref Transform transform)
         {

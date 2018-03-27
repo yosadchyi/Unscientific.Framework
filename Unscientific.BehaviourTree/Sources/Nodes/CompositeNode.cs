@@ -6,15 +6,9 @@ namespace Unscientific.BehaviourTree
     {
         private readonly List<BehaviourTreeNode<TBlackboard>> _children = new List<BehaviourTreeNode<TBlackboard>>();
 
-        protected List<BehaviourTreeNode<TBlackboard>> Children
-        {
-            get { return _children; }
-        }
+        protected List<BehaviourTreeNode<TBlackboard>> Children => _children;
 
-        protected int ChildrenCount
-        {
-            get { return _children.Count; }
-        }
+        protected int ChildrenCount => _children.Count;
 
         protected CompositeNode(string name) : base(name)
         {
