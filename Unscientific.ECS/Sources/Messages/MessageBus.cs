@@ -56,6 +56,7 @@ namespace Unscientific.ECS
         void Add(ref TMessage message);
         void Cleanup();
         void Clear();
+        void FastCleanup();
     }
 
     public delegate TKey MessageKeyExtractor<in TMessage, out TKey>(TMessage message);
@@ -64,6 +65,7 @@ namespace Unscientific.ECS
     {
         bool AddIfNotContains(ref TMessage message);
         void Clear();
+        void FastClear();
     }
 
     internal class SimpleMessageQueue<TMessage>: IMessageQueue<TMessage>
@@ -106,6 +108,12 @@ namespace Unscientific.ECS
             Count = 0;
         }
 
+        public void FastCleanup()
+        {
+            _aggregator.FastClear();
+            Count = 0;
+        }
+
         public void Cleanup()
         {
             Clear();
@@ -141,7 +149,16 @@ namespace Unscientific.ECS
             // shared aggregator is cleared, so messages with same key can be sent next frame
             _queue2.Clear();
         }
-        
+
+        public void FastCleanup()
+        {
+            var tmp = _queue1;
+            _queue1 = _queue2;
+            _queue2 = tmp;
+            // shared aggregator is cleared, so messages with same key can be sent next frame
+            _queue2.FastCleanup();
+        }
+
         public void Clear()
         {
             _queue1.Clear();
@@ -159,6 +176,10 @@ namespace Unscientific.ECS
         }
 
         public void Clear()
+        {
+        }
+
+        public void FastClear()
         {
         }
     }
@@ -188,6 +209,12 @@ namespace Unscientific.ECS
         {
             _presentKeys.Clear();
         }
+
+        public void FastClear()
+        {
+            // TODO Fast hash set implementation, with FastClear
+            _presentKeys.Clear();
+        }
     }
 
     [SuppressMessage("ReSharper", "MemberCanBeMadeStatic.Global")]
@@ -201,6 +228,7 @@ namespace Unscientific.ECS
         public static MessageBus Instance { get; private set; }
 
         internal static event Action OnCleanup = delegate { };
+        internal static event Action OnFastCleanup = delegate { };
         internal static event Action OnClear = delegate { };
 
         public MessageBus()
@@ -219,6 +247,7 @@ namespace Unscientific.ECS
         {
             Data<TMessage>.Queue = new DelayedMessageQueue<TMessage>(capacity, aggregator);
             OnCleanup += Data<TMessage>.Queue.Cleanup;
+            OnFastCleanup += Data<TMessage>.Queue.FastCleanup;
             OnClear += Data<TMessage>.Queue.Clear;
         }
 
@@ -234,12 +263,14 @@ namespace Unscientific.ECS
             return new MessageEnumerable<TMessage>(Data<TMessage>.Queue.Count);
         }
 
-        /// <summary>
-        /// Cleanup method must be called every frame.
-        /// </summary>
         public void Cleanup()
         {
             OnCleanup();
+        }
+
+        public void FastCleanup()
+        {
+            OnFastCleanup();
         }
 
         public void Clear()
