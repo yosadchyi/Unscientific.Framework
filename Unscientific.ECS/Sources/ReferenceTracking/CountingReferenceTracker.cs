@@ -37,5 +37,10 @@ namespace Unscientific.ECS
         {
             _references[id - 1]++;
         }
+
+        public void Clear()
+        {
+            Array.Clear(_references, 0, _references.Length);
+        }
     }
 }

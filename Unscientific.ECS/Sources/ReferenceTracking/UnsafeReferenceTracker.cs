@@ -22,5 +22,10 @@
         {
             // do nothing
         }
+
+        public void Clear()
+        {
+            // do nothing
+        }
     }
 }
