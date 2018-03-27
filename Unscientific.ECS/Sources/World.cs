@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+
 // ReSharper disable HeapView.ObjectAllocation.Evident
 
 namespace Unscientific.ECS
 {
     public class World
     {
+        private readonly bool _fastMessageCleanup;
         public static World Instance { get; private set; }
 
         public MessageBus MessageBus { get; } = new MessageBus();
@@ -17,6 +19,7 @@ namespace Unscientific.ECS
         {
             private readonly List<IModule> _modules = new List<IModule>();
             private ReferenceTrackerFactory _referenceTrackerFactory;
+            private bool _fastMessageCleanup;
 
             public Builder WithReferenceTrackerFactory(ReferenceTrackerFactory referenceTrackerFactory)
             {
@@ -30,14 +33,22 @@ namespace Unscientific.ECS
                 return this;
             }
 
+            public Builder WithFastMessageCleanup()
+            {
+                _fastMessageCleanup = true;
+                return this;
+            }
+
             public World Build()
             {
-                return new World(_referenceTrackerFactory, _modules);
+                return new World(_referenceTrackerFactory, _modules, _fastMessageCleanup);
             }
         }
 
-        private World(ReferenceTrackerFactory referenceTrackerFactory, List<IModule> modules)
+        private World(ReferenceTrackerFactory referenceTrackerFactory, List<IModule> modules, bool fastMessageCleanup)
         {
+            _fastMessageCleanup = fastMessageCleanup;
+
             var sortedModules = TopologicalSort(modules);
 
             foreach (var module in sortedModules)
@@ -51,7 +62,7 @@ namespace Unscientific.ECS
 
             foreach (var module in sortedModules)
                 module.Notifications().Register(Contexts, MessageBus);
-    
+
             // add systems, in order matching module order in Uses clauses
             var builder = new Systems.Builder();
 
@@ -82,7 +93,7 @@ namespace Unscientific.ECS
                     inDegree[import] = inDegree[import] + 1;
                 }
             }
-            
+
             foreach (var type in types)
             {
                 if (inDegree[type] == 0)
@@ -97,11 +108,11 @@ namespace Unscientific.ECS
                 var module = type2Module[type];
 
                 stack.Push(type);
-                
+
                 foreach (var import in module.Usages().Imports)
                 {
                     inDegree[import] = inDegree[import] - 1;
-                    
+
                     if (inDegree[import] == 0)
                         queue.Enqueue(import);
                 }
@@ -128,7 +139,15 @@ namespace Unscientific.ECS
         public void Cleanup()
         {
             Systems.Cleanup();
-            MessageBus.Cleanup();
+
+            if (_fastMessageCleanup)
+            {
+                MessageBus.FastCleanup();
+            }
+            else
+            {
+                MessageBus.Cleanup();
+            }
         }
 
         public void Clear()
