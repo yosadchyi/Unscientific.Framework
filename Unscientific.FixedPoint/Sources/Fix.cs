@@ -132,25 +132,13 @@ namespace Unscientific.FixedPoint
 
         #endregion
 
-        public int AsInt
-        {
-            get { return (int) (Raw >> ShiftAmount); }
-        }
+        public int AsInt => (int) (Raw >> ShiftAmount);
 
-        public float AsFloat
-        {
-            get { return Raw / (float) OneI; }
-        }
+        public float AsFloat => Raw / (float) OneI;
 
-        public double AsDouble
-        {
-            get { return Raw / (double) OneI; }
-        }
+        public double AsDouble => Raw / (double) OneI;
 
-        public Fix Inverse
-        {
-            get { return Create(-Raw, false); }
-        }
+        public Fix Inverse => Create(-Raw, false);
 
         #region FromParts
 

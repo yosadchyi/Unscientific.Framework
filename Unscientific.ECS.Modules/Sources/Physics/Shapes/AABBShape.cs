@@ -9,10 +9,7 @@ namespace Unscientific.ECS.Modules.Physics.Shapes
         public Fix Width;
         public Fix Height;
 
-        public override ShapeType Type
-        {
-            get { return ShapeType.AABB; }
-        }
+        public override ShapeType Type => ShapeType.AABB;
 
         public static AABBShape New(Fix width, Fix height)
         {

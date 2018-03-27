@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{FFF52B1B-BEC1-409F-AA36-300C6DC48D47}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Unscientific.ECS.Modules</RootNamespace>
+    <AssemblyName>Unscientific.ECS.Modules</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sources\Core\CoreModule.cs" />
+    <Compile Include="Sources\Core\Components.cs" />
+    <Compile Include="Sources\Core\EntityExtensions.cs" />
+    <Compile Include="Sources\Core\Messages.cs" />
+    <Compile Include="Sources\Core\Scopes.cs" />
+    <Compile Include="Sources\Core\Systems\DestroySystem.cs" />
+    <Compile Include="Sources\Core\Systems\IncrementTickSystem.cs" />
+    <Compile Include="Sources\Core\Systems\CoreSetupSystem.cs" />
+    <Compile Include="Sources\BehaviourTree\BehaviourTreeModule.cs" />
+    <Compile Include="Sources\BehaviourTree\BehaviourTree.cs" />
+    <Compile Include="Sources\BehaviourTree\Components.cs" />
+    <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeCleanupSystem.cs" />
+    <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeUpdateSystem.cs" />
+    <Compile Include="Sources\Navigation\FlowField\CircularFlowField.cs" />
+    <Compile Include="Sources\Navigation\FlowField\IFlowField.cs" />
+    <Compile Include="Sources\Navigation\FlowField\MoveInDirectionFlowField.cs" />
+    <Compile Include="Sources\Navigation\FlowField\ToDestinationFlowField.cs" />
+    <Compile Include="Sources\Physics\AABB.cs" />
+    <Compile Include="Sources\Physics\Collision.cs" />
+    <Compile Include="Sources\Physics\Components.cs" />
+    <Compile Include="Sources\Physics\Intersector.cs" />
+    <Compile Include="Sources\Physics\ISpatialDatabase.cs" />
+    <Compile Include="Sources\Physics\PhysicsModule.cs" />
+    <Compile Include="Sources\Physics\Shapes\AABBShape.cs" />
+    <Compile Include="Sources\Physics\Shapes\CircleShape.cs" />
+    <Compile Include="Sources\Physics\Shapes\Shape.cs" />
+    <Compile Include="Sources\Physics\Shapes\ShapeType.cs" />
+    <Compile Include="Sources\Physics\SimulationEntityExtensions.cs" />
+    <Compile Include="Sources\Physics\Space.cs" />
+    <Compile Include="Sources\Physics\SpatialHash.cs" />
+    <Compile Include="Sources\Physics\Systems\AccelerateSystem.cs" />
+    <Compile Include="Sources\Physics\Systems\AngularAccelerateSystem.cs" />
+    <Compile Include="Sources\Physics\Systems\CollisionsCleanupSystem.cs" />
+    <Compile Include="Sources\Physics\Systems\SpaceSetupSystem.cs" />
+    <Compile Include="Sources\Physics\Systems\MoveSystem.cs" />
+    <Compile Include="Sources\Physics\Systems\ProcessCollisionSystem.cs" />
+    <Compile Include="Sources\Physics\Systems\RotateSystem.cs" />
+    <Compile Include="Sources\Physics\Systems\ShapesCleanupSystem.cs" />
+    <Compile Include="Sources\Physics\Transform.cs" />
+    <Compile Include="Sources\Steering\SteeringModule.cs" />
+    <Compile Include="Sources\Steering\ArithmeticUtils.cs" />
+    <Compile Include="Sources\Steering\Behaviours\AlignBehaviour.cs" />
+    <Compile Include="Sources\Steering\Behaviours\ArriveBehaviour.cs" />
+    <Compile Include="Sources\Steering\Behaviours\CoheseBehaviour.cs" />
+    <Compile Include="Sources\Steering\Behaviours\CollisionAvoidanceBehaviour.cs" />
+    <Compile Include="Sources\Steering\Behaviours\CompositeBehaviour.cs" />
+    <Compile Include="Sources\Steering\Behaviours\FollowFlowField.cs" />
+    <Compile Include="Sources\Steering\Behaviours\LookAccordingToFlowField.cs" />
+    <Compile Include="Sources\Steering\Behaviours\LookAtTarget.cs" />
+    <Compile Include="Sources\Steering\Behaviours\LookWhereYouAreGoing.cs" />
+    <Compile Include="Sources\Steering\Behaviours\ReachOrientationBehaviour.cs" />
+    <Compile Include="Sources\Steering\Behaviours\SeekBehaviour.cs" />
+    <Compile Include="Sources\Steering\Behaviours\SeparationBehaviour.cs" />
+    <Compile Include="Sources\Steering\Components.cs" />
+    <Compile Include="Sources\Steering\GroupSteeringBehaviour.cs" />
+    <Compile Include="Sources\Steering\Proximities\CollisionsProximity.cs" />
+    <Compile Include="Sources\Steering\Proximity.cs" />
+    <Compile Include="Sources\Steering\SteeringVelocity.cs" />
+    <Compile Include="Sources\Steering\SteeringBehaviour.cs" />
+    <Compile Include="Sources\Steering\SteeringEntityExtensions.cs" />
+    <Compile Include="Sources\Steering\Systems\SteeringSystem.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Unscientificlab.BehaviourTree\Unscientificlab.BehaviourTree.csproj">
+      <Project>{8BB7FBB8-0506-460E-A076-BF006F0723C6}</Project>
+      <Name>Unscientificlab.BehaviourTree</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unscientificlab.ECS\Unscientificlab.ECS.csproj">
+      <Project>{E1CD49D0-5286-4706-A92C-C915C64ECD46}</Project>
+      <Name>Unscientificlab.ECS</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unscientificlab.FixedPoint\Unscientificlab.FixedPoint.csproj">
+      <Project>{47EE4E51-9230-41EA-9503-0C79124348F7}</Project>
+      <Name>Unscientificlab.FixedPoint</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unscientificlab.Util\Unscientificlab.Util.csproj">
+      <Project>{A3FE74BD-FE34-4044-BA6E-17DF27DDE780}</Project>
+      <Name>Unscientificlab.Util</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+         Other similar extension points exist, see Microsoft.Common.targets.
+    <Target Name="BeforeBuild">
+    </Target>
+    <Target Name="AfterBuild">
+    </Target>
+    -->
+</Project>

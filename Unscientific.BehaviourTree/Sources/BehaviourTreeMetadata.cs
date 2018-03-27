@@ -4,9 +4,9 @@ namespace Unscientific.BehaviourTree
 {
     public class BehaviourTreeMetadata<TBlackboard>
     {
-        public int NodesCount { get { return _nodes.Count; } }
-        
-        public List<BehaviourTreeNode<TBlackboard>> Nodes { get { return _nodes; } }
+        public int NodesCount => _nodes.Count;
+
+        public List<BehaviourTreeNode<TBlackboard>> Nodes => _nodes;
 
         private readonly List<BehaviourTreeNode<TBlackboard>> _nodes = new List<BehaviourTreeNode<TBlackboard>>();
 
@@ -22,7 +22,7 @@ namespace Unscientific.BehaviourTree
             }
         }
 
-        public int VariablesCount { get { return _variableDefinitions.Count; } }
+        public int VariablesCount => _variableDefinitions.Count;
 
         private readonly List<VariableDefinition> _variableDefinitions = new List<VariableDefinition>();
 

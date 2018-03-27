@@ -24,7 +24,7 @@ namespace Unscientific.ECS.Modules.Physics
         private FixVec2 _circlePosition;
         private List<Entity<Game>> _list;
 
-        internal ISpatialDatabase SpatialDatabase { get { return _spatialDatabase; } }
+        internal ISpatialDatabase SpatialDatabase => _spatialDatabase;
 
         public Space(ISpatialDatabase spatialDatabase)
         {

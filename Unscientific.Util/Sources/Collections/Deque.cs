@@ -99,18 +99,12 @@ namespace Unscientific.Util.Collections
         /// <summary>
         /// Gets whether or not the Deque is filled to capacity.
         /// </summary>
-        public bool IsFull
-        {
-            get { return Count == Capacity; }
-        }
+        public bool IsFull => Count == Capacity;
 
         /// <summary>
         /// Gets whether or not the Deque is empty.
         /// </summary>
-        public bool IsEmpty
-        {
-            get { return 0 == Count; }
-        }
+        public bool IsEmpty => 0 == Count;
 
         private void EnsureCapacityFor(int numElements)
         {

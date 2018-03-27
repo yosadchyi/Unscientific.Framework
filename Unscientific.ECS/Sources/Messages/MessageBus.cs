@@ -9,10 +9,7 @@ namespace Unscientific.ECS
         private readonly int _count;
         private int _current;
 
-        public TMessage Current
-        {
-            get { return MessageBus.Data<TMessage>.Queue[_current]; }
-        }
+        public TMessage Current => MessageBus.Data<TMessage>.Queue[_current];
 
         public MessageEnumerator(int count)
         {
@@ -120,15 +117,9 @@ namespace Unscientific.ECS
         private IMessageQueue<TMessage> _queue1;
         private IMessageQueue<TMessage> _queue2;
 
-        public int Count
-        {
-            get { return _queue1.Count; }
-        }
+        public int Count => _queue1.Count;
 
-        public TMessage this[int index]
-        {
-            get { return _queue1[index]; }
-        }
+        public TMessage this[int index] => _queue1[index];
 
         public DelayedMessageQueue(int capacity, IMessageAggregator<TMessage> aggregator)
         {
