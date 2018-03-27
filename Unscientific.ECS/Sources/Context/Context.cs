@@ -653,6 +653,9 @@ namespace Unscientific.ECS
         {
             // clear all components
             OnClear();
+            
+            // clear references
+            _referenceTracker.Clear();
 
             // clear members
             for (var i = 0; i < _capacity; i++)
