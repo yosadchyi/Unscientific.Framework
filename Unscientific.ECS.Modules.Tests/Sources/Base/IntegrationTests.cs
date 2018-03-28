@@ -137,7 +137,7 @@ namespace Unscientific.ECS.Modules.Tests.Base
 
             _world.Cleanup();
 
-            var entity = context.First();
+            var entity = context.Singleton();
             var position = entity.Get<Position>();
 
             Assert.AreEqual(1, position.Location.X, eps);

@@ -77,15 +77,15 @@ namespace Unscientific.ECS.Tests
 
             context.DestroyEntity(entity1);
 
-            var enumerator = context.All().GetEnumerator();
+            var enumerator = context.AllWith<ValueComponent>().GetEnumerator();
             Assert.IsTrue(enumerator.MoveNext());
             Assert.AreEqual(111, enumerator.Current.Get<ValueComponent>().Value);
             Assert.IsTrue(enumerator.MoveNext());
             Assert.AreEqual(131, enumerator.Current.Get<ValueComponent>().Value);
             enumerator.Dispose();
 
-            Assert.AreEqual(111, context.GetEntityById(3).Get<ValueComponent>().Value);
-            Assert.AreEqual(131, context.GetEntityById(2).Get<ValueComponent>().Value);
+            Assert.AreEqual(111, entity3.Get<ValueComponent>().Value);
+            Assert.AreEqual(131, entity2.Get<ValueComponent>().Value);
         }
 
         [Test]
@@ -98,30 +98,30 @@ namespace Unscientific.ECS.Tests
 
             context.DestroyEntity(entity2);
 
-            var enumerator = context.All().GetEnumerator();
+            var enumerator = context.AllWith<ValueComponent>().GetEnumerator();
             Assert.IsTrue(enumerator.MoveNext());
             Assert.AreEqual(123, enumerator.Current.Get<ValueComponent>().Value);
             Assert.IsTrue(enumerator.MoveNext());
             Assert.AreEqual(111, enumerator.Current.Get<ValueComponent>().Value);
             enumerator.Dispose();
 
-            Assert.AreEqual(123, context.GetEntityById(1).Get<ValueComponent>().Value);
-            Assert.AreEqual(111, context.GetEntityById(3).Get<ValueComponent>().Value);
+            Assert.AreEqual(123, entity1.Get<ValueComponent>().Value);
+            Assert.AreEqual(111, entity3.Get<ValueComponent>().Value);
         }
 
         [Test]
         public void DestroyAllEntities()
         {
             var context = _contexts.Get<TestScope>();
-            context.CreateEntity().Add(new ValueComponent(123));
-            context.CreateEntity().Add(new ValueComponent(131));
-            context.CreateEntity().Add(new ValueComponent(111));
+            var entity1 = context.CreateEntity().Add(new ValueComponent(123));
+            var entity2 = context.CreateEntity().Add(new ValueComponent(131));
+            var entity3 = context.CreateEntity().Add(new ValueComponent(111));
 
-            context.DestroyEntity(context[1]);
-            context.DestroyEntity(context[2]);
-            context.DestroyEntity(context[3]);
+            context.DestroyEntity(entity1);
+            context.DestroyEntity(entity2);
+            context.DestroyEntity(entity3);
 
-            var enumerator = context.All().GetEnumerator();
+            var enumerator = context.AllWith<ValueComponent>().GetEnumerator();
             Assert.IsFalse(enumerator.MoveNext());
             enumerator.Dispose();
 
@@ -138,15 +138,29 @@ namespace Unscientific.ECS.Tests
 
             context.DestroyEntity(entity3);
 
-            var enumerator = context.All().GetEnumerator();
+            var enumerator = context.AllWith<ValueComponent>().GetEnumerator();
             Assert.IsTrue(enumerator.MoveNext());
             Assert.AreEqual(123, enumerator.Current.Get<ValueComponent>().Value);
             Assert.IsTrue(enumerator.MoveNext());
             Assert.AreEqual(131, enumerator.Current.Get<ValueComponent>().Value);
             enumerator.Dispose();
 
-            Assert.AreEqual(123, context.GetEntityById(1).Get<ValueComponent>().Value);
-            Assert.AreEqual(131, context.GetEntityById(2).Get<ValueComponent>().Value);
+            Assert.AreEqual(123, entity1.Get<ValueComponent>().Value);
+            Assert.AreEqual(131, entity2.Get<ValueComponent>().Value);
+        }
+
+        [Test]
+        public void CreateAfterDestroyEntityTest()
+        {
+            var context = _contexts.Get<TestScope>();
+            var entity1 = context.CreateEntity().Add(new ValueComponent(123));
+            var entity2 = context.CreateEntity().Add(new ValueComponent(131));
+
+            context.DestroyEntity(entity1);
+            entity1 = context.CreateEntity().Add(new ValueComponent(1231));
+            context.DestroyEntity(entity2);
+            entity2 = context.CreateEntity().Add(new ValueComponent(1311));
+            Assert.Pass();
         }
 
         [Test]
@@ -174,7 +188,7 @@ namespace Unscientific.ECS.Tests
 
             var count = 0;
 
-            foreach (var entity in context.All())
+            foreach (var entity in context.AllWith<ValueComponent>())
             {
                 count++;
                 
@@ -233,36 +247,5 @@ namespace Unscientific.ECS.Tests
 
             Assert.AreEqual(8, count);
         }
-
-        [Test]
-        public void RetainedEntityCanNotBeDestroyed()
-        {
-            var context = _contexts.Get<TestScope>();
-            var entity = context.CreateEntity();
-            var entityRef = entity.Retain();
-
-            TestDelegate testDelegate = () =>
-            {
-                context.DestroyEntity(entityRef.Entity);
-            };
-
-#if !UNSAFE_ECS
-            Assert.Throws(typeof(TryingToDestroyReferencedEntity<TestScope>), testDelegate);
-#else
-            Assert.Pass();
-#endif
-        }
-
-        [Test]
-        public void RetainedAndReleasedEntityCanBeDestroyed()
-        {
-            var context = _contexts.Get<TestScope>();
-            var entity = context.CreateEntity();
-            var entityRef = entity.Retain();
-            var releasedEntity = entityRef.Release();
-            Assert.AreEqual(entity.Id, releasedEntity.Id);
-            context.DestroyEntity(entityRef.Entity);
-        }
-
     }
 }

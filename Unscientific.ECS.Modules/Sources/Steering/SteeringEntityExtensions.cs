@@ -10,7 +10,7 @@ namespace Unscientific.ECS.Modules.Steering
         {
             if (entity.Has<TargetEntity>())
             {
-                var target = entity.Get<TargetEntity>().Reference.Entity;
+                var target = entity.Get<TargetEntity>().Entity;
 
                 if (!target.Is<Destroyed>())
                 {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using Unscientific.ECS.Modules.Core;
 using Unscientific.ECS.Modules.Physics.Shapes;
 using Unscientific.FixedPoint;
@@ -19,6 +20,7 @@ namespace Unscientific.ECS.Modules.Physics
         private readonly SpatialDatabaseCallback _callback;
         private readonly Context<Game> _simulation;
 
+        [SuppressMessage("ReSharper", "HeapView.DelegateAllocation")]
         public ProcessCollisionSystem(Contexts contexts, MessageBus messageBus)
         {
             _messageBus = messageBus;
@@ -29,7 +31,7 @@ namespace Unscientific.ECS.Modules.Physics
 
         public void Update()
         {
-            var space = _singletons.Singleton().Get<Space>();
+            var space = ContextExtensions.Singleton(_singletons).Get<Space>();
             var hash = space.SpatialDatabase;
 
             foreach (var entity in _simulation.AllWith<Position, BoundingShape>())
@@ -72,7 +74,7 @@ namespace Unscientific.ECS.Modules.Physics
 
         public void Cleanup()
         {
-            _singletons.Singleton().Get<Space>().SpatialDatabase.Clear();
+            ContextExtensions.Singleton(_singletons).Get<Space>().SpatialDatabase.Clear();
         }
 
         private static void ResetCollisions(List<Collision> collisions)

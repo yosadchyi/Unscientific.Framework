@@ -4,12 +4,12 @@
     {
         public static Entity<TScope> Singleton<TScope>(this Context<TScope> self) where TScope : IScope
         {
-            return self.First();
+            return self.Singleton();
         }
 
         public static Entity<TScope> Singleton<TScope>(this Contexts self) where TScope : IScope
         {
-            return self.Get<TScope>().Singleton();
+            return Singleton(self.Get<TScope>());
         }
 
         public static Entity<Configuration> Configuration(this Contexts self)

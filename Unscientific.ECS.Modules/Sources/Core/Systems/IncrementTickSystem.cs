@@ -11,9 +11,9 @@
 
         public void Update()
         {
-            var value = _singletons.First().Get<Tick>().Value;
+            var value = _singletons.Singleton().Get<Tick>().Value;
 
-            _singletons.First().Replace(new Tick(value + 1));
+            _singletons.Singleton().Replace(new Tick(value + 1));
         }
     }
 }
