@@ -1,8 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Unscientific.ECS
 {
+    [SuppressMessage("ReSharper", "HeapView.ObjectAllocation.Evident")]
+    [SuppressMessage("ReSharper", "HeapView.ClosureAllocation")]
+    [SuppressMessage("ReSharper", "HeapView.DelegateAllocation")]
     public class MessageRegistrations
     {
         private event Action<MessageBus> OnRegister = delegate {  };
