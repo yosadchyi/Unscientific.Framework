@@ -212,7 +212,6 @@ namespace Unscientific.ECS
 
         public void FastClear()
         {
-            // TODO Fast hash set implementation, with FastClear
             _presentKeys.Clear();
         }
     }
