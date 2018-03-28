@@ -1,15 +1,17 @@
-﻿namespace Unscientific.ECS.Modules.Core
+﻿using System;
+
+namespace Unscientific.ECS.Modules.Core
 {
     public static class ContextExtensions
     {
         public static Entity<TScope> Singleton<TScope>(this Context<TScope> self) where TScope : IScope
         {
-            return self.First();
+            return self.FirstWith<SingletonTag>();
         }
 
         public static Entity<TScope> Singleton<TScope>(this Contexts self) where TScope : IScope
         {
-            return self.Get<TScope>().Singleton();
+            return Singleton(self.Get<TScope>());
         }
 
         public static Entity<Configuration> Configuration(this Contexts self)

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Unscientific.ECS
+namespace Unscientific.ECS.Modules.Core
 {
     public class MessageListeners<TMessage>
     {
@@ -25,12 +25,12 @@ namespace Unscientific.ECS
 
         public void Setup()
         {
-            _singletonContext.First().Add(new MessageListeners<TMessage>());
+            _singletonContext.Singleton().Add(new MessageListeners<TMessage>());
         }
 
         public void Update()
         {
-            var listeners = _singletonContext.First().Get<MessageListeners<TMessage>>().Listeners;
+            var listeners = _singletonContext.Singleton().Get<MessageListeners<TMessage>>().Listeners;
 
             if (listeners.Count == 0)
                 return;

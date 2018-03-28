@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Unscientific.ECS
+namespace Unscientific.ECS.Modules.Core
 {
     public class ComponentAddedListeners<TScope, TComponent> where TScope : IScope
     {
@@ -47,12 +47,12 @@ namespace Unscientific.ECS
 
         public void Setup()
         {
-            _singletonContext.First().Add(new ComponentAddedListeners<TScope, TComponent>());
+            _singletonContext.Singleton().Add(new ComponentAddedListeners<TScope, TComponent>());
         }
 
         public void Update()
         {
-            var listeners = _singletonContext.First().Get<ComponentAddedListeners<TScope, TComponent>>().Listeners;
+            var listeners = _singletonContext.Singleton().Get<ComponentAddedListeners<TScope, TComponent>>().Listeners;
             
             if (listeners.Count == 0)
                 return;
@@ -82,12 +82,12 @@ namespace Unscientific.ECS
 
         public void Setup()
         {
-            _singletonContext.First().Add(new ComponentRemovedListeners<TScope, TComponent>());
+            _singletonContext.Singleton().Add(new ComponentRemovedListeners<TScope, TComponent>());
         }
 
         public void Update()
         {
-            var listeners = _singletonContext.First().Get<ComponentRemovedListeners<TScope, TComponent>>().Listeners;
+            var listeners = _singletonContext.Singleton().Get<ComponentRemovedListeners<TScope, TComponent>>().Listeners;
             
             if (listeners.Count == 0)
                 return;
@@ -117,12 +117,12 @@ namespace Unscientific.ECS
 
         public void Setup()
         {
-            _singletonContext.First().Add(new ComponentReplacedListeners<TScope, TComponent>());
+            _singletonContext.Singleton().Add(new ComponentReplacedListeners<TScope, TComponent>());
         }
 
         public void Update()
         {
-            var listeners = _singletonContext.First().Get<ComponentReplacedListeners<TScope, TComponent>>().Listeners;
+            var listeners = _singletonContext.Singleton().Get<ComponentReplacedListeners<TScope, TComponent>>().Listeners;
             
             if (listeners.Count == 0)
                 return;
