@@ -38,6 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sources\BehaviourTree\Components\BehaviourTreeData.cs" />
     <Compile Include="Sources\Core\Builders\ComponentRegistrationsBuilder.cs" />
     <Compile Include="Sources\Core\Builders\ContextRegistrationsBuilder.cs" />
     <Compile Include="Sources\Core\Builders\MessageNotificationRegistrationsBuilder.cs" />
@@ -46,11 +47,12 @@
     <Compile Include="Sources\Core\Builders\ModuleUsagesBuilder.cs" />
     <Compile Include="Sources\Core\Builders\NotificationRegistrationsBuilder.cs" />
     <Compile Include="Sources\Core\Builders\SystemsBuilder.cs" />
+    <Compile Include="Sources\Core\Components\Destroyed.cs" />
+    <Compile Include="Sources\Core\Components\SingletonTag.cs" />
+    <Compile Include="Sources\Core\Components\Tick.cs" />
     <Compile Include="Sources\Core\ContextExtensions.cs" />
     <Compile Include="Sources\Core\CoreModule.cs" />
-    <Compile Include="Sources\Core\Components.cs" />
     <Compile Include="Sources\Core\EntityExtensions.cs" />
-    <Compile Include="Sources\Core\IGameComponentListener.cs" />
     <Compile Include="Sources\Core\Module.cs" />
     <Compile Include="Sources\Core\Scopes.cs" />
     <Compile Include="Sources\Core\Systems\ComponentNotificationSystems.cs" />
@@ -59,7 +61,6 @@
     <Compile Include="Sources\Core\Systems\CoreSetupSystem.cs" />
     <Compile Include="Sources\BehaviourTree\BehaviourTreeModule.cs" />
     <Compile Include="Sources\BehaviourTree\BehaviourTree.cs" />
-    <Compile Include="Sources\BehaviourTree\Components.cs" />
     <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeCleanupSystem.cs" />
     <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeUpdateSystem.cs" />
     <Compile Include="Sources\Core\Systems\MessageNotificationSystem.cs" />
@@ -68,10 +69,25 @@
     <Compile Include="Sources\Navigation\FlowField\MoveInDirectionFlowField.cs" />
     <Compile Include="Sources\Navigation\FlowField\ToDestinationFlowField.cs" />
     <Compile Include="Sources\Physics\AABB.cs" />
-    <Compile Include="Sources\Physics\Collision.cs" />
-    <Compile Include="Sources\Physics\Components.cs" />
+    <Compile Include="Sources\Physics\Components\AngularDamping.cs" />
+    <Compile Include="Sources\Physics\Components\AngularVelocity.cs" />
+    <Compile Include="Sources\Physics\Components\BoundingShape.cs" />
+    <Compile Include="Sources\Physics\Components\Collision.cs" />
+    <Compile Include="Sources\Physics\Components\Collisions.cs" />
+    <Compile Include="Sources\Physics\Components\TimeStep.cs" />
+    <Compile Include="Sources\Physics\Components\Damping.cs" />
+    <Compile Include="Sources\Physics\Components\Force.cs" />
+    <Compile Include="Sources\Physics\Components\Inertia.cs" />
+    <Compile Include="Sources\Physics\Components\Mass.cs" />
+    <Compile Include="Sources\Physics\Components\MaxAngularVelocity.cs" />
+    <Compile Include="Sources\Physics\Components\MaxVelocity.cs" />
+    <Compile Include="Sources\Physics\Components\Orientation.cs" />
+    <Compile Include="Sources\Physics\Components\Position.cs" />
+    <Compile Include="Sources\Physics\Components\Torque.cs" />
+    <Compile Include="Sources\Physics\Components\Velocity.cs" />
     <Compile Include="Sources\Physics\Intersector.cs" />
     <Compile Include="Sources\Physics\ISpatialDatabase.cs" />
+    <Compile Include="Sources\Physics\Messages\EntitiesCollided.cs" />
     <Compile Include="Sources\Physics\PhysicsModule.cs" />
     <Compile Include="Sources\Physics\Shapes\AABBShape.cs" />
     <Compile Include="Sources\Physics\Shapes\CircleShape.cs" />
@@ -89,6 +105,13 @@
     <Compile Include="Sources\Physics\Systems\RotateSystem.cs" />
     <Compile Include="Sources\Physics\Systems\ShapesCleanupSystem.cs" />
     <Compile Include="Sources\Physics\Transform.cs" />
+    <Compile Include="Sources\Steering\Components\AlignTolerance.cs" />
+    <Compile Include="Sources\Steering\Components\ArrivalTolerance.cs" />
+    <Compile Include="Sources\Steering\Components\Steering.cs" />
+    <Compile Include="Sources\Steering\Components\FlowField.cs" />
+    <Compile Include="Sources\Steering\Components\TargetEntity.cs" />
+    <Compile Include="Sources\Steering\Components\TargetOrientation.cs" />
+    <Compile Include="Sources\Steering\Components\TargetPosition.cs" />
     <Compile Include="Sources\Steering\SteeringModule.cs" />
     <Compile Include="Sources\Steering\ArithmeticUtils.cs" />
     <Compile Include="Sources\Steering\Behaviours\AlignBehaviour.cs" />
@@ -103,7 +126,6 @@
     <Compile Include="Sources\Steering\Behaviours\ReachOrientationBehaviour.cs" />
     <Compile Include="Sources\Steering\Behaviours\SeekBehaviour.cs" />
     <Compile Include="Sources\Steering\Behaviours\SeparationBehaviour.cs" />
-    <Compile Include="Sources\Steering\Components.cs" />
     <Compile Include="Sources\Steering\GroupSteeringBehaviour.cs" />
     <Compile Include="Sources\Steering\Proximities\CollisionsProximity.cs" />
     <Compile Include="Sources\Steering\Proximity.cs" />
@@ -111,7 +133,7 @@
     <Compile Include="Sources\Steering\SteeringBehaviour.cs" />
     <Compile Include="Sources\Steering\SteeringEntityExtensions.cs" />
     <Compile Include="Sources\Steering\Systems\SteeringSystem.cs" />
-    <Compile Include="Sources\View\Components.cs" />
+    <Compile Include="Sources\View\Components\View.cs" />
     <Compile Include="Sources\View\ViewModule.cs" />
   </ItemGroup>
   <ItemGroup>

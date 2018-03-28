@@ -4,22 +4,6 @@ using Unscientific.Util.Pool;
 
 namespace Unscientific.ECS.Modules.Physics
 {
-    public struct EntitiesCollided
-    {
-        public readonly Entity<Game> EntityA;
-        public readonly Shape ShapeA;
-        public readonly Entity<Game> EntityB;
-        public readonly Shape ShapeB;
-
-        public EntitiesCollided(Entity<Game> entityA, Shape shapeA, Entity<Game> entityB, Shape shapeB)
-        {
-            this.EntityA = entityA;
-            this.ShapeA = shapeA;
-            this.EntityB = entityB;
-            this.ShapeB = shapeB;
-        }
-    }
-
     public class Collision
     {
         public static ObjectPool<Collision> Pool = new GenericObjectPool<Collision>(512);
