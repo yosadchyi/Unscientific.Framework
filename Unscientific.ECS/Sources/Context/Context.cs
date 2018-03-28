@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using Unscientific.Util.Collections;
 
 namespace Unscientific.ECS
 {
@@ -454,18 +455,18 @@ namespace Unscientific.ECS
 
         private int _capacity;
         private readonly int _maxCapacity;
-        private readonly Stack<int> _freeList;
+        private readonly Deque<int> _freeList;
         private ushort[] _generations;
 
         private Context(int initialCapacity, int maxCapacity)
         {
             _capacity = initialCapacity;
             _maxCapacity = maxCapacity;
-            _freeList = new Stack<int>(_capacity);
+            _freeList = new Deque<int>(_capacity);
             _generations = new ushort[_capacity];
 
             for (var i = _capacity - 1; i >= 0; i--)
-                _freeList.Push(i);
+                _freeList.AddBack(i);
 
             // Initialize scopes
             OnInit(_capacity);
@@ -494,7 +495,7 @@ namespace Unscientific.ECS
                 Grow(Math.Min(_maxCapacity, _capacity * 2));
             }
 
-            var id = _freeList.Pop();
+            var id = _freeList.RemoveFront();
 
             _generations[id]++;
             _count++;
@@ -508,7 +509,7 @@ namespace Unscientific.ECS
             EnsureEntityExists(entity);
 #endif
             OnRemove(entity);
-            _freeList.Push(entity.Index);
+            _freeList.AddBack(entity.Index);
             _count--;
         }
 
@@ -517,7 +518,7 @@ namespace Unscientific.ECS
             Array.Resize(ref _generations, newCapacity);
 
             for (var i = newCapacity - 1; i >= _capacity; i--)
-                _freeList.Push(i);
+                _freeList.AddBack(i);
 
             OnGrow(newCapacity);
 
@@ -641,7 +642,7 @@ namespace Unscientific.ECS
 
             _freeList.Clear();
             for (var i = _capacity - 1; i >= 0; i--)
-                _freeList.Push(i);
+                _freeList.AddBack(i);
 
             _count = 0;
         }
