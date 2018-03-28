@@ -211,19 +211,14 @@ namespace Unscientific.ECS
     {
         #region Component Data
         // ReSharper disable once HeapView.ObjectAllocation.Evident
-        // ReSharper disable once StaticMemberInGenericType
         // ReSharper disable once CollectionNeverQueried.Global
         internal static readonly List<Type> ComponentTypes = new List<Type>();
         // ReSharper disable once HeapView.ObjectAllocation.Evident
-        // ReSharper disable once StaticMemberInGenericType
         internal static event Action<int> OnRemove = delegate {  };
         // ReSharper disable once HeapView.ObjectAllocation.Evident
-        // ReSharper disable once StaticMemberInGenericType
         internal static event Action<int> OnInit = delegate {  };
         // ReSharper disable once HeapView.ObjectAllocation.Evident
-        // ReSharper disable once StaticMemberInGenericType
         internal static event Action<int> OnGrow = delegate {  };
-        // ReSharper disable once StaticMemberInGenericType
         internal static event Action OnClear = delegate {  };
 
         // ReSharper disable once ClassNeverInstantiated.Global
