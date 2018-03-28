@@ -33,7 +33,7 @@ namespace Unscientific.ECS
         {
             get
             {
-                var id = Context<TScope>.GetEntityId<TComponent>(_current);
+                var id = Context<TScope>.ComponentData<TComponent>.IndexToEntity[_current];
 
                 return new Entity<TScope>(id);
             }
@@ -75,7 +75,7 @@ namespace Unscientific.ECS
         {
             get
             {
-                var id = Context<TScope>.GetEntityId<TComponent1>(_current);
+                var id = Context<TScope>.ComponentData<TComponent1>.IndexToEntity[_current];
 
                 return new Entity<TScope>(id);
             }
@@ -117,7 +117,7 @@ namespace Unscientific.ECS
         {
             get
             {
-                var id = Context<TScope>.GetEntityId<TComponent1>(_current);
+                var id = Context<TScope>.ComponentData<TComponent1>.IndexToEntity[_current];
 
                 return new Entity<TScope>(id);
             }
@@ -628,11 +628,6 @@ namespace Unscientific.ECS
         public FilteringEntityEnumerable<TScope, TComponent1, TComponent2, TComponent3> AllWith<TComponent1, TComponent2, TComponent3>()
         {
             return new FilteringEntityEnumerable<TScope, TComponent1, TComponent2, TComponent3>(ComponentData<TComponent1>.Count);
-        }
-
-        internal static int GetEntityId<TComponent>(int index)
-        {
-            return ComponentData<TComponent>.IndexToEntity[index];
         }
 
         #endregion
