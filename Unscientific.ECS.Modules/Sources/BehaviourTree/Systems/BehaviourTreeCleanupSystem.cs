@@ -4,22 +4,17 @@ namespace Unscientific.ECS.Modules.BehaviourTree
 {
     public class BehaviourTreeCleanupSystem: ICleanupSystem
     {
-        private readonly MessageBus _messageBus;
+        private readonly Context<Game> _context;
 
-        public BehaviourTreeCleanupSystem(MessageBus messageBus)
+        public BehaviourTreeCleanupSystem(Contexts contexts)
         {
-            _messageBus = messageBus;
+            _context = contexts.Get<Game>();
         }
         
         public void Cleanup()
         {
-            foreach (var message in _messageBus.All<ComponentAdded<Game, Destroyed>>())
+            foreach (var entity in _context.AllWith<Destroyed, BehaviourTreeData>())
             {
-                var entity = message.Entity;
-
-                if (!entity.Has<BehaviourTreeData>())
-                    continue;
-
                 var data = entity.Get<BehaviourTreeData>().ExecutionData;
 
                 data.Return();

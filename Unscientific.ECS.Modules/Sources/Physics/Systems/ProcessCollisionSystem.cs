@@ -31,7 +31,7 @@ namespace Unscientific.ECS.Modules.Physics
 
         public void Update()
         {
-            var space = ContextExtensions.Singleton(_singletons).Get<Space>();
+            var space = _singletons.Singleton().Get<Space>();
             var hash = space.SpatialDatabase;
 
             foreach (var entity in _simulation.AllWith<Position, BoundingShape>())
@@ -74,7 +74,7 @@ namespace Unscientific.ECS.Modules.Physics
 
         public void Cleanup()
         {
-            ContextExtensions.Singleton(_singletons).Get<Space>().SpatialDatabase.Clear();
+            _singletons.Singleton().Get<Space>().SpatialDatabase.Clear();
         }
 
         private static void ResetCollisions(List<Collision> collisions)

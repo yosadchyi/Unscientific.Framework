@@ -20,9 +20,9 @@ namespace Unscientific.ECS.Modules.Physics
 
         public void Setup()
         {
-            ContextExtensions.Singleton(_singletons)
+            _singletons.Singleton()
                 .Add(new Space(_spatialDatabase));
-            ContextExtensions.Singleton(_configuration)
+            _configuration.Singleton()
                 .Add(new TimeStep(_timeStep));
         }
     }
