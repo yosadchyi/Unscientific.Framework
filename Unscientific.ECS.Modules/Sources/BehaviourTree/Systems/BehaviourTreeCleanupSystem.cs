@@ -2,24 +2,18 @@ using Unscientific.ECS.Modules.Core;
 
 namespace Unscientific.ECS.Modules.BehaviourTree
 {
-    public class BehaviourTreeCleanupSystem: ICleanupSystem
+    public class BehaviourTreeCleanupSystem: EntityCleanupSystem<Game, Destroyed, BehaviourTreeData>
     {
-        private readonly Context<Game> _context;
-
-        public BehaviourTreeCleanupSystem(Contexts contexts)
+        public BehaviourTreeCleanupSystem(Contexts contexts) : base(contexts)
         {
-            _context = contexts.Get<Game>();
         }
-        
-        public void Cleanup()
-        {
-            foreach (var entity in _context.AllWith<Destroyed, BehaviourTreeData>())
-            {
-                var data = entity.Get<BehaviourTreeData>().ExecutionData;
 
-                data.Return();
-                entity.Remove<BehaviourTreeData>();
-            }
+        protected override void Cleanup(Entity<Game> entity)
+        {
+            var data = entity.Get<BehaviourTreeData>().ExecutionData;
+
+            data.Return();
+            entity.Remove<BehaviourTreeData>();
         }
     }
 }

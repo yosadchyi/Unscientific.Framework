@@ -54,6 +54,9 @@
     <Compile Include="Sources\Notifications\IComponentListener.cs" />
     <Compile Include="Sources\Notifications\IMessageListener.cs" />
     <Compile Include="Sources\Notifications\NotificationRegistrations.cs" />
+    <Compile Include="Sources\System\EntityCleanupSystem.cs" />
+    <Compile Include="Sources\System\EntityUpdateSystem.cs" />
+    <Compile Include="Sources\System\MessageBasedCleanupSystem.cs" />
     <Compile Include="Sources\World.cs" />
     <Compile Include="Sources\Exceptions\EntityAlreadyHasComponentException.cs" />
     <Compile Include="Sources\Exceptions\EntityDoesNotExistsException.cs" />

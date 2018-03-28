@@ -2,24 +2,16 @@
 
 namespace Unscientific.ECS.Modules.BehaviourTree
 {
-    public class BehaviourTreeUpdateSystem: IUpdateSystem
+    public class BehaviourTreeUpdateSystem: EntityUpdateSystem<Game, BehaviourTreeData>
     {
-        private readonly Context<Game> _simulation;
-
-        public BehaviourTreeUpdateSystem(Contexts contexts)
+        public BehaviourTreeUpdateSystem(Contexts contexts) : base(contexts)
         {
-            _simulation = contexts.Get<Game>();
         }
 
-        public void Update()
+        protected override void Update(Entity<Game> entity)
         {
-            foreach (var entity in _simulation.AllWith<BehaviourTreeData>())
-            {
-                if (entity.Is<Destroyed>())
-                    continue;
-
+            if (!entity.Is<Destroyed>())
                 entity.Get<BehaviourTreeData>().BehaviourTree.Execute(entity);
-            }
         }
     }
 }

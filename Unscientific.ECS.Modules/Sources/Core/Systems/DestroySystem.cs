@@ -1,22 +1,17 @@
 ﻿namespace Unscientific.ECS.Modules.Core
 {
-    public class DestroySystem<TScope>: ICleanupSystem where TScope : IScope
+    public class DestroySystem<TScope>: MessageBasedCleanupSystem<ComponentAdded<TScope, Destroyed>> where TScope : IScope
     {
         private readonly Context<TScope> _context;
-        private readonly MessageBus _messageBus;
 
-        public DestroySystem(Contexts contexts, MessageBus messageBus)
+        public DestroySystem(Contexts contexts, MessageBus messageBus) : base(messageBus)
         {
             _context = contexts.Get<TScope>();
-            _messageBus = messageBus;
         }
         
-        public void Cleanup()
+        protected override void ProcessMessage(ComponentAdded<TScope, Destroyed> message)
         {
-            foreach (var message in _messageBus.All<ComponentAdded<TScope, Destroyed>>())
-            {
-                _context.DestroyEntity(message.Entity);
-            }
+            _context.DestroyEntity(message.Entity);
         }
     }
 }
