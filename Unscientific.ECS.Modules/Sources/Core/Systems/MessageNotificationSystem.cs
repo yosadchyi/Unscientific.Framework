@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Unscientific.ECS
+namespace Unscientific.ECS.Modules.Core
 {
     public class MessageListeners<TMessage>
     {

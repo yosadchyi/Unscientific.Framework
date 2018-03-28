@@ -598,12 +598,6 @@ namespace Unscientific.ECS
 
         #endregion
 
-        // TODO Fix this ughly method
-        public Entity<TScope> Singleton()
-        {
-            return this[(1 << GenerationShift) | 0];
-        }
-
         #region Enumerators
 
         public Entity<TScope> FirstWith<TComponent>()
