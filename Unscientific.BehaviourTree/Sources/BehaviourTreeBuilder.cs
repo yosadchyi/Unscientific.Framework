@@ -33,11 +33,6 @@ namespace Unscientific.BehaviourTree
         #endregion
     }
 
-    /**
-     * B - blackboard
-     * R - return type for leaf nodes
-     * P - concrete type of this node
-     */
     public abstract class BehaviourTreeBuilderBase<TBlackboard, TResult, TParent> : INodeHandler<TBlackboard>
         where TParent : INodeHandler<TBlackboard>
     {
@@ -56,14 +51,14 @@ namespace Unscientific.BehaviourTree
             return HandleNode(new ConditionNode<TBlackboard>(name, predicate));
         }
 
-        public TResult Wait(string name, ITickProvider tickProvider, int framesToWait)
+        public TResult Wait(string name, ITickSupplier tickSupplier, int framesToWait)
         {
-            return Wait(name, tickProvider, new ConstantValueSupplier<TBlackboard, int>(framesToWait).Get);
+            return Wait(name, tickSupplier, new ConstantValueSupplier<TBlackboard, int>(framesToWait));
         }
 
-        public TResult Wait(string name, ITickProvider tickProvider, ValueSupplier<TBlackboard, int> framesToWaitSupplier)
+        public TResult Wait(string name, ITickSupplier tickSupplier, IValueSupplier<TBlackboard, int> framesToWaitSupplier)
         {
-            return HandleNode(new WaitNode<TBlackboard>(name, tickProvider, framesToWaitSupplier));
+            return HandleNode(new WaitNode<TBlackboard>(name, tickSupplier, framesToWaitSupplier));
         }
 
         public TResult Splice(BehaviourTreeNode<TBlackboard> node)

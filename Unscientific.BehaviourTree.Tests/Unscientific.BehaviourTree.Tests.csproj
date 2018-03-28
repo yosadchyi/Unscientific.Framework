@@ -46,7 +46,7 @@
     <Compile Include="Sources\BehaviourTreeTests.cs" />
     <Compile Include="Sources\TestActions.cs" />
     <Compile Include="Sources\TestBlackboard.cs" />
-    <Compile Include="Sources\TestTickProvider.cs" />
+    <Compile Include="Sources\TestTickSupplier.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Unscientific.BehaviourTree\Unscientific.BehaviourTree.csproj">

@@ -1,8 +1,6 @@
 namespace Unscientific.BehaviourTree
 {
-    public delegate T ValueSupplier<in TBlackboard, out T>(TBlackboard entity);
-
-    public class ConstantValueSupplier<TBlackboard, T>
+    public class ConstantValueSupplier<TBlackboard, T>: IValueSupplier<TBlackboard, T>
     {
         private readonly T _value;
 
@@ -11,7 +9,7 @@ namespace Unscientific.BehaviourTree
             _value = value;
         }
 
-        public T Get(TBlackboard entity)
+        public T Supply(TBlackboard blackboard)
         {
             return _value;
         }

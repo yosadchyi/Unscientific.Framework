@@ -49,7 +49,7 @@ namespace Unscientific.BehaviourTree.Tests
         [Test]
         public void InvertRunningTest()
         {
-            var tickProvider = new TestTickProvider();
+            var tickProvider = new TestTickSupplier();
             var root = new BehaviourTreeBuilder<TestBlackboard>()
                 .Inverter("Invert status")
                     .Wait("Increment counter 1", tickProvider, 3)
@@ -201,7 +201,7 @@ namespace Unscientific.BehaviourTree.Tests
         [Test]
         public void WaitNodeTest()
         {
-            var tickProvider = new TestTickProvider();
+            var tickProvider = new TestTickSupplier();
             var root = new BehaviourTreeBuilder<TestBlackboard>()
                 .Wait("Increment counter 1", tickProvider, 3)
                 .Build();
@@ -228,7 +228,7 @@ namespace Unscientific.BehaviourTree.Tests
         [Test]
         public void ParallelTest()
         {
-            var tickProvider = new TestTickProvider();
+            var tickProvider = new TestTickSupplier();
             var root = new BehaviourTreeBuilder<TestBlackboard>()
                 .Parallel("Parallel")
                     .Do("Increment counter 1", TestActions.IncrementCounter1)
@@ -259,7 +259,7 @@ namespace Unscientific.BehaviourTree.Tests
         [Test]
         public void SequenceRunningTest()
         {
-            var tickProvider = new TestTickProvider();
+            var tickProvider = new TestTickSupplier();
             var root = new BehaviourTreeBuilder<TestBlackboard>()
                 .Sequence("Sequence")
                     .Do("Increment counter 1", TestActions.IncrementCounter1)
@@ -363,7 +363,7 @@ namespace Unscientific.BehaviourTree.Tests
         [Test]
         public void SelectorRunningTest()
         {
-            var tickProvider = new TestTickProvider();
+            var tickProvider = new TestTickSupplier();
             var root = new BehaviourTreeBuilder<TestBlackboard>()
                 .Selector("Sequence")
                     .AlwaysFail("Fail increment")
@@ -454,7 +454,7 @@ namespace Unscientific.BehaviourTree.Tests
         [Test]
         public void InterruptionTest()
         {
-            var tickProvider = new TestTickProvider();
+            var tickProvider = new TestTickSupplier();
             var root = new BehaviourTreeBuilder<TestBlackboard>()
                 .Sequence("Sequence")
                     .Inverter("Inverter")

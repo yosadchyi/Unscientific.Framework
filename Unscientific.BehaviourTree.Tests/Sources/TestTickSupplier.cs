@@ -1,10 +1,10 @@
 ﻿namespace Unscientific.BehaviourTree.Tests
 {
-    public class TestTickProvider: ITickProvider
+    public class TestTickSupplier: ITickSupplier
     {
         private int _tick;
 
-        public int GetTick()
+        public int Supply()
         {
             return _tick;
         }

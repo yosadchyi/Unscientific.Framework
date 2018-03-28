@@ -2,13 +2,13 @@
 {
     public class WaitNode<TBlackboard> : BehaviourTreeNode<TBlackboard>
     {
-        private readonly ITickProvider _tickProvider;
-        private readonly ValueSupplier<TBlackboard, int> _ticksToWaitSupplier;
+        private readonly ITickSupplier _tickSupplier;
+        private readonly IValueSupplier<TBlackboard, int> _ticksToWaitSupplier;
         private int _startTickId;
 
-        public WaitNode(string name, ITickProvider tickProvider, ValueSupplier<TBlackboard, int> ticksToWaitSupplier) : base(name)
+        public WaitNode(string name, ITickSupplier tickSupplier, IValueSupplier<TBlackboard, int> ticksToWaitSupplier) : base(name)
         {
-            _tickProvider = tickProvider;
+            _tickSupplier = tickSupplier;
             _ticksToWaitSupplier = ticksToWaitSupplier;
         }
 
@@ -26,12 +26,12 @@
         protected override BehaviourTreeStatus Update(BehaviourTreeExecutor<TBlackboard> executor, BehaviourTreeExecutionData<TBlackboard> data, TBlackboard blackboard)
         {
             const int undefined = int.MinValue;
-            var tick = _tickProvider.GetTick();
+            var tick = _tickSupplier.Supply();
 
             if (data.Variables[_startTickId] == undefined)
                 data.Variables[_startTickId] = tick;
 
-            if (tick - data.Variables[_startTickId] < _ticksToWaitSupplier(blackboard))
+            if (tick - data.Variables[_startTickId] < _ticksToWaitSupplier.Supply(blackboard))
                 return BehaviourTreeStatus.Running;
 
             data.Variables[_startTickId] = undefined;

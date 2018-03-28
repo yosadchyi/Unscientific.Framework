@@ -47,7 +47,6 @@
     <Compile Include="Sources\BehaviourTreeStatus.cs" />
     <Compile Include="Sources\IAction.cs" />
     <Compile Include="Sources\ICompletionObserver.cs" />
-    <Compile Include="Sources\ITickProvider.cs" />
     <Compile Include="Sources\Nodes\ActionNode.cs" />
     <Compile Include="Sources\Nodes\AlwaysFailNode.cs" />
     <Compile Include="Sources\Nodes\AlwaysSucceedNode.cs" />
@@ -62,7 +61,9 @@
     <Compile Include="Sources\Nodes\SelectorNode.cs" />
     <Compile Include="Sources\Nodes\SequenceNode.cs" />
     <Compile Include="Sources\Nodes\WaitNode.cs" />
-    <Compile Include="Sources\ValueSupplier.cs" />
+    <Compile Include="Sources\Suppliers\ConstantValueSupplier.cs" />
+    <Compile Include="Sources\Suppliers\ITickSupplier.cs" />
+    <Compile Include="Sources\Suppliers\IValueSupplier.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Unscientific.Logging\Unscientific.Logging.csproj">

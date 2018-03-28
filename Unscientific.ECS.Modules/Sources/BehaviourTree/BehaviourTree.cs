@@ -1,4 +1,5 @@
-﻿using Unscientific.BehaviourTree;
+﻿using System.Diagnostics.CodeAnalysis;
+using Unscientific.BehaviourTree;
 using Unscientific.ECS.Modules.Core;
 
 namespace Unscientific.ECS.Modules.BehaviourTree
@@ -9,6 +10,7 @@ namespace Unscientific.ECS.Modules.BehaviourTree
         public readonly BehaviourTreeMetadata<Entity<Game>> Metadata;
         public readonly BehaviourTreeExecutor<Entity<Game>> Executor;
 
+        [SuppressMessage("ReSharper", "HeapView.ObjectAllocation.Evident")]
         public BehaviourTree(BehaviourTreeNode<Entity<Game>> root)
         {
             Root = root;
