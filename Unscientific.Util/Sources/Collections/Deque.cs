@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Unscientific.Util.Collections
 {
@@ -12,7 +13,7 @@ namespace Unscientific.Util.Collections
     /// <typeparam name="T">
     /// The type of objects to store in the deque.
     /// </typeparam>
-    public class Deque<T> where T: class
+    public class Deque<T>
     {
         /// <summary>
         /// The default capacity of the deque.
@@ -47,7 +48,7 @@ namespace Unscientific.Util.Collections
             if (capacity < 0)
             {
                 throw new ArgumentOutOfRangeException(
-                    "capacity", "capacity is less than 0.");
+                    nameof(capacity), "capacity is less than 0.");
             }
 
             Capacity = capacity;
@@ -399,11 +400,13 @@ namespace Unscientific.Util.Collections
         {
             var index = 0;
 
+            var equalityComparer = EqualityComparer<T>.Default;
+
             if (_startOffset + Count > Capacity)
             {
                 for (var i = _startOffset; i < Capacity; i++)
                 {
-                    if (_buffer[i] == item)
+                    if (equalityComparer.Equals(_buffer[i], item))
                         return index;
                     index++;
                 }
@@ -411,7 +414,7 @@ namespace Unscientific.Util.Collections
                 var endIndex = ToBufferIndex(Count);
                 for (var i = 0; i < endIndex; i++)
                 {
-                    if (_buffer[i] == item)
+                    if (equalityComparer.Equals(_buffer[i], item))
                         return index;
                     index++;
                 }
@@ -421,7 +424,7 @@ namespace Unscientific.Util.Collections
                 var endIndex = _startOffset + Count;
                 for (var i = _startOffset; i < endIndex; i++)
                 {
-                    if (_buffer[i] == item)
+                    if (equalityComparer.Equals(_buffer[i], item))
                         return index;
                     index++;
                 }
