@@ -34,8 +34,8 @@
                             .AddAddedNotifications<Destroyed>()
                         .End()
                         .Systems()
-                            .Add((contexts, messageBus) => new BaseSetupSystem(contexts))
-                            .Add((contexts, messageBus) => new IncrementTickSystem(contexts))
+                            .Add(contexts => new BaseSetupSystem(contexts))
+                            .Add(contexts => new IncrementTickSystem(contexts))
                             .Add((contexts, messageBus) => new DestroySystem<Game>(contexts, messageBus))
                         .End()
                     .Build();

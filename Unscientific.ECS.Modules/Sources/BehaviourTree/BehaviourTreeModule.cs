@@ -16,8 +16,8 @@ namespace Unscientific.ECS.Modules.BehaviourTree
                             .Add<BehaviourTreeData>()
                         .End()
                         .Systems()
-                            .Add((contexts, messageBus) => new BehaviourTreeUpdateSystem(contexts))
-                            .Add((contexts, messageBus) => new BehaviourTreeCleanupSystem(contexts))
+                            .Add(contexts => new BehaviourTreeUpdateSystem(contexts))
+                            .Add(contexts => new BehaviourTreeCleanupSystem(contexts))
                         .End()
                     .Build();
             }
