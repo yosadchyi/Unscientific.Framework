@@ -7,6 +7,10 @@
     {
     }
 
+    public struct Singleton
+    {
+    }
+
     /// <summary>
     /// Tick component, used in Singletons context, holds number of ticks.
     /// </summary>

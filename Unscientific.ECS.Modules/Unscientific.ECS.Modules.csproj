@@ -53,6 +53,7 @@
     <Compile Include="Sources\Core\IGameComponentListener.cs" />
     <Compile Include="Sources\Core\Module.cs" />
     <Compile Include="Sources\Core\Scopes.cs" />
+    <Compile Include="Sources\Core\Systems\ComponentNotificationSystems.cs" />
     <Compile Include="Sources\Core\Systems\DestroySystem.cs" />
     <Compile Include="Sources\Core\Systems\IncrementTickSystem.cs" />
     <Compile Include="Sources\Core\Systems\CoreSetupSystem.cs" />
@@ -61,6 +62,7 @@
     <Compile Include="Sources\BehaviourTree\Components.cs" />
     <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeCleanupSystem.cs" />
     <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeUpdateSystem.cs" />
+    <Compile Include="Sources\Core\Systems\MessageNotificationSystem.cs" />
     <Compile Include="Sources\Navigation\FlowField\CircularFlowField.cs" />
     <Compile Include="Sources\Navigation\FlowField\IFlowField.cs" />
     <Compile Include="Sources\Navigation\FlowField\MoveInDirectionFlowField.cs" />
