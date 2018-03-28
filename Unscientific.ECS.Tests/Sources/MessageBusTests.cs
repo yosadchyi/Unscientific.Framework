@@ -101,14 +101,14 @@ namespace Unscientific.ECS.Tests
         }
 
         [Test]
-        public void ClearShouldRemoveAllMessages()
+        public void CleanupShouldRemoveAllMessages()
         {
             var count = 0;
             
             for (var i = 0; i < 16; i++)
                 _bus.Send(new TestMessage(i));
 
-            _bus.Clear<TestMessage>();
+            _bus.Cleanup();
 
             foreach (var unused in _bus.All<TestMessage>())
                 count++;
