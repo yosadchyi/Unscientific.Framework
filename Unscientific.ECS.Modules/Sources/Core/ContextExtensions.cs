@@ -6,7 +6,7 @@ namespace Unscientific.ECS.Modules.Core
     {
         public static Entity<TScope> Singleton<TScope>(this Context<TScope> self) where TScope : IScope
         {
-            return self.FirstWith<Singleton>();
+            return self.FirstWith<SingletonTag>();
         }
 
         public static Entity<TScope> Singleton<TScope>(this Contexts self) where TScope : IScope
