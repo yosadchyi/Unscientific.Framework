@@ -5,21 +5,20 @@ namespace Unscientific.ECS
 {
     public class ContextRegistrations
     {
-        private event Action<ReferenceTrackerFactory> OnRegister = delegate { };
+        private event Action OnRegister = delegate { };
 
         public ContextRegistrations Add<TScope>(int initialCapacity, int maxCapacity) where TScope : IScope
         {
-            OnRegister += referenceTrackerFactory => RegisterContext<TScope>(referenceTrackerFactory, initialCapacity, maxCapacity);
+            OnRegister += () => RegisterContext<TScope>(initialCapacity, maxCapacity);
             return this;
         }
 
-        private static void RegisterContext<TScope>(ReferenceTrackerFactory referenceTrackerFactory, int initialCapacity, int maxCapacity) where TScope : IScope
+        private static void RegisterContext<TScope>(int initialCapacity, int maxCapacity) where TScope : IScope
         {
             if (Contexts.RegisteredContexts.Contains(typeof(TScope)))
                 return;
 
             var context = new Context<TScope>.Initializer()
-                .WithReferenceTrackerFactory(referenceTrackerFactory)
                 .WithInitialCapacity(initialCapacity)
                 .WithMaxCapacity(maxCapacity)
                 .Initialize();
@@ -27,9 +26,9 @@ namespace Unscientific.ECS
             Contexts.RegisteredContexts.Add(typeof(TScope));
         }
 
-        public void Register(ReferenceTrackerFactory referenceTrackerFactory)
+        public void Register()
         {
-            OnRegister(referenceTrackerFactory);
+            OnRegister();
         }
     }
 

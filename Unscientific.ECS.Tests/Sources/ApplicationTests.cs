@@ -138,11 +138,11 @@ namespace Unscientific.ECS.Tests
             
             application.Setup();
             
-            Assert.AreEqual(typeof(ModuleE), _modules[0].GetType());
-            Assert.AreEqual(typeof(ModuleD), _modules[1].GetType());
+            Assert.AreEqual(typeof(ModuleA), _modules[0].GetType());
+            Assert.AreEqual(typeof(ModuleB), _modules[1].GetType());
             Assert.AreEqual(typeof(ModuleC), _modules[2].GetType());
-            Assert.AreEqual(typeof(ModuleB), _modules[3].GetType());
-            Assert.AreEqual(typeof(ModuleA), _modules[4].GetType());
+            Assert.AreEqual(typeof(ModuleD), _modules[3].GetType());
+            Assert.AreEqual(typeof(ModuleE), _modules[4].GetType());
         }
 
         [Test]

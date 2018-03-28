@@ -72,7 +72,6 @@
     <Compile Include="Sources\ReferenceTracking\CountingReferenceTracker.cs" />
     <Compile Include="Sources\ReferenceTracking\IReferenceTracker.cs" />
     <Compile Include="Sources\ReferenceTracking\ReferenceTrackerFactory.cs" />
-    <Compile Include="Sources\ReferenceTracking\UnsafeReferenceTracker.cs" />
     <Compile Include="Sources\System\ICleanupSystem.cs" />
     <Compile Include="Sources\System\ISetupSystem.cs" />
     <Compile Include="Sources\System\ISystem.cs" />

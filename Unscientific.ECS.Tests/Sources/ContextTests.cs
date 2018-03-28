@@ -22,7 +22,6 @@ namespace Unscientific.ECS.Tests
 
             new Context<TestScope>.Initializer()
                 .WithInitialCapacity(16)
-                .WithReferenceTrackerFactory((capacity) => new CountingReferenceTracker<TestScope>(capacity))
                 .Initialize();
         }
 

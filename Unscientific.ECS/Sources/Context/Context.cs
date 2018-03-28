@@ -366,19 +366,12 @@ namespace Unscientific.ECS
         {
             private int _initialCapacity = 128;
             private int _maxCapacity = int.MaxValue;
-            private ReferenceTrackerFactory _referenceTrackerFactory;
 
             public Initializer()
             {
                 ComponentData<Identifier>.Init();
             }
 
-            public Initializer WithReferenceTrackerFactory(ReferenceTrackerFactory referenceTrackerFactory)
-            {
-                _referenceTrackerFactory = referenceTrackerFactory;
-                return this;
-            }
-            
             public Initializer WithInitialCapacity(int capacity)
             {
                 _initialCapacity = capacity;
@@ -393,16 +386,8 @@ namespace Unscientific.ECS
 
             public Context<TScope> Initialize()
             {
-                if (_referenceTrackerFactory == null)
-                {
-#if UNSAFE_ECS
-                    _referenceTrackerFactory = (capacity) => new UnsafeReferenceTracker();
-#else
-                    _referenceTrackerFactory = (capacity) => new CountingReferenceTracker<TScope>(capacity);
-#endif
-                }
                 // ReSharper disable once HeapView.ObjectAllocation.Evident
-                return new Context<TScope>(_initialCapacity, _maxCapacity, _referenceTrackerFactory);
+                return new Context<TScope>(_initialCapacity, _maxCapacity);
             }
         }
 
@@ -425,11 +410,11 @@ namespace Unscientific.ECS
         private readonly Stack<int> _freeList;
         private int[] _id2Index;
 
-        private Context(int initialCapacity, int maxCapacity, ReferenceTrackerFactory referenceTrackerFactory)
+        private Context(int initialCapacity, int maxCapacity)
         {
             _capacity = initialCapacity;
             _maxCapacity = maxCapacity;
-            _referenceTracker = referenceTrackerFactory(_capacity);
+            _referenceTracker = new CountingReferenceTracker<TScope>(_capacity);
             _freeList = new Stack<int>(_capacity);
             _id2Index = new int[_capacity];
 

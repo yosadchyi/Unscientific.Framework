@@ -18,14 +18,7 @@ namespace Unscientific.ECS
         public class Builder
         {
             private readonly List<IModule> _modules = new List<IModule>();
-            private ReferenceTrackerFactory _referenceTrackerFactory;
             private bool _fastMessageCleanup;
-
-            public Builder WithReferenceTrackerFactory(ReferenceTrackerFactory referenceTrackerFactory)
-            {
-                _referenceTrackerFactory = referenceTrackerFactory;
-                return this;
-            }
 
             public Builder Uses(IModule module)
             {
@@ -41,11 +34,11 @@ namespace Unscientific.ECS
 
             public World Build()
             {
-                return new World(_referenceTrackerFactory, _modules, _fastMessageCleanup);
+                return new World(_modules, _fastMessageCleanup);
             }
         }
 
-        private World(ReferenceTrackerFactory referenceTrackerFactory, List<IModule> modules, bool fastMessageCleanup)
+        private World(List<IModule> modules, bool fastMessageCleanup)
         {
             _fastMessageCleanup = fastMessageCleanup;
 
@@ -55,7 +48,7 @@ namespace Unscientific.ECS
                 module.Components().Register();
 
             foreach (var module in sortedModules)
-                module.Contexts().Register(referenceTrackerFactory);
+                module.Contexts().Register();
 
             foreach (var module in sortedModules)
                 module.Messages().Register(MessageBus);

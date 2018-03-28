@@ -147,7 +147,7 @@ namespace Unscientific.ECS
             _queue1 = _queue2;
             _queue2 = tmp;
             // shared aggregator is cleared, so messages with same key can be sent next frame
-            _queue2.Clear();
+            _queue2.Cleanup();
         }
 
         public void FastCleanup()
@@ -240,6 +240,7 @@ namespace Unscientific.ECS
         {
             Data<TMessage>.Queue = new SimpleMessageQueue<TMessage>(capacity, aggregator);
             OnCleanup += Data<TMessage>.Queue.Cleanup;
+            OnFastCleanup += Data<TMessage>.Queue.FastCleanup;
             OnClear += Data<TMessage>.Queue.Clear;
         }
 
