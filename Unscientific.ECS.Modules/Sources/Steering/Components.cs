@@ -16,11 +16,11 @@ namespace Unscientific.ECS.Modules.Steering
     
     public struct TargetEntity
     {
-        public EntityRef<Game> Reference;
+        public readonly Entity<Game> Entity;
 
-        public TargetEntity(EntityRef<Game> entityRef)
+        public TargetEntity(Entity<Game> entityRef)
         {
-            Reference = entityRef;
+            Entity = entityRef;
         }
     }
 

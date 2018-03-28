@@ -16,7 +16,7 @@ namespace Unscientific.ECS.Modules.Physics
 
         public void Update()
         {
-            var dt = _configuration.Singleton().Get<TimeStep>().Value;
+            var dt = ContextExtensions.Singleton(_configuration).Get<TimeStep>().Value;
 
             foreach (var entity in _simulation.AllWith<Velocity, Force, Mass>())
             {
