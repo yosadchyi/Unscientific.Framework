@@ -7,7 +7,7 @@
     {
     }
 
-    public struct Singleton
+    public struct SingletonTag
     {
     }
 

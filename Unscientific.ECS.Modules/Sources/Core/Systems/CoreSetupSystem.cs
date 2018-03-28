@@ -11,8 +11,8 @@
 
         public void Setup()
         {
-            _contexts.Get<Configuration>().CreateEntity().Add(new Singleton());
-            var singleton = _contexts.Get<Singletons>().CreateEntity().Add(new Singleton());
+            _contexts.Get<Configuration>().CreateEntity().Add(new SingletonTag());
+            var singleton = _contexts.Get<Singletons>().CreateEntity().Add(new SingletonTag());
             singleton.Add(new Tick(-1));
         }
     }
