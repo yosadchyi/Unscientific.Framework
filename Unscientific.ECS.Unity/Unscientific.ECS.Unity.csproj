@@ -47,8 +47,8 @@
     <Compile Include="Sources\Components\IHandler.cs" />
     <Compile Include="Sources\Components\Handlers.cs" />
     <Compile Include="Sources\Components\EntityViewDatabase.cs" />
-    <Compile Include="Sources\Components\OrientationHandler.cs" />
-    <Compile Include="Sources\Components\PositionHandler.cs" />
+    <Compile Include="Sources\Components\Orientation2DHandler.cs" />
+    <Compile Include="Sources\Components\Position2DHandler.cs" />
     <Compile Include="Sources\ViewPlane.cs" />
     <Compile Include="Sources\WorldController.cs" />
     <Compile Include="Sources\Components\ViewHandler.cs" />
