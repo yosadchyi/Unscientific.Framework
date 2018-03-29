@@ -2,13 +2,13 @@
 {
     public class PeriodicUpdateSystem: IUpdateSystem
     {
-        private IUpdateSystem _decordatedSystem;
+        private readonly IUpdateSystem _decoratedSystem;
         private readonly int _period;
         private int _counter;
 
-        public PeriodicUpdateSystem(IUpdateSystem decordatedSystem, int period)
+        public PeriodicUpdateSystem(IUpdateSystem decoratedSystem, int period)
         {
-            _decordatedSystem = decordatedSystem;
+            _decoratedSystem = decoratedSystem;
             _period = period;
         }
 
@@ -17,7 +17,7 @@
             _counter++;
             if (_counter % _period == 0)
             {
-                _decordatedSystem.Update();
+                _decoratedSystem.Update();
                 _counter = 0; // avoid overflow
             }
         }
