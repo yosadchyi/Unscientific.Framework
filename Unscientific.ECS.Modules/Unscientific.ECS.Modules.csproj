@@ -92,7 +92,7 @@
     <Compile Include="Sources\Physics2D\Intersector.cs" />
     <Compile Include="Sources\Physics2D\ISpatialDatabase.cs" />
     <Compile Include="Sources\Physics2D\Messages\EntitiesCollided.cs" />
-    <Compile Include="Sources\Physics2D\Physics2dModule.cs" />
+    <Compile Include="Sources\Physics2D\Physics2DModule.cs" />
     <Compile Include="Sources\Physics2D\Shapes\AABBShape.cs" />
     <Compile Include="Sources\Physics2D\Shapes\CircleShape.cs" />
     <Compile Include="Sources\Physics2D\Shapes\Shape.cs" />

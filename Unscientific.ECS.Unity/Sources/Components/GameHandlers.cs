@@ -17,12 +17,12 @@ namespace Unscientific.ECS.Unity
     }
     
     [RequireComponent(typeof(GameEntityViewDatabase))]
-    public class GamePositionHandler : PositionHandler<Game>
+    public class GamePosition2DHandler : Position2DHandler<Game>
     {
     }
     
     [RequireComponent(typeof(GameEntityViewDatabase))]
-    public class GameOrientationHandler : OrientationHandler<Game>
+    public class GameOrientation2DHandler : Orientation2DHandler<Game>
     {
     }
 }
