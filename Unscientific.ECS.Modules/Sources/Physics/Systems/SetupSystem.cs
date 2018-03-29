@@ -23,7 +23,8 @@ namespace Unscientific.ECS.Modules.Physics
             _singletons.Singleton()
                 .Add(new Space(_spatialDatabase));
             _configuration.Singleton()
-                .Add(new TimeStep(_timeStep));
+                .Add(new TimeStep(_timeStep))
+                .Add(new GlobalForce(FixVec2.Zero));
         }
     }
 }

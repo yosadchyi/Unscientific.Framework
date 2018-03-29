@@ -77,6 +77,7 @@
     <Compile Include="Sources\Physics\Components\BoundingShapes.cs" />
     <Compile Include="Sources\Physics\Components\Collision.cs" />
     <Compile Include="Sources\Physics\Components\Collisions.cs" />
+    <Compile Include="Sources\Physics\Components\GlobalForce.cs" />
     <Compile Include="Sources\Physics\Components\TimeStep.cs" />
     <Compile Include="Sources\Physics\Components\Damping.cs" />
     <Compile Include="Sources\Physics\Components\Force.cs" />
