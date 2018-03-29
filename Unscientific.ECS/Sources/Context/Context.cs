@@ -495,12 +495,12 @@ namespace Unscientific.ECS
                 Grow(Math.Min(_maxCapacity, _capacity * 2));
             }
 
-            var id = _freeList.RemoveFront();
+            var index = _freeList.RemoveFront();
 
-            _generations[id]++;
+            if (_generations[index] == 0) _generations[index]++; // in case if object never created/destroyed, give generation number 1
             _count++;
 
-            return new Entity<TScope>(_generations[id], id);
+            return new Entity<TScope>(_generations[index], index);
         }
 
         public void DestroyEntity(Entity<TScope> entity)
@@ -509,7 +509,13 @@ namespace Unscientific.ECS
             EnsureEntityExists(entity);
 #endif
             OnRemove(entity);
-            _freeList.AddBack(entity.Index);
+
+            var index = entity.Index;
+
+            _generations[index]++;
+            if (_generations[index] == 0) _generations[index]++; // handle overflow
+
+            _freeList.AddBack(index);
             _count--;
         }
 
