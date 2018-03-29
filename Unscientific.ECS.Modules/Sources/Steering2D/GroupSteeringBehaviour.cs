@@ -2,7 +2,7 @@
 {
     public abstract class GroupSteeringBehaviour: SteeringBehaviour
     {
-        public Proximity Proximity;
+        public readonly Proximity Proximity;
 
         protected GroupSteeringBehaviour (Proximity proximity)
         {
