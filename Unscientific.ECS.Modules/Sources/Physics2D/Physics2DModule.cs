@@ -9,7 +9,7 @@ namespace Unscientific.ECS.Modules.Physics2D
         public class Builder : IModuleBuilder
         {
             private ISpatialDatabase _spatialDatabase;
-            private Fix _timeStep = Fix.Ratio(1, 60);
+            private Fix _timeStep = Fix.Ratio(1, 50);
     
             public Builder WithSpatialDatabase(ISpatialDatabase spatialDatabase)
             {
