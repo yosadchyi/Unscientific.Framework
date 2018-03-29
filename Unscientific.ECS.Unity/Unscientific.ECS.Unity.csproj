@@ -47,6 +47,11 @@
     <Compile Include="Sources\Components\IHandler.cs" />
     <Compile Include="Sources\Components\Handlers.cs" />
     <Compile Include="Sources\Components\EntityViewDatabase.cs" />
+    <Compile Include="Sources\Components\InterpolatedTransform.cs" />
+    <Compile Include="Sources\Components\InterpolatedTransformUpdater.cs" />
+    <Compile Include="Sources\Components\InterpolationController.cs" />
+    <Compile Include="Sources\Components\IOrientationHandler.cs" />
+    <Compile Include="Sources\Components\IPositionHandler.cs" />
     <Compile Include="Sources\Components\Orientation2DHandler.cs" />
     <Compile Include="Sources\Components\Position2DHandler.cs" />
     <Compile Include="Sources\ViewPlane.cs" />
