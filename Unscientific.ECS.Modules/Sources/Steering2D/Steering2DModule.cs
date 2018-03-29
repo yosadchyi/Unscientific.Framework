@@ -7,6 +7,14 @@ namespace Unscientific.ECS.Modules.Steering2D
     {
         public class Builder : IModuleBuilder
         {
+            private int _updatePeriod = 1;
+
+            public Builder WithUpdatePeriod(int updatePeriod)
+            {
+                _updatePeriod = updatePeriod;
+                return this;
+            }
+
             public IModule Build()
             {
                 return new Module<Steering2DModule>.Builder()
@@ -24,7 +32,7 @@ namespace Unscientific.ECS.Modules.Steering2D
                             .Add<AlignTolerance>()
                         .End()
                         .Systems()
-                            .Add((contexts, messageBus) => new SteeringSystem(contexts))
+                            .Add((contexts, messageBus) => new PeriodicUpdateSystem(new SteeringSystem(contexts), _updatePeriod))
                         .End()
                     .Build();
             }
