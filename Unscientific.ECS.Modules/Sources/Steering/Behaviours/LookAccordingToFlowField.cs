@@ -1,5 +1,5 @@
 ﻿using Unscientific.ECS.Modules.Core;
-using Unscientific.ECS.Modules.Physics;
+using Unscientific.ECS.Modules.Physics2D;
 using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Steering

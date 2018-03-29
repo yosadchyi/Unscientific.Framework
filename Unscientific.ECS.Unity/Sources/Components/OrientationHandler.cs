@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 using Unscientific.ECS.Modules.Core;
-using Unscientific.ECS.Modules.Physics;
+using Unscientific.ECS.Modules.Physics2D;
 using Unscientific.ECS.Modules.View;
 
 namespace Unscientific.ECS.Unity

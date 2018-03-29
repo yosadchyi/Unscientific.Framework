@@ -1,5 +1,5 @@
 ﻿using Unscientific.ECS.Modules.Core;
-using Unscientific.ECS.Modules.Physics;
+using Unscientific.ECS.Modules.Physics2D;
 
 namespace Unscientific.ECS.Modules.Steering
 {
@@ -12,7 +12,7 @@ namespace Unscientific.ECS.Modules.Steering
                 return new Module<SteeringModule>.Builder()
                         .Usages()
                             .Uses<CoreModule>()
-                            .Uses<PhysicsModule>()
+                            .Uses<Physics2DModule>()
                         .End()
                         .Components<Game>()
                             .Add<Steering>()
