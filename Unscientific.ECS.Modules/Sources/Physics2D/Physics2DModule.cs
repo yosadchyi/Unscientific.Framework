@@ -53,6 +53,7 @@ namespace Unscientific.ECS.Modules.Physics2D
                     .End()
                     .Components<Configuration>()
                         .Add<TimeStep>()
+                        .Add<GlobalForce>()
                     .End()
                     .Components<Singletons>()
                         .Add<Space>()
