@@ -57,6 +57,7 @@
     <Compile Include="Sources\System\EntityCleanupSystem.cs" />
     <Compile Include="Sources\System\EntityUpdateSystem.cs" />
     <Compile Include="Sources\System\MessageBasedCleanupSystem.cs" />
+    <Compile Include="Sources\System\PeriodicUpdateSystem.cs" />
     <Compile Include="Sources\World.cs" />
     <Compile Include="Sources\Exceptions\EntityAlreadyHasComponentException.cs" />
     <Compile Include="Sources\Exceptions\EntityDoesNotExistsException.cs" />
