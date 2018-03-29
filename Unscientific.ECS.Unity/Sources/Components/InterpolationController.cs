@@ -1,5 +1,5 @@
 ﻿// Based on code from http://www.kinematicsoup.com/news/2016/8/9/rrypp5tkubynjwxhxjzd42s3o034o8.
-using System;
+
 using UnityEngine;
 
 namespace Unscientific.ECS.Unity

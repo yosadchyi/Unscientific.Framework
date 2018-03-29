@@ -27,6 +27,7 @@ namespace Unscientific.ECS.Unity
         public void OnComponentAdded(Entity<TScope> entity, View view)
         {
             var asset = _assetFactory.CreateAsset(view.Name);
+            asset.LinkToEntity(entity);
             _entityViewDatabase.AddView(entity, asset);
             UpdatePositionAndOrientation(entity);
             asset.GetComponent<InterpolatedTransform>()?.Initialize();
@@ -34,7 +35,9 @@ namespace Unscientific.ECS.Unity
 
         public void OnComponentRemoved(Entity<TScope> entity, View component)
         {
-            _entityViewDatabase.RemoveView(entity).ReturnToPool();
+            var asset = _entityViewDatabase.RemoveView(entity);
+            asset.UnlinkEntity();
+            asset.ReturnToPool();
         }
 
         public void OnComponentReplaced(Entity<TScope> entity, View oldComponent, View newComponent)
