@@ -6,6 +6,14 @@ namespace Unscientific.ECS.Modules.BehaviourTree
     {
         public class Builder: IModuleBuilder
         {
+            private int _updatePeriod = 1;
+
+            public Builder WithUpdatePeriod(int updatePeriod)
+            {
+                _updatePeriod = updatePeriod;
+                return this;
+            }
+
             public IModule Build()
             {
                 return new Module<BehaviourTreeModule>.Builder()
@@ -16,7 +24,7 @@ namespace Unscientific.ECS.Modules.BehaviourTree
                             .Add<BehaviourTreeData>()
                         .End()
                         .Systems()
-                            .Add(contexts => new BehaviourTreeUpdateSystem(contexts))
+                            .Add(contexts => new PeriodicUpdateSystem(new BehaviourTreeUpdateSystem(contexts), _updatePeriod))
                             .Add(contexts => new BehaviourTreeCleanupSystem(contexts))
                         .End()
                     .Build();
