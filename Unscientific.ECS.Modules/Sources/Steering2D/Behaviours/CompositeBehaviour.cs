@@ -4,10 +4,10 @@ using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Steering2D
 {
-    public class BehaviourAndWeight
+    public struct BehaviourAndWeight
     {
-        public SteeringBehaviour Behaviour;
-        public Fix Weight;
+        public readonly SteeringBehaviour Behaviour;
+        public readonly Fix Weight;
 
         public BehaviourAndWeight(SteeringBehaviour behaviour, Fix weight)
         {
