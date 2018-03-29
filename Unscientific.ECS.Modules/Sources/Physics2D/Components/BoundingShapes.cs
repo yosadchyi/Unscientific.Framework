@@ -5,9 +5,9 @@ namespace Unscientific.ECS.Modules.Physics2D
 {
     public struct BoundingShapes
     {
-        public readonly List<Shape> Shapes;
+        public readonly Shape[] Shapes;
 
-        public BoundingShapes(List<Shape> shapes)
+        public BoundingShapes(Shape[] shapes)
         {
             Shapes = shapes;
         }
