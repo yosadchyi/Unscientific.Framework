@@ -2,9 +2,9 @@
 
 namespace Unscientific.ECS.Unity
 {
-    [RequireComponent(typeof(Handlers))]
     public class WorldController : MonoBehaviour
     {
+
         #region Exposed properties
 
         public World World { get; private set; }
@@ -13,7 +13,6 @@ namespace Unscientific.ECS.Unity
 
         #region Internal state
 
-        private Handlers _handlers;
         private Systems _systems;
         private MessageBus _messageBus;
 
@@ -24,7 +23,6 @@ namespace Unscientific.ECS.Unity
         private void Awake()
         {
             World = World.Instance;
-            _handlers = GetComponent<Handlers>();
             _systems = World.Systems;
             _messageBus = World.MessageBus;
         }
@@ -32,7 +30,10 @@ namespace Unscientific.ECS.Unity
         private void Start()
         {
             _systems.Setup();
-            _handlers.Initialize(World.Contexts, World.MessageBus);
+            foreach (var handler in gameObject.GetComponents<IHandler>())
+            {
+                handler.Initialize(World.Contexts, World.MessageBus);
+            }
             System.GC.Collect();
         }
 
@@ -45,7 +46,10 @@ namespace Unscientific.ECS.Unity
 
         private void OnDestroy()
         {
-            _handlers.Destroy();
+            foreach (var handler in gameObject.GetComponents<IHandler>())
+            {
+                handler.Destroy();
+            }
             World.Clear();
         }
 

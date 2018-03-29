@@ -45,7 +45,6 @@
     <Compile Include="Sources\Components\DestroyHandler.cs" />
     <Compile Include="Sources\Components\GameHandlers.cs" />
     <Compile Include="Sources\Components\IHandler.cs" />
-    <Compile Include="Sources\Components\Handlers.cs" />
     <Compile Include="Sources\Components\EntityViewDatabase.cs" />
     <Compile Include="Sources\Components\InterpolatedTransform.cs" />
     <Compile Include="Sources\Components\InterpolatedTransformUpdater.cs" />
