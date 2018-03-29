@@ -74,7 +74,7 @@
     <Compile Include="Sources\Physics\AABB.cs" />
     <Compile Include="Sources\Physics\Components\AngularDamping.cs" />
     <Compile Include="Sources\Physics\Components\AngularVelocity.cs" />
-    <Compile Include="Sources\Physics\Components\BoundingShape.cs" />
+    <Compile Include="Sources\Physics\Components\BoundingShapes.cs" />
     <Compile Include="Sources\Physics\Components\Collision.cs" />
     <Compile Include="Sources\Physics\Components\Collisions.cs" />
     <Compile Include="Sources\Physics\Components\TimeStep.cs" />
@@ -106,7 +106,7 @@
     <Compile Include="Sources\Physics\Systems\MoveSystem.cs" />
     <Compile Include="Sources\Physics\Systems\ProcessCollisionSystem.cs" />
     <Compile Include="Sources\Physics\Systems\RotateSystem.cs" />
-    <Compile Include="Sources\Physics\Systems\ShapesCleanupSystem.cs" />
+    <Compile Include="Sources\Physics\Systems\SpatialDatanaseCleanupSystem.cs" />
     <Compile Include="Sources\Physics\Transform.cs" />
     <Compile Include="Sources\Steering\Components\AlignTolerance.cs" />
     <Compile Include="Sources\Steering\Components\ArrivalTolerance.cs" />

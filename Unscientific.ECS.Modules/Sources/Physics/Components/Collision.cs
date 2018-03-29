@@ -6,17 +6,17 @@ namespace Unscientific.ECS.Modules.Physics
 {
     public class Collision
     {
-        public static ObjectPool<Collision> Pool = new GenericObjectPool<Collision>(512);
+        private static readonly ObjectPool<Collision> Pool = new GenericObjectPool<Collision>(512);
 
         public Shape SelfShape;
-        public int Other;
+        public Entity<Game> Other;
         public Shape OtherShape;
 
         public static Collision New(Shape selfShape, Entity<Game> other, Shape otherShape)
         {
             var collision = Pool.Get();
             collision.SelfShape = selfShape;
-            collision.Other = other.Id;
+            collision.Other = other;
             collision.OtherShape = otherShape;
             return collision;
         }

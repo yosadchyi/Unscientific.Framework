@@ -13,8 +13,6 @@
 
         public abstract ShapeType Type { get; }
 
-        public abstract void Return();
-
         public abstract AABB GetBoundingBox(ref Transform transform);
 
         public bool IsShapeFilterRejected(Shape other)

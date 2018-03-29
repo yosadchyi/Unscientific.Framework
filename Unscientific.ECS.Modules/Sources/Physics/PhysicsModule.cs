@@ -48,7 +48,7 @@ namespace Unscientific.ECS.Modules.Physics
                         .Add<AngularDamping>()
                         .Add<Torque>()
                         .Add<Inertia>()
-                        .Add<BoundingShape>()
+                        .Add<BoundingShapes>()
                         .Add<Collisions>()
                     .End()
                     .Components<Configuration>()
@@ -69,7 +69,7 @@ namespace Unscientific.ECS.Modules.Physics
                         .Add(contexts => new RotateSystem(contexts))
                         .Add((contexts, messageBus) => new ProcessCollisionSystem(contexts, messageBus))
                         .Add(contexts => new CollisionsCleanupSystem(contexts))
-                        .Add(contexts => new ShapesCleanupSystem(contexts))
+                        .Add(contexts => new SpatialDatanaseCleanupSystem(contexts))
                     .End()
                 .Build();
             }

@@ -7,7 +7,7 @@ using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Physics
 {
-    public class ProcessCollisionSystem: IUpdateSystem, ICleanupSystem
+    public class ProcessCollisionSystem: IUpdateSystem
     {
         private readonly MessageBus _messageBus;
         private readonly Context<Singletons> _singletons;
@@ -34,47 +34,47 @@ namespace Unscientific.ECS.Modules.Physics
             var space = _singletons.Singleton().Get<Space>();
             var hash = space.SpatialDatabase;
 
-            foreach (var entity in _simulation.AllWith<Position, BoundingShape>())
+            foreach (var entity in _simulation.AllWith<Position, BoundingShapes>())
             {
                 if (entity.Is<Destroyed>())
                     continue;
 
-                var collisionsBefore = 0;
-                var shape = entity.Get<BoundingShape>().Shape;
-                List<Collision> collisions = null;
-                _transform = GetEntityTransform(entity);
-                _entity = entity;
-
-                if (_entity.Has<Collisions>())
-                {
-                    collisions = _entity.Get<Collisions>().List;
-                    collisionsBefore = collisions.Count;
-                    ResetCollisions(collisions);
-                }
-
-                _shape = shape;
-                _shapeBB = shape.GetBoundingBox(ref _transform);
-
-                hash.Query(ref _shapeBB, _callback);
-                hash.Add(entity, shape, ref _shapeBB);
-
-                _stamp++;
-
-                if (collisions != null)
-                {
-                    if (collisionsBefore != 0 || collisions.Count != 0)
-                    {
-                        _entity.Replace(new Collisions(collisions));
-                    }
-                }
+                foreach (var shape in entity.Get<BoundingShapes>().Shapes)
+                    ProcessShapeCollisions(entity, shape, hash);
             }
 
             _shape = null;
         }
 
-        public void Cleanup()
+        private void ProcessShapeCollisions(Entity<Game> entity, Shape shape, ISpatialDatabase hash)
         {
-            _singletons.Singleton().Get<Space>().SpatialDatabase.Clear();
+            var collisionsBefore = 0;
+            List<Collision> collisions = null;
+            _transform = GetEntityTransform(entity);
+            _entity = entity;
+
+            if (_entity.Has<Collisions>())
+            {
+                collisions = _entity.Get<Collisions>().List;
+                collisionsBefore = collisions.Count;
+                ResetCollisions(collisions);
+            }
+
+            _shape = shape;
+            _shapeBB = shape.GetBoundingBox(ref _transform);
+
+            hash.Query(ref _shapeBB, _callback);
+            hash.Add(entity, shape, ref _shapeBB);
+
+            _stamp++;
+
+            if (collisions != null)
+            {
+                if (collisionsBefore != 0 || collisions.Count != 0)
+                {
+                    _entity.Replace(new Collisions(collisions));
+                }
+            }
         }
 
         private static void ResetCollisions(List<Collision> collisions)

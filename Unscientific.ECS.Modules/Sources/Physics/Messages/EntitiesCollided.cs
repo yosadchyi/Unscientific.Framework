@@ -12,10 +12,10 @@ namespace Unscientific.ECS.Modules.Physics
 
         public EntitiesCollided(Entity<Game> entityA, Shape shapeA, Entity<Game> entityB, Shape shapeB)
         {
-            this.EntityA = entityA;
-            this.ShapeA = shapeA;
-            this.EntityB = entityB;
-            this.ShapeB = shapeB;
+            EntityA = entityA;
+            ShapeA = shapeA;
+            EntityB = entityB;
+            ShapeB = shapeB;
         }
     }
 }

@@ -29,7 +29,7 @@ namespace Unscientific.ECS.Modules.Steering
 
             foreach (var collision in collisions)
             {
-                var other = _simulation.GetEntityById(collision.Other);
+                var other = collision.Other;
                 var diff = position - entity.Get<Position>().Value;
                 var dist2 = diff.MagnitudeSqr;
 

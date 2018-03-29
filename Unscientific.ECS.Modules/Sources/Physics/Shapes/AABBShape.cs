@@ -5,23 +5,15 @@ namespace Unscientific.ECS.Modules.Physics.Shapes
 {
     public class AABBShape: Shape
     {
-        public static ObjectPool<AABBShape> Pool = new GenericObjectPool<AABBShape>(32);
-        public Fix Width;
-        public Fix Height;
+        public readonly Fix Width;
+        public readonly Fix Height;
 
         public override ShapeType Type => ShapeType.AABB;
 
-        public static AABBShape New(Fix width, Fix height)
+        public AABBShape(Fix width, Fix height)
         {
-            var shape = Pool.Get();
-            shape.Width = width;
-            shape.Height = height;
-            return shape;
-        }
-
-        public override void Return()
-        {
-            Pool.Return(this);
+            Width = width;
+            Height = height;
         }
 
         public override AABB GetBoundingBox(ref Transform transform)
