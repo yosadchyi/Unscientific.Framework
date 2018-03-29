@@ -34,7 +34,7 @@ namespace Unscientific.ECS.Unity
         /// <summary>
         /// Initializes the list of previous orientations
         /// </summary>
-        public void OnEnable()
+        public void Initialize()
         {
             var t = new TransformData(transform.localPosition, transform.localRotation, transform.localScale);
             _lastTransforms[0] = t;

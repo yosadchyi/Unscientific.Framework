@@ -29,7 +29,7 @@ namespace Unscientific.ECS.Unity
             var asset = _assetFactory.CreateAsset(view.Name);
             _entityViewDatabase.AddView(entity, asset);
             UpdatePositionAndOrientation(entity);
-            asset.GetComponent<InterpolatedTransform>()?.OnEnable();
+            asset.GetComponent<InterpolatedTransform>()?.Initialize();
         }
 
         public void OnComponentRemoved(Entity<TScope> entity, View component)
