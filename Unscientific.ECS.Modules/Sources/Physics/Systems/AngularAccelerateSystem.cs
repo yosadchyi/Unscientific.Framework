@@ -18,7 +18,7 @@ namespace Unscientific.ECS.Modules.Physics
         {
             var dt = _configuration.Singleton().Get<TimeStep>().Value;
 
-            foreach (var entity in _simulation.AllWith<AngularVelocity, Torque, Inertia>())
+            foreach (var entity in _simulation.AllWith<Torque, Inertia, AngularVelocity>())
             {
                 if (entity.Is<Destroyed>())
                     continue;
