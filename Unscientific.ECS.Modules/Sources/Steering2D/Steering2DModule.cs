@@ -32,7 +32,7 @@ namespace Unscientific.ECS.Modules.Steering2D
                             .Add<AlignTolerance>()
                         .End()
                         .Systems()
-                            .Add((contexts, messageBus) => new PeriodicUpdateSystem(new SteeringSystem(contexts), _updatePeriod))
+                            .Add((contexts, messageBus) => new PeriodicUpdateSystem(contexts, new SteeringSystem(contexts), _updatePeriod))
                         .End()
                     .Build();
             }

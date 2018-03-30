@@ -67,6 +67,7 @@
     <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeCleanupSystem.cs" />
     <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeUpdateSystem.cs" />
     <Compile Include="Sources\Core\Systems\MessageNotificationSystem.cs" />
+    <Compile Include="Sources\Core\Systems\PeriodicUpdateSystem.cs" />
     <Compile Include="Sources\Navigation\FlowField\CircularFlowField.cs" />
     <Compile Include="Sources\Navigation\FlowField\IFlowField.cs" />
     <Compile Include="Sources\Navigation\FlowField\MoveInDirectionFlowField.cs" />
