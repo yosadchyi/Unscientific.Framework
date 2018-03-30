@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using Unscientific.ECS.Modules.Physics2D.Shapes;
+﻿using Unscientific.ECS.Modules.Physics2D.Shapes;
 
 namespace Unscientific.ECS.Modules.Physics2D
 {

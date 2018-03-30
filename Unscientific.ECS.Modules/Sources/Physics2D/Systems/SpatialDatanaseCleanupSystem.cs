@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using Unscientific.ECS.Modules.Core;
-using Unscientific.ECS.Modules.Physics2D.Shapes;
-using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Physics2D
 {

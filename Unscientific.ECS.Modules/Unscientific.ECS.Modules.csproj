@@ -96,7 +96,7 @@
     <Compile Include="Sources\Physics2D\Shapes\CircleShape.cs" />
     <Compile Include="Sources\Physics2D\Shapes\Shape.cs" />
     <Compile Include="Sources\Physics2D\Shapes\ShapeType.cs" />
-    <Compile Include="Sources\Physics2D\SimulationEntityExtensions.cs" />
+    <Compile Include="Sources\Physics2D\EntityExtensions.cs" />
     <Compile Include="Sources\Physics2D\Space.cs" />
     <Compile Include="Sources\Physics2D\SpatialHash.cs" />
     <Compile Include="Sources\Physics2D\Systems\AccelerateSystem.cs" />
@@ -104,7 +104,7 @@
     <Compile Include="Sources\Physics2D\Systems\CollisionsCleanupSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\SetupSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\MoveSystem.cs" />
-    <Compile Include="Sources\Physics2D\Systems\ProcessCollisionSystem.cs" />
+    <Compile Include="Sources\Physics2D\Systems\ProcessCollisionsSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\RotateSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\SpatialDatanaseCleanupSystem.cs" />
     <Compile Include="Sources\Physics2D\Transform.cs" />

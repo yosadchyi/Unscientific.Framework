@@ -7,7 +7,7 @@ using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Physics2D
 {
-    public class ProcessCollisionSystem: IUpdateSystem
+    public class ProcessCollisionsSystem: IUpdateSystem
     {
         private readonly Context<Singletons> _singletons;
 
@@ -17,14 +17,14 @@ namespace Unscientific.ECS.Modules.Physics2D
         private Transform _transform;
         private int _stamp = 1;
         private readonly SpatialDatabaseCallback _callback;
-        private readonly Context<Game> _simulation;
+        private readonly Context<Game> _context;
 
         [SuppressMessage("ReSharper", "HeapView.DelegateAllocation")]
-        public ProcessCollisionSystem(Contexts contexts)
+        public ProcessCollisionsSystem(Contexts contexts)
         {
             _callback = CheckCollision;
             _singletons = contexts.Get<Singletons>();
-            _simulation = contexts.Get<Game>();
+            _context = contexts.Get<Game>();
         }
 
         public void Update()
@@ -32,7 +32,7 @@ namespace Unscientific.ECS.Modules.Physics2D
             var space = _singletons.Singleton().Get<Space>();
             var spatialDatabase = space.SpatialDatabase;
 
-            foreach (var entity in _simulation.AllWith<Position, BoundingShapes>())
+            foreach (var entity in _context.AllWith<BoundingShapes, Position>())
             {
                 if (entity.Is<Destroyed>())
                     continue;
@@ -55,7 +55,7 @@ namespace Unscientific.ECS.Modules.Physics2D
             {
                 collisions = _entity.Get<Collisions>().List;
                 collisionsBefore = collisions.Count;
-                ResetCollisions(collisions);
+                collisions.Clear();
             }
 
             _shape = shape;
@@ -72,15 +72,6 @@ namespace Unscientific.ECS.Modules.Physics2D
             {
                 _entity.Replace(new Collisions(collisions));
             }
-        }
-
-        private static void ResetCollisions(List<Collision> collisions)
-        {
-            foreach (var collision in collisions)
-            {
-                collision.Return();
-            }
-            collisions.Clear();
         }
 
         private static Transform GetEntityTransform(Entity<Game> entity)
@@ -163,7 +154,7 @@ namespace Unscientific.ECS.Modules.Physics2D
 
             var collisions = entity1.Get<Collisions>().List;
 
-            collisions.Add(Collision.New(shape1, entity2, shape2));
+            collisions.Add(new Collision(shape1, entity2, shape2));
         }
     }
 }

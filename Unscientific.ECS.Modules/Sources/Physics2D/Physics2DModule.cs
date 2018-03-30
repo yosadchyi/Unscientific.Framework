@@ -65,7 +65,7 @@ namespace Unscientific.ECS.Modules.Physics2D
                         .Add(contexts => new AngularAccelerateSystem(contexts))
                         .Add(contexts => new MoveSystem(contexts))
                         .Add(contexts => new RotateSystem(contexts))
-                        .Add((contexts, messageBus) => new ProcessCollisionSystem(contexts))
+                        .Add((contexts, messageBus) => new ProcessCollisionsSystem(contexts))
                         .Add(contexts => new CollisionsCleanupSystem(contexts))
                         .Add(contexts => new SpatialDatanaseCleanupSystem(contexts))
                     .End()

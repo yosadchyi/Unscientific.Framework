@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Unscientific.ECS.Modules.Core
+﻿namespace Unscientific.ECS.Modules.Core
 {
     public static class ContextExtensions
     {

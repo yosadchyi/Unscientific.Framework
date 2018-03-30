@@ -1,5 +1,4 @@
-﻿
-using Unscientific.FixedPoint;
+﻿using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Physics2D
 {

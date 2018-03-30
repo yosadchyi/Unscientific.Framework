@@ -2,7 +2,7 @@
 
 namespace Unscientific.ECS.Modules.Physics2D
 {
-    public class Intersector
+    public static class Intersector
     {
         public static bool CirclesIntersects(ref FixVec2 c1, Fix r1, ref FixVec2 c2, Fix r2)
         {

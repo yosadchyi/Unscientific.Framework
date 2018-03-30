@@ -1,5 +1,4 @@
 ﻿using Unscientific.FixedPoint;
-using Unscientific.Util.Pool;
 
 namespace Unscientific.ECS.Modules.Physics2D.Shapes
 {

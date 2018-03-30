@@ -16,8 +16,8 @@ namespace Unscientific.ECS.Modules.Physics2D
             public Shape Shape;
         }
 
-        public Fix CellSize;
-        public int Size;
+        public readonly Fix CellSize;
+        public readonly int Size;
 
         private readonly Proxy[] _cells;
 
@@ -25,6 +25,7 @@ namespace Unscientific.ECS.Modules.Physics2D
         {
             CellSize = cellSize;
             _cells = new Proxy[size];
+            Size = size;
             Proxy.Pool.EnsureHaveInstances(size * 2);
         }
 
@@ -35,12 +36,11 @@ namespace Unscientific.ECS.Modules.Physics2D
             var t = (int) FixMath.Floor(aabb.T / CellSize);
             var r = (int) FixMath.Floor(aabb.R / CellSize);
 
-            for (var i = b; i <= t; i += 1)
+            for (var i = b; i <= t; i++)
             {
-                for (var j = l; j <= r; j += 1)
+                for (var j = l; j <= r; j++)
                 {
-                    if (Find(entity, j, i) == null)
-                        AddProxyAt(entity, shape, j, i);
+                    if (Find(entity, j, i) == null) AddProxyAt(entity, shape, j, i);
                 }
             }
         }

@@ -6,11 +6,11 @@ namespace Unscientific.ECS.Modules.Physics2D
     public class AccelerateSystem: IUpdateSystem
     {
         private readonly Context<Configuration> _configuration;
-        private readonly Context<Game> _simulation;
+        private readonly Context<Game> _context;
 
         public AccelerateSystem(Contexts contexts)
         {
-            _simulation = contexts.Get<Game>();
+            _context = contexts.Get<Game>();
             _configuration = contexts.Get<Configuration>();
         }
 
@@ -19,7 +19,7 @@ namespace Unscientific.ECS.Modules.Physics2D
             var dt = _configuration.Singleton().Get<TimeStep>().Value;
             var g = _configuration.Singleton().Get<GlobalForce>().Value;
 
-            foreach (var entity in _simulation.AllWith<Force, Mass, Velocity>())
+            foreach (var entity in _context.AllWith<Force, Mass, Velocity>())
             {
                 if (entity.Is<Destroyed>())
                     continue;
