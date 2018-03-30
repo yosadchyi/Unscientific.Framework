@@ -3,7 +3,7 @@
     public class ContextReachedMaximalCapacity<TScope> : System.Exception
     {
         public ContextReachedMaximalCapacity(int maxCapacity) :
-            base(string.Format("Context {0} reached maximal capacity {1}!", typeof(TScope).Name, maxCapacity))
+            base($"Context {typeof(TScope).Name} reached maximal capacity {maxCapacity}!")
         {
         }
     }

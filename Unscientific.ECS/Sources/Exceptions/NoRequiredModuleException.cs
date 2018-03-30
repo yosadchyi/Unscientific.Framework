@@ -4,7 +4,7 @@ namespace Unscientific.ECS
 {
     public class NoRequiredModuleException : Exception
     {
-        public NoRequiredModuleException(Type moduleType): base(string.Format("Required module `{0}` is not in import list!", moduleType.Name))
+        public NoRequiredModuleException(Type moduleType): base($"Required module `{moduleType.Name}` is not in import list!")
         {
         }
     }
