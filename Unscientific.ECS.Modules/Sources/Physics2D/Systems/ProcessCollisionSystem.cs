@@ -66,12 +66,11 @@ namespace Unscientific.ECS.Modules.Physics2D
 
             _stamp++;
 
-            if (collisions != null)
+            if (collisions == null) return;
+
+            if (collisionsBefore != 0 || collisions.Count != 0)
             {
-                if (collisionsBefore != 0 || collisions.Count != 0)
-                {
-                    _entity.Replace(new Collisions(collisions));
-                }
+                _entity.Replace(new Collisions(collisions));
             }
         }
 
@@ -94,19 +93,17 @@ namespace Unscientific.ECS.Modules.Physics2D
 
         private void CheckCollision(Entity<Game> entity, Shape shape)
         {
-            if (entity.Id == _entity.Id || shape == _shape || shape.IsShapeFilterRejected(shape))
-                return;
-
-            if (shape.Stamp == _stamp)
-                return;
+            if (entity.Id == _entity.Id ||
+                shape == _shape ||
+                shape.IsShapeFilterRejected(shape) ||
+                shape.Stamp == _stamp) return;
 
             var entityTransform = GetEntityTransform(entity);
             var shapeBB = shape.GetBoundingBox(ref entityTransform);
 
             shape.Stamp = _stamp;
 
-            if (!shapeBB.Intersects(ref _shapeBB))
-                return;
+            if (!shapeBB.Intersects(ref _shapeBB)) return;
 
             if (shape.Type == _shape.Type)
             {
@@ -130,19 +127,26 @@ namespace Unscientific.ECS.Modules.Physics2D
             }
             else
             {
-                if (shape.Type == ShapeType.Circle && _shape.Type == ShapeType.AABB)
+                switch (shape.Type)
                 {
-                    var circle = (CircleShape) shape;
+                    case ShapeType.Circle when _shape.Type == ShapeType.AABB:
+                    {
+                        var circle = (CircleShape) shape;
 
-                    if (Intersector.AABBIntersectsCircle(ref _shapeBB, ref entityTransform.Position, circle.Radius))
-                        AddCollisions(entity, shape);
-                }
-                else if (shape.Type == ShapeType.AABB && _shape.Type == ShapeType.Circle)
-                {
-                    var circle = (CircleShape) _shape;
+                        if (Intersector.AABBIntersectsCircle(ref _shapeBB, ref entityTransform.Position, circle.Radius))
+                            AddCollisions(entity, shape);
+                        break;
+                    }
+                    case ShapeType.AABB when _shape.Type == ShapeType.Circle:
+                    {
+                        var circle = (CircleShape) _shape;
 
-                    if (Intersector.AABBIntersectsCircle(ref shapeBB, ref _transform.Position, circle.Radius))
-                        AddCollisions(entity, shape);
+                        if (Intersector.AABBIntersectsCircle(ref shapeBB, ref _transform.Position, circle.Radius))
+                            AddCollisions(entity, shape);
+                        break;
+                    }
+                    default:
+                        throw new ArgumentOutOfRangeException();
                 }
             }
         }
@@ -155,12 +159,11 @@ namespace Unscientific.ECS.Modules.Physics2D
 
         private static void AddCollision(Entity<Game> entity1, Shape shape1, Entity<Game> entity2, Shape shape2)
         {
-            if (entity1.Has<Collisions>())
-            {
-                var collisions = entity1.Get<Collisions>().List;
+            if (!entity1.Has<Collisions>()) return;
 
-                collisions.Add(Collision.New(shape1, entity2, shape2));
-            }
+            var collisions = entity1.Get<Collisions>().List;
+
+            collisions.Add(Collision.New(shape1, entity2, shape2));
         }
     }
 }
