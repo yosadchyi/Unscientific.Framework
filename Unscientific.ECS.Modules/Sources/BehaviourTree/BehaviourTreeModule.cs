@@ -1,4 +1,5 @@
-﻿using Unscientific.ECS.Modules.Core;
+﻿using System.Diagnostics.CodeAnalysis;
+using Unscientific.ECS.Modules.Core;
 
 namespace Unscientific.ECS.Modules.BehaviourTree
 {
@@ -14,6 +15,8 @@ namespace Unscientific.ECS.Modules.BehaviourTree
                 return this;
             }
 
+            [SuppressMessage("ReSharper", "HeapView.ObjectAllocation.Evident")]
+            [SuppressMessage("ReSharper", "HeapView.DelegateAllocation")]
             public IModule Build()
             {
                 return new Module<BehaviourTreeModule>.Builder()
