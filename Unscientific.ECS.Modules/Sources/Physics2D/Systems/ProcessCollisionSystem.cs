@@ -9,7 +9,6 @@ namespace Unscientific.ECS.Modules.Physics2D
 {
     public class ProcessCollisionSystem: IUpdateSystem
     {
-        private readonly MessageBus _messageBus;
         private readonly Context<Singletons> _singletons;
 
         private Entity<Game> _entity;
@@ -21,9 +20,8 @@ namespace Unscientific.ECS.Modules.Physics2D
         private readonly Context<Game> _simulation;
 
         [SuppressMessage("ReSharper", "HeapView.DelegateAllocation")]
-        public ProcessCollisionSystem(Contexts contexts, MessageBus messageBus)
+        public ProcessCollisionSystem(Contexts contexts)
         {
-            _messageBus = messageBus;
             _callback = CheckCollision;
             _singletons = contexts.Get<Singletons>();
             _simulation = contexts.Get<Game>();
@@ -32,7 +30,7 @@ namespace Unscientific.ECS.Modules.Physics2D
         public void Update()
         {
             var space = _singletons.Singleton().Get<Space>();
-            var hash = space.SpatialDatabase;
+            var spatialDatabase = space.SpatialDatabase;
 
             foreach (var entity in _simulation.AllWith<Position, BoundingShapes>())
             {
@@ -40,13 +38,13 @@ namespace Unscientific.ECS.Modules.Physics2D
                     continue;
 
                 foreach (var shape in entity.Get<BoundingShapes>().Shapes)
-                    ProcessShapeCollisions(entity, shape, hash);
+                    ProcessShapeCollisions(entity, shape, spatialDatabase);
             }
 
             _shape = null;
         }
 
-        private void ProcessShapeCollisions(Entity<Game> entity, Shape shape, ISpatialDatabase hash)
+        private void ProcessShapeCollisions(Entity<Game> entity, Shape shape, ISpatialDatabase spatialDatabase)
         {
             var collisionsBefore = 0;
             List<Collision> collisions = null;
@@ -63,8 +61,8 @@ namespace Unscientific.ECS.Modules.Physics2D
             _shape = shape;
             _shapeBB = shape.GetBoundingBox(ref _transform);
 
-            hash.Query(ref _shapeBB, _callback);
-            hash.Add(entity, shape, ref _shapeBB);
+            spatialDatabase.Query(ref _shapeBB, _callback);
+            spatialDatabase.Add(entity, shape, ref _shapeBB);
 
             _stamp++;
 
@@ -151,7 +149,6 @@ namespace Unscientific.ECS.Modules.Physics2D
 
         private void AddCollisions(Entity<Game> entity, Shape shape)
         {
-            _messageBus.Send(new EntitiesCollided(_entity, _shape, entity, shape));
             AddCollision(_entity, _shape, entity, shape);
             AddCollision(entity, shape, _entity, _shape);
         }
