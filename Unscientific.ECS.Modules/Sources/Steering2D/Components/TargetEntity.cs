@@ -6,9 +6,9 @@ namespace Unscientific.ECS.Modules.Steering2D
     {
         public readonly Entity<Game> Entity;
 
-        public TargetEntity(Entity<Game> entityRef)
+        public TargetEntity(Entity<Game> entity)
         {
-            Entity = entityRef;
+            Entity = entity;
         }
     }
 }

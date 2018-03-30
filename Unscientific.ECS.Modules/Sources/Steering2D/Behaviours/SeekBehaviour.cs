@@ -6,18 +6,11 @@ namespace Unscientific.ECS.Modules.Steering2D
 {
     public class SeekBehaviour : SteeringBehaviour
     {
-        private readonly Context<Game> _simulation;
-
-        public SeekBehaviour(Context<Game> simulation)
-        {
-            _simulation = simulation;
-        }
-
         public override SteeringVelocity DoCalculate(Entity<Game> owner, ref SteeringVelocity accumulatedSteering)
         {
             var target = FixVec2.Zero;
 
-            if (!owner.TryGetTargetPosition(_simulation, ref target))
+            if (!owner.TryGetTargetPosition(ref target))
                 return SteeringVelocity.Zero;
 
             var maxVelocity = owner.Get<MaxVelocity>().Value;

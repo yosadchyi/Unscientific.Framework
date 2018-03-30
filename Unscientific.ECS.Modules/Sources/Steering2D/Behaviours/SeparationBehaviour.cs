@@ -7,8 +7,8 @@ namespace Unscientific.ECS.Modules.Steering2D
     public class SeparationBehaviour : GroupSteeringBehaviour
     {
         private FixVec2 _linear;
-        private readonly Proximity.Callback _proximityCallback;
         private FixVec2 _position;
+        private readonly Proximity.Callback _proximityCallback;
 
         public SeparationBehaviour(Proximity proximity) : base(proximity)
         {

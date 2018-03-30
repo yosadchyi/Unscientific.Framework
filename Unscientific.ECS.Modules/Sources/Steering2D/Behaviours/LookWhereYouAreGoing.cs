@@ -7,6 +7,14 @@ namespace Unscientific.ECS.Modules.Steering2D
     {
         #region implemented abstract members of SteeringBehaviour
 
+        public LookWhereYouAreGoing()
+        {
+        }
+
+        public LookWhereYouAreGoing(Fix zeroVelocity) : base(zeroVelocity)
+        {
+        }
+
         public override SteeringVelocity DoCalculate (Entity<Game> owner, ref SteeringVelocity steering)
         {
             var linearVelocity = steering.Linear;

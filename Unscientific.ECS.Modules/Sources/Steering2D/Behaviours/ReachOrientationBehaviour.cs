@@ -6,7 +6,16 @@ namespace Unscientific.ECS.Modules.Steering2D
 {
     public class ReachOrientationBehaviour : SteeringBehaviour
     {
-        public Fix ZeroVelocity = FixMath.Epsilon;
+        protected readonly Fix ZeroVelocity;
+
+        public ReachOrientationBehaviour(): this(FixMath.Epsilon)
+        {
+        }
+
+        public ReachOrientationBehaviour(Fix zeroVelocity)
+        {
+            ZeroVelocity = zeroVelocity;
+        }
 
         public override SteeringVelocity DoCalculate(Entity<Game> owner, ref SteeringVelocity accumulatedSteering)
         {

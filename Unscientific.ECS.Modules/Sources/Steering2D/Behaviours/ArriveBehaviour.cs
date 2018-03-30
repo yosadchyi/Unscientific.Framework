@@ -17,13 +17,13 @@ namespace Unscientific.ECS.Modules.Steering2D
         {
             var target = FixVec2.Zero;
 
-            if (!owner.TryGetTargetPosition(_simulation, ref target))
+            if (!owner.TryGetTargetPosition(ref target))
                 return SteeringVelocity.Zero;
 
             return Arrive(owner, target);
         }
 
-        protected SteeringVelocity Arrive(Entity<Game> owner, FixVec2 target)
+        protected static SteeringVelocity Arrive(Entity<Game> owner, FixVec2 target)
         {
             var tolerance = owner.Get<ArrivalTolerance>();
             var position = owner.Get<Position>().Value;

@@ -8,6 +8,14 @@ namespace Unscientific.ECS.Modules.Steering2D
     {
         #region implemented abstract members of SteeringBehaviour
 
+        public LookAccordingToFlowField()
+        {
+        }
+
+        public LookAccordingToFlowField(Fix zeroVelocity) : base(zeroVelocity)
+        {
+        }
+
         public override SteeringVelocity DoCalculate (Entity<Game> owner, ref SteeringVelocity accumulatedSteering)
         {
             var steering = new SteeringVelocity();

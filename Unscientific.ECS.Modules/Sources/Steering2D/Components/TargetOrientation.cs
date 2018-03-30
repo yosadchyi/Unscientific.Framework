@@ -4,7 +4,7 @@ namespace Unscientific.ECS.Modules.Steering2D
 {
     public struct TargetOrientation
     {
-        public Fix Value;
+        public readonly Fix Value;
 
         public TargetOrientation(Fix value)
         {
