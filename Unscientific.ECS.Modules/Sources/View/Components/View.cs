@@ -2,7 +2,7 @@
 {
     public struct View
     {
-        public string Name;
+        public readonly string Name;
 
         public View(string name)
         {
