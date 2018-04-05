@@ -74,7 +74,7 @@ namespace Unscientific.FixedPoint
             const int digitBase = 10;
 
             var pow = 1;
-            for (int i = 0; i < count; ++i)
+            for (var i = 0; i < count; ++i)
             {
                 pow *= digitBase;
             }

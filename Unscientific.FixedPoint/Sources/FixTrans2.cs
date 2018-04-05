@@ -52,8 +52,8 @@ namespace Unscientific.FixedPoint
 
         public static FixTrans2 MakeRotation(Fix radians)
         {
-            Fix cos = FixMath.Cos(radians);
-            Fix sin = FixMath.Sin(radians);
+            var cos = FixMath.Cos(radians);
+            var sin = FixMath.Sin(radians);
             return new FixTrans2(
                 cos, -sin, 0,
                 sin, cos, 0
@@ -98,8 +98,8 @@ namespace Unscientific.FixedPoint
 
         public FixTrans2(FixVec2 position, FixVec2 scale, Fix rotation)
         {
-            Fix cos = FixMath.Cos(rotation);
-            Fix sin = FixMath.Sin(rotation);
+            var cos = FixMath.Cos(rotation);
+            var sin = FixMath.Sin(rotation);
 
             _m11 = cos * scale.X;
             _m12 = -sin * scale.X;
