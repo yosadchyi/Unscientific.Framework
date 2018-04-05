@@ -68,10 +68,10 @@
     <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeUpdateSystem.cs" />
     <Compile Include="Sources\Core\Systems\MessageNotificationSystem.cs" />
     <Compile Include="Sources\Core\Systems\PeriodicUpdateSystem.cs" />
-    <Compile Include="Sources\Navigation\FlowField\CircularFlowField.cs" />
-    <Compile Include="Sources\Navigation\FlowField\IFlowField.cs" />
-    <Compile Include="Sources\Navigation\FlowField\MoveInDirectionFlowField.cs" />
-    <Compile Include="Sources\Navigation\FlowField\ToDestinationFlowField.cs" />
+    <Compile Include="Sources\Navigation2D\FlowField\CircularFlowField.cs" />
+    <Compile Include="Sources\Navigation2D\FlowField\IFlowField.cs" />
+    <Compile Include="Sources\Navigation2D\FlowField\MoveInDirectionFlowField.cs" />
+    <Compile Include="Sources\Navigation2D\FlowField\ToDestinationFlowField.cs" />
     <Compile Include="Sources\Physics2D\AABB.cs" />
     <Compile Include="Sources\Physics2D\Components\AngularDamping.cs" />
     <Compile Include="Sources\Physics2D\Components\AngularVelocity.cs" />

@@ -1,4 +1,4 @@
-﻿using Unscientific.ECS.Modules.Navigation;
+﻿using Unscientific.ECS.Modules.Navigation2D;
 
 namespace Unscientific.ECS.Modules.Steering2D
 {
