@@ -72,8 +72,8 @@ namespace Unscientific.FixedPoint
         private void ShiftDecimal(int count)
         {
             const int digitBase = 10;
-
             var pow = 1;
+
             for (var i = 0; i < count; ++i)
             {
                 pow *= digitBase;
