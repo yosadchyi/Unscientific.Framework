@@ -57,7 +57,9 @@
     <Compile Include="Sources\Core\CoreModule.cs" />
     <Compile Include="Sources\Core\EntityExtensions.cs" />
     <Compile Include="Sources\Core\Module.cs" />
-    <Compile Include="Sources\Core\Scopes.cs" />
+    <Compile Include="Sources\Core\Scopes\Configuration.cs" />
+    <Compile Include="Sources\Core\Scopes\Game.cs" />
+    <Compile Include="Sources\Core\Scopes\Singletons.cs" />
     <Compile Include="Sources\Core\Systems\ComponentNotificationSystems.cs" />
     <Compile Include="Sources\Core\Systems\DestroySystem.cs" />
     <Compile Include="Sources\Core\Systems\IncrementTickSystem.cs" />
