@@ -61,9 +61,9 @@
     <Compile Include="Sources\Core\Scopes\Game.cs" />
     <Compile Include="Sources\Core\Scopes\Singletons.cs" />
     <Compile Include="Sources\Core\Systems\ComponentNotificationSystems.cs" />
-    <Compile Include="Sources\Core\Systems\DestroySystem.cs" />
+    <Compile Include="Sources\Core\Systems\EntityDestroySystem.cs" />
     <Compile Include="Sources\Core\Systems\IncrementTickSystem.cs" />
-    <Compile Include="Sources\Core\Systems\CoreSetupSystem.cs" />
+    <Compile Include="Sources\Core\Systems\SetupSystem.cs" />
     <Compile Include="Sources\BehaviourTree\BehaviourTreeModule.cs" />
     <Compile Include="Sources\BehaviourTree\BehaviourTree.cs" />
     <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeCleanupSystem.cs" />
