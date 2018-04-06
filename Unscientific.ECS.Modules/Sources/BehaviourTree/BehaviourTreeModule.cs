@@ -7,11 +7,11 @@ namespace Unscientific.ECS.Modules.BehaviourTree
     {
         public class Builder: IModuleBuilder
         {
-            private int _updatePeriod = 1;
+            private int _updatePeriodInTicks = 1;
 
-            public Builder WithUpdatePeriod(int updatePeriod)
+            public Builder WithUpdatePeriodInTicks(int updatePeriodInTicks)
             {
-                _updatePeriod = updatePeriod;
+                _updatePeriodInTicks = updatePeriodInTicks;
                 return this;
             }
 
@@ -23,11 +23,15 @@ namespace Unscientific.ECS.Modules.BehaviourTree
                         .Usages()
                             .Uses<CoreModule>()
                         .End()
+                        .Components<Configuration>()
+                            .Add<BehaviourTreeUpdatePeriod>()
+                        .End()
                         .Components<Game>()
                             .Add<BehaviourTreeData>()
                         .End()
                         .Systems()
-                            .Add(contexts => new PeriodicUpdateSystem(contexts, new BehaviourTreeUpdateSystem(contexts), _updatePeriod))
+                            .Add(contexts => new BehaviourTreeSetupSystem(contexts, _updatePeriodInTicks))
+                            .Add(contexts => new BehaviourTreeUpdateSystem(contexts))
                             .Add(contexts => new BehaviourTreeCleanupSystem(contexts))
                         .End()
                     .Build();

@@ -39,9 +39,11 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sources\BehaviourTree\Components\BehaviourTreeData.cs" />
+    <Compile Include="Sources\BehaviourTree\Components\BehaviourTreeUpdatePeriod.cs" />
     <Compile Include="Sources\BehaviourTree\Suppliers\EntityIntValueSupplier.cs" />
     <Compile Include="Sources\BehaviourTree\Suppliers\EntityValueSupplier.cs" />
     <Compile Include="Sources\BehaviourTree\Suppliers\TickSupplier.cs" />
+    <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeSetupSystem.cs" />
     <Compile Include="Sources\Core\Builders\ComponentRegistrationsBuilder.cs" />
     <Compile Include="Sources\Core\Builders\ContextRegistrationsBuilder.cs" />
     <Compile Include="Sources\Core\Builders\MessageNotificationRegistrationsBuilder.cs" />
@@ -69,7 +71,6 @@
     <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeCleanupSystem.cs" />
     <Compile Include="Sources\BehaviourTree\Systems\BehaviourTreeUpdateSystem.cs" />
     <Compile Include="Sources\Core\Systems\MessageNotificationSystem.cs" />
-    <Compile Include="Sources\Core\Systems\PeriodicUpdateSystem.cs" />
     <Compile Include="Sources\Navigation2D\FlowField\CircularFlowField.cs" />
     <Compile Include="Sources\Navigation2D\FlowField\IFlowField.cs" />
     <Compile Include="Sources\Navigation2D\FlowField\MoveInDirectionFlowField.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Sources\Steering2D\Components\ArrivalTolerance.cs" />
     <Compile Include="Sources\Steering2D\Components\Steering.cs" />
     <Compile Include="Sources\Steering2D\Components\FlowField.cs" />
+    <Compile Include="Sources\Steering2D\Components\SteeringUpdatePeriod.cs" />
     <Compile Include="Sources\Steering2D\Components\TargetEntity.cs" />
     <Compile Include="Sources\Steering2D\Components\TargetOrientation.cs" />
     <Compile Include="Sources\Steering2D\Components\TargetPosition.cs" />
@@ -138,7 +140,8 @@
     <Compile Include="Sources\Steering2D\SteeringVelocity.cs" />
     <Compile Include="Sources\Steering2D\SteeringBehaviour.cs" />
     <Compile Include="Sources\Steering2D\SteeringEntityExtensions.cs" />
-    <Compile Include="Sources\Steering2D\Systems\SteeringSystem.cs" />
+    <Compile Include="Sources\Steering2D\Systems\SteeringSetupSystem.cs" />
+    <Compile Include="Sources\Steering2D\Systems\SteeringUpdateSystem.cs" />
     <Compile Include="Sources\View\Components\View.cs" />
     <Compile Include="Sources\View\ViewModule.cs" />
   </ItemGroup>

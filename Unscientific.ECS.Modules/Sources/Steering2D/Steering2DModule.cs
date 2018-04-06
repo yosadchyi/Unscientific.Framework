@@ -7,11 +7,11 @@ namespace Unscientific.ECS.Modules.Steering2D
     {
         public class Builder : IModuleBuilder
         {
-            private int _updatePeriod = 1;
+            private int _updatePeriodInTicks = 1;
 
-            public Builder WithUpdatePeriod(int updatePeriod)
+            public Builder WithUpdatePeriodInTicks(int updatePeriodInTicks)
             {
-                _updatePeriod = updatePeriod;
+                _updatePeriodInTicks = updatePeriodInTicks;
                 return this;
             }
 
@@ -21,6 +21,9 @@ namespace Unscientific.ECS.Modules.Steering2D
                         .Usages()
                             .Uses<CoreModule>()
                             .Uses<Physics2DModule>()
+                        .End()
+                        .Components<Configuration>()
+                            .Add<SteeringUpdatePeriod>()
                         .End()
                         .Components<Game>()
                             .Add<Steering>()
@@ -32,7 +35,8 @@ namespace Unscientific.ECS.Modules.Steering2D
                             .Add<AlignTolerance>()
                         .End()
                         .Systems()
-                            .Add((contexts, messageBus) => new PeriodicUpdateSystem(contexts, new SteeringSystem(contexts), _updatePeriod))
+                            .Add((contexts, messageBus) => new SteeringSetupSystem(contexts, _updatePeriodInTicks))
+                            .Add((contexts, messageBus) => new SteeringUpdateSystem(contexts))
                         .End()
                     .Build();
             }
