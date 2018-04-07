@@ -5,8 +5,8 @@
         public readonly int Id;
         public Context<TScope> Context => Context<TScope>.Instance;
 
-        private const int IdMask = 0xffff;
-        private const int GenerationShift = 16;
+        private const int IdMask = 0xfffff;
+        private const int GenerationShift = 20;
 
         internal int Index => Id & IdMask;
         internal int Generation => (int) ((uint) Id >> GenerationShift);
