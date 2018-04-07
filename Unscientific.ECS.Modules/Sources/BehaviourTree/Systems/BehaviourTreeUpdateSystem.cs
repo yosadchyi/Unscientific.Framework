@@ -21,7 +21,7 @@ namespace Unscientific.ECS.Modules.BehaviourTree
             var tick = _singletons.Singleton().Get<Tick>().Value;
 
             if (tick % updatePeriod != 0) return;
-            
+
             foreach (var entity in _game.AllWith<BehaviourTreeData>())
             {
                 if (!entity.Is<Destroyed>())
