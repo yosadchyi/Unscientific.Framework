@@ -2,7 +2,8 @@ using Unscientific.ECS.Modules.Core;
 
 namespace Unscientific.ECS.Modules.BehaviourTree
 {
-    public class BehaviourTreeCleanupSystem: EntityCleanupSystem<Game, Destroyed, BehaviourTreeData>
+    public class BehaviourTreeCleanupSystem<TScope>: EntityCleanupSystem<Game, Destroyed, BehaviourTreeData<TScope>>
+        where TScope : IScope
     {
         public BehaviourTreeCleanupSystem(Contexts contexts) : base(contexts)
         {
@@ -10,10 +11,10 @@ namespace Unscientific.ECS.Modules.BehaviourTree
 
         protected override void Cleanup(Entity<Game> entity)
         {
-            var data = entity.Get<BehaviourTreeData>().ExecutionData;
+            var data = entity.Get<BehaviourTreeData<TScope>>().ExecutionData;
 
             data.Return();
-            entity.Remove<BehaviourTreeData>();
+            entity.Remove<BehaviourTreeData<TScope>>();
         }
     }
 }

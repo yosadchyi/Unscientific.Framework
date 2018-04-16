@@ -3,12 +3,12 @@ using Unscientific.ECS.Modules.Core;
 
 namespace Unscientific.ECS.Modules.BehaviourTree
 {
-    public struct BehaviourTreeData
+    public struct BehaviourTreeData<TScope> where TScope : IScope
     {
-        public readonly BehaviourTree BehaviourTree;
-        public readonly BehaviourTreeExecutionData<Entity<Game>> ExecutionData;
+        public readonly BehaviourTree<TScope> BehaviourTree;
+        public readonly BehaviourTreeExecutionData<Entity<TScope>> ExecutionData;
 
-        public BehaviourTreeData(BehaviourTree behaviourTree, BehaviourTreeExecutionData<Entity<Game>> executionData = null)
+        public BehaviourTreeData(BehaviourTree<TScope> behaviourTree, BehaviourTreeExecutionData<Entity<TScope>> executionData = null)
         {
             BehaviourTree = behaviourTree;
             ExecutionData = executionData;
