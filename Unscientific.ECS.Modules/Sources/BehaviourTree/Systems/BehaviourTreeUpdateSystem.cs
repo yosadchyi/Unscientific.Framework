@@ -24,8 +24,7 @@ namespace Unscientific.ECS.Modules.BehaviourTree
 
             foreach (var entity in _context.AllWith<BehaviourTreeData<TScope>>())
             {
-                if (!entity.Is<Destroyed>())
-                    entity.Get<BehaviourTreeData<TScope>>().BehaviourTree.Execute(entity);
+                if (!entity.Is<Destroyed>()) entity.Get<BehaviourTreeData<TScope>>().BehaviourTree.Execute(entity);
             }
         }
     }

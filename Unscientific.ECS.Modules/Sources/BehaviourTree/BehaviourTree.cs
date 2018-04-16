@@ -20,9 +20,6 @@ namespace Unscientific.ECS.Modules.BehaviourTree
 
         public void Execute(Entity<TScope> entity)
         {
-            if (entity.Is<Destroyed>())
-                return;
-
             var data = entity.Get<BehaviourTreeData<TScope>>();
             var executionData = data.ExecutionData;
 
