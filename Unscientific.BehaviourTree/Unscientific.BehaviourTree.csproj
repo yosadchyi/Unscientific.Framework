@@ -39,12 +39,19 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sources\AbstractCondition.cs" />
-    <Compile Include="Sources\BehaviourTreeBuilder.cs" />
     <Compile Include="Sources\BehaviourTreeExecutionData.cs" />
     <Compile Include="Sources\BehaviourTreeExecutor.cs" />
     <Compile Include="Sources\BehaviourTreeMetadata.cs" />
     <Compile Include="Sources\BehaviourTreeNode.cs" />
     <Compile Include="Sources\BehaviourTreeStatus.cs" />
+    <Compile Include="Sources\Builders\BehaviourTreeBuilder.cs" />
+    <Compile Include="Sources\Builders\BehaviourTreeBuilderBase.cs" />
+    <Compile Include="Sources\Builders\BehaviourTreeBuilderLeaf.cs" />
+    <Compile Include="Sources\Builders\BehaviourTreeDecoratorBuilder.cs" />
+    <Compile Include="Sources\Builders\BehaviourTreeGroupBuilder.cs" />
+    <Compile Include="Sources\Builders\BehaviourTreeParallelBuilder.cs" />
+    <Compile Include="Sources\Builders\IBehaviourTreeEndableBuilder.cs" />
+    <Compile Include="Sources\Builders\INodeHandler.cs" />
     <Compile Include="Sources\IAction.cs" />
     <Compile Include="Sources\ICompletionObserver.cs" />
     <Compile Include="Sources\Nodes\ActionNode.cs" />
