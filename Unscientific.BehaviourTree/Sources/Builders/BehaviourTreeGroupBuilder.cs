@@ -15,15 +15,13 @@
             _group = group;
         }
 
-        protected override BehaviourTreeGroupBuilder<TBlackboard, TParent> HandleNode(
-            BehaviourTreeNode<TBlackboard> node)
+        protected override BehaviourTreeGroupBuilder<TBlackboard, TParent> HandleNode(BehaviourTreeNode<TBlackboard> node)
         {
             _group.AddChild(node);
             return this;
         }
 
-        protected override BehaviourTreeGroupBuilder<TBlackboard, TParent> GetThisAsParentFor(
-            BehaviourTreeNode<TBlackboard> node)
+        protected override BehaviourTreeGroupBuilder<TBlackboard, TParent> GetThisAsParentFor(BehaviourTreeNode<TBlackboard> node)
         {
             return this;
         }

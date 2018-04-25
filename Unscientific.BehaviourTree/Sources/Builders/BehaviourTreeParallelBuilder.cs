@@ -9,10 +9,10 @@
         private readonly ParallelNode<TBlackboard> _group;
         private readonly TParent _parent;
 
-        public BehaviourTreeParallelBuilder(TParent parent, CompositeNode<TBlackboard> group)
+        public BehaviourTreeParallelBuilder(TParent parent, ParallelNode<TBlackboard> group)
         {
             _parent = parent;
-            _group = (ParallelNode<TBlackboard>) group;
+            _group = group;
         }
 
         public BehaviourTreeParallelBuilder<TBlackboard, TParent> WithFailurePolicy(ParallelPolicy failurePolicy)

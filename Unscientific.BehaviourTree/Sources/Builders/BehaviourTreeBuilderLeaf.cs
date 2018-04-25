@@ -19,12 +19,8 @@ namespace Unscientific.BehaviourTree
             return _node;
         }
 
-        #region NodeHandler implementation
-
         public void DoHandleNode(BehaviourTreeNode<TBlackboard> node)
         {
         }
-
-        #endregion
     }
 }
