@@ -2,7 +2,7 @@
 
 namespace Unscientific.BehaviourTree
 {
-    public class BehaviourTreeBuilderLeaf<TBlackboard> : INodeHandler<TBlackboard>
+    public class BehaviourTreeBuilderLeaf<TBlackboard> : INodeAcceptor<TBlackboard>
     {
         private readonly BehaviourTreeNode<TBlackboard> _node;
 
@@ -15,12 +15,12 @@ namespace Unscientific.BehaviourTree
         {
             if (_node == null)
                 throw new ApplicationException("Can't create tree without node.");
-            DoHandleNode(_node);
             return _node;
         }
 
-        public void DoHandleNode(BehaviourTreeNode<TBlackboard> node)
+        public BehaviourTreeNode<TBlackboard> AcceptNode(BehaviourTreeNode<TBlackboard> node)
         {
+            return node;
         }
     }
 }

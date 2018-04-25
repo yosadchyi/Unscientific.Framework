@@ -4,7 +4,7 @@
         BehaviourTreeBuilderBase<TBlackboard, BehaviourTreeParallelBuilder<TBlackboard, TParent>,
             BehaviourTreeParallelBuilder<TBlackboard, TParent>>,
         IBehaviourTreeEndableBuilder<TBlackboard, TParent>
-        where TParent : INodeHandler<TBlackboard>
+        where TParent : INodeAcceptor<TBlackboard>
     {
         private readonly ParallelNode<TBlackboard> _group;
         private readonly TParent _parent;
@@ -27,14 +27,19 @@
             return this;
         }
 
+        public override BehaviourTreeNode<TBlackboard> AcceptNode(BehaviourTreeNode<TBlackboard> node)
+        {
+            _group.AddChild(node);
+            return node;
+        }
+
         protected override BehaviourTreeParallelBuilder<TBlackboard, TParent> ConvertNodeToResult(
             BehaviourTreeNode<TBlackboard> node)
         {
-            _group.AddChild(node);
             return this;
         }
 
-        protected override BehaviourTreeParallelBuilder<TBlackboard, TParent> GetThisAsParentFor(
+        protected override BehaviourTreeParallelBuilder<TBlackboard, TParent> GetParentForNode(
             BehaviourTreeNode<TBlackboard> node)
         {
             return this;
@@ -42,7 +47,7 @@
 
         public TParent End()
         {
-            _parent.DoHandleNode(_group);
+            _parent.AcceptNode(_group);
             return _parent;
         }
     }

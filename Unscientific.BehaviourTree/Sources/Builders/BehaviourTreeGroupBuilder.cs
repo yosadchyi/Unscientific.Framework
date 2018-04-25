@@ -4,7 +4,7 @@
         BehaviourTreeBuilderBase<TBlackboard, BehaviourTreeGroupBuilder<TBlackboard, TParent>,
             BehaviourTreeGroupBuilder<TBlackboard, TParent>>,
         IBehaviourTreeEndableBuilder<TBlackboard, TParent>
-        where TParent : INodeHandler<TBlackboard>
+        where TParent : INodeAcceptor<TBlackboard>
     {
         private readonly CompositeNode<TBlackboard> _group;
         private readonly TParent _parent;
@@ -15,20 +15,25 @@
             _group = group;
         }
 
-        protected override BehaviourTreeGroupBuilder<TBlackboard, TParent> ConvertNodeToResult(BehaviourTreeNode<TBlackboard> node)
+        public override BehaviourTreeNode<TBlackboard> AcceptNode(BehaviourTreeNode<TBlackboard> node)
         {
             _group.AddChild(node);
+            return node;
+        }
+
+        protected override BehaviourTreeGroupBuilder<TBlackboard, TParent> ConvertNodeToResult(BehaviourTreeNode<TBlackboard> node)
+        {
             return this;
         }
 
-        protected override BehaviourTreeGroupBuilder<TBlackboard, TParent> GetThisAsParentFor(BehaviourTreeNode<TBlackboard> node)
+        protected override BehaviourTreeGroupBuilder<TBlackboard, TParent> GetParentForNode(BehaviourTreeNode<TBlackboard> node)
         {
             return this;
         }
 
         public TParent End()
         {
-            _parent.DoHandleNode(_group);
+            _parent.AcceptNode(_group);
             return _parent;
         }
     }

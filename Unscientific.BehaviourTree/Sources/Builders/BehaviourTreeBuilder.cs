@@ -4,12 +4,17 @@
         BehaviourTreeBuilderBase<TBlackboard, BehaviourTreeBuilderLeaf<TBlackboard>,
             BehaviourTreeBuilderLeaf<TBlackboard>>
     {
+        public override BehaviourTreeNode<TBlackboard> AcceptNode(BehaviourTreeNode<TBlackboard> node)
+        {
+            return node;
+        }
+
         protected override BehaviourTreeBuilderLeaf<TBlackboard> ConvertNodeToResult(BehaviourTreeNode<TBlackboard> node)
         {
             return new BehaviourTreeBuilderLeaf<TBlackboard>(node);
         }
 
-        protected override BehaviourTreeBuilderLeaf<TBlackboard> GetThisAsParentFor(BehaviourTreeNode<TBlackboard> node)
+        protected override BehaviourTreeBuilderLeaf<TBlackboard> GetParentForNode(BehaviourTreeNode<TBlackboard> node)
         {
             return new BehaviourTreeBuilderLeaf<TBlackboard>(node);
         }

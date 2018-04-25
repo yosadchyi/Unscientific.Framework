@@ -2,22 +2,24 @@
 
 namespace Unscientific.BehaviourTree
 {
-    public abstract class BehaviourTreeBuilderBase<TBlackboard, TResult, TParent> : INodeHandler<TBlackboard>
-        where TParent : INodeHandler<TBlackboard>
+    public abstract class BehaviourTreeBuilderBase<TBlackboard, TResult, TParent> : INodeAcceptor<TBlackboard>
+        where TParent : INodeAcceptor<TBlackboard>
     {
         public TResult Do(string name, IAction<TBlackboard> action)
         {
-            return ConvertNodeToResult(new ActionNode<TBlackboard>(name, action.Execute));
+            var node = new ActionNode<TBlackboard>(name, action.Execute);
+
+            return ConvertNodeToResult(AcceptNode(node));
         }
 
         public TResult Do(string name, Func<TBlackboard, BehaviourTreeStatus> actionFn)
         {
-            return ConvertNodeToResult(new ActionNode<TBlackboard>(name, actionFn));
+            return ConvertNodeToResult(AcceptNode(new ActionNode<TBlackboard>(name, actionFn)));
         }
 
         public TResult Condition(string name, Func<TBlackboard, bool> predicate)
         {
-            return ConvertNodeToResult(new ConditionNode<TBlackboard>(name, predicate));
+            return ConvertNodeToResult(AcceptNode(new ConditionNode<TBlackboard>(name, predicate)));
         }
 
         public TResult Wait(string name, ITickSupplier tickSupplier, int framesToWait)
@@ -27,7 +29,7 @@ namespace Unscientific.BehaviourTree
 
         public TResult Wait(string name, ITickSupplier tickSupplier, IValueSupplier<TBlackboard, int> framesToWaitSupplier)
         {
-            return ConvertNodeToResult(new WaitNode<TBlackboard>(name, tickSupplier, framesToWaitSupplier));
+            return ConvertNodeToResult(AcceptNode(new WaitNode<TBlackboard>(name, tickSupplier, framesToWaitSupplier)));
         }
 
         public TResult Splice(BehaviourTreeNode<TBlackboard> node)
@@ -35,68 +37,59 @@ namespace Unscientific.BehaviourTree
             return ConvertNodeToResult(node);
         }
 
-        protected abstract TResult ConvertNodeToResult(BehaviourTreeNode<TBlackboard> node);
-
-        protected abstract TParent GetThisAsParentFor(BehaviourTreeNode<TBlackboard> node);
-
-        public void DoHandleNode(BehaviourTreeNode<TBlackboard> node)
-        {
-            ConvertNodeToResult(node);
-        }
-
         public BehaviourTreeDecoratorBuilder<TBlackboard, TParent> Inverter(string name)
         {
             var node = new InverterNode<TBlackboard>(name);
 
-            return new BehaviourTreeDecoratorBuilder<TBlackboard, TParent>(GetThisAsParentFor(node), node);
+            return new BehaviourTreeDecoratorBuilder<TBlackboard, TParent>(GetParentForNode(node), node);
         }
 
         public BehaviourTreeDecoratorBuilder<TBlackboard, TParent> If(string name, Func<TBlackboard, bool> predicate)
         {
             var node = new IfNode<TBlackboard>(name, predicate);
-            return new BehaviourTreeDecoratorBuilder<TBlackboard, TParent>(GetThisAsParentFor(node), node);
+            return new BehaviourTreeDecoratorBuilder<TBlackboard, TParent>(GetParentForNode(node), node);
         }
 
         public BehaviourTreeDecoratorBuilder<TBlackboard, TParent> AlwaysFail(string name)
         {
             var node = new FailerNode<TBlackboard>(name);
-            return new BehaviourTreeDecoratorBuilder<TBlackboard, TParent>(GetThisAsParentFor(node), node);
+            return new BehaviourTreeDecoratorBuilder<TBlackboard, TParent>(GetParentForNode(node), node);
         }
 
         public BehaviourTreeDecoratorBuilder<TBlackboard, TParent> AllwaysSucceed(string name)
         {
             var node = new SucceederNode<TBlackboard>(name);
-            return new BehaviourTreeDecoratorBuilder<TBlackboard, TParent>(GetThisAsParentFor(node), node);
+            return new BehaviourTreeDecoratorBuilder<TBlackboard, TParent>(GetParentForNode(node), node);
         }
 
         public BehaviourTreeDecoratorBuilder<TBlackboard, TParent> WhileSucceess(string name)
         {
             var node = new RepeatWhileStatus<TBlackboard>(name, BehaviourTreeStatus.Success);
-            return new BehaviourTreeDecoratorBuilder<TBlackboard, TParent>(GetThisAsParentFor(node), node);
+            return new BehaviourTreeDecoratorBuilder<TBlackboard, TParent>(GetParentForNode(node), node);
         }
 
         public BehaviourTreeDecoratorBuilder<TBlackboard, TParent> WhileFail(string name)
         {
             var node = new RepeatWhileStatus<TBlackboard>(name, BehaviourTreeStatus.Failure);
-            return new BehaviourTreeDecoratorBuilder<TBlackboard, TParent>(GetThisAsParentFor(node), node);
+            return new BehaviourTreeDecoratorBuilder<TBlackboard, TParent>(GetParentForNode(node), node);
         }
 
         public BehaviourTreeDecoratorBuilder<TBlackboard, TParent> UntilSucceess(string name)
         {
             var node = new RepeatUntilStatusReachedNode<TBlackboard>(name, BehaviourTreeStatus.Success);
-            return new BehaviourTreeDecoratorBuilder<TBlackboard, TParent>(GetThisAsParentFor(node), node);
+            return new BehaviourTreeDecoratorBuilder<TBlackboard, TParent>(GetParentForNode(node), node);
         }
 
         public BehaviourTreeDecoratorBuilder<TBlackboard, TParent> UntilFail(string name)
         {
             var node = new RepeatUntilStatusReachedNode<TBlackboard>(name, BehaviourTreeStatus.Failure);
-            return new BehaviourTreeDecoratorBuilder<TBlackboard, TParent>(GetThisAsParentFor(node), node);
+            return new BehaviourTreeDecoratorBuilder<TBlackboard, TParent>(GetParentForNode(node), node);
         }
 
         public BehaviourTreeGroupBuilder<TBlackboard, TParent> Selector(string name)
         {
             var node = new SelectorNode<TBlackboard>(name);
-            return new BehaviourTreeGroupBuilder<TBlackboard, TParent>(GetThisAsParentFor(node), node);
+            return new BehaviourTreeGroupBuilder<TBlackboard, TParent>(GetParentForNode(node), node);
         }
 
         public BehaviourTreeParallelBuilder<TBlackboard, TParent> Parallel(string name,
@@ -108,13 +101,17 @@ namespace Unscientific.BehaviourTree
                 FailurePolicy = failurePolicy,
                 SucceedPolicy = succeedPolicy
             };
-            return new BehaviourTreeParallelBuilder<TBlackboard, TParent>(GetThisAsParentFor(node), node);
+            return new BehaviourTreeParallelBuilder<TBlackboard, TParent>(GetParentForNode(node), node);
         }
 
         public BehaviourTreeGroupBuilder<TBlackboard, TParent> Sequence(string name)
         {
             var node = new SequenceNode<TBlackboard>(name);
-            return new BehaviourTreeGroupBuilder<TBlackboard, TParent>(GetThisAsParentFor(node), node);
+            return new BehaviourTreeGroupBuilder<TBlackboard, TParent>(GetParentForNode(node), node);
         }
+
+        public abstract BehaviourTreeNode<TBlackboard> AcceptNode(BehaviourTreeNode<TBlackboard> node);
+        protected abstract TResult ConvertNodeToResult(BehaviourTreeNode<TBlackboard> node);
+        protected abstract TParent GetParentForNode(BehaviourTreeNode<TBlackboard> node);
     }
 }

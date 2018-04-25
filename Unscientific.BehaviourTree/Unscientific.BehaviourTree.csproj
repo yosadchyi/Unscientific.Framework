@@ -51,7 +51,7 @@
     <Compile Include="Sources\Builders\BehaviourTreeGroupBuilder.cs" />
     <Compile Include="Sources\Builders\BehaviourTreeParallelBuilder.cs" />
     <Compile Include="Sources\Builders\IBehaviourTreeEndableBuilder.cs" />
-    <Compile Include="Sources\Builders\INodeHandler.cs" />
+    <Compile Include="Sources\Builders\INodeAcceptor.cs" />
     <Compile Include="Sources\IAction.cs" />
     <Compile Include="Sources\ICompletionObserver.cs" />
     <Compile Include="Sources\Nodes\ActionNode.cs" />

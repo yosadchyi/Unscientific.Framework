@@ -1,7 +1,7 @@
 ﻿namespace Unscientific.BehaviourTree
 {
-    public interface IBehaviourTreeEndableBuilder<TBlackboard, out TParent> : INodeHandler<TBlackboard>
-        where TParent : INodeHandler<TBlackboard>
+    public interface IBehaviourTreeEndableBuilder<TBlackboard, out TParent> : INodeAcceptor<TBlackboard>
+        where TParent : INodeAcceptor<TBlackboard>
     {
         TParent End();
     }
