@@ -14,7 +14,7 @@
             return new BehaviourTreeBuilderLeaf<TBlackboard>(node);
         }
 
-        protected override BehaviourTreeBuilderLeaf<TBlackboard> GetParentForNode(BehaviourTreeNode<TBlackboard> node)
+        protected override BehaviourTreeBuilderLeaf<TBlackboard> GetThisForNode(BehaviourTreeNode<TBlackboard> node)
         {
             return new BehaviourTreeBuilderLeaf<TBlackboard>(node);
         }

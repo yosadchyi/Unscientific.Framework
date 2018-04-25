@@ -39,7 +39,7 @@
             return this;
         }
 
-        protected override BehaviourTreeParallelBuilder<TBlackboard, TParent> GetParentForNode(
+        protected override BehaviourTreeParallelBuilder<TBlackboard, TParent> GetThisForNode(
             BehaviourTreeNode<TBlackboard> node)
         {
             return this;

@@ -26,7 +26,7 @@
             return this;
         }
 
-        protected override IBehaviourTreeEndableBuilder<TBlackboard, TParent> GetParentForNode(BehaviourTreeNode<TBlackboard> node)
+        protected override IBehaviourTreeEndableBuilder<TBlackboard, TParent> GetThisForNode(BehaviourTreeNode<TBlackboard> node)
         {
             return this;
         }

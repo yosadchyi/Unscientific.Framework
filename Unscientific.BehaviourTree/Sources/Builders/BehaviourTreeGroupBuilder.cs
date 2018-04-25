@@ -26,7 +26,7 @@
             return this;
         }
 
-        protected override BehaviourTreeGroupBuilder<TBlackboard, TParent> GetParentForNode(BehaviourTreeNode<TBlackboard> node)
+        protected override BehaviourTreeGroupBuilder<TBlackboard, TParent> GetThisForNode(BehaviourTreeNode<TBlackboard> node)
         {
             return this;
         }
