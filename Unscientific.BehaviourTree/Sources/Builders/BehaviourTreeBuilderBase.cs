@@ -7,17 +7,17 @@ namespace Unscientific.BehaviourTree
     {
         public TResult Do(string name, IAction<TBlackboard> action)
         {
-            return HandleNode(new ActionNode<TBlackboard>(name, action.Execute));
+            return ConvertNodeToResult(new ActionNode<TBlackboard>(name, action.Execute));
         }
 
         public TResult Do(string name, Func<TBlackboard, BehaviourTreeStatus> actionFn)
         {
-            return HandleNode(new ActionNode<TBlackboard>(name, actionFn));
+            return ConvertNodeToResult(new ActionNode<TBlackboard>(name, actionFn));
         }
 
         public TResult Condition(string name, Func<TBlackboard, bool> predicate)
         {
-            return HandleNode(new ConditionNode<TBlackboard>(name, predicate));
+            return ConvertNodeToResult(new ConditionNode<TBlackboard>(name, predicate));
         }
 
         public TResult Wait(string name, ITickSupplier tickSupplier, int framesToWait)
@@ -27,21 +27,21 @@ namespace Unscientific.BehaviourTree
 
         public TResult Wait(string name, ITickSupplier tickSupplier, IValueSupplier<TBlackboard, int> framesToWaitSupplier)
         {
-            return HandleNode(new WaitNode<TBlackboard>(name, tickSupplier, framesToWaitSupplier));
+            return ConvertNodeToResult(new WaitNode<TBlackboard>(name, tickSupplier, framesToWaitSupplier));
         }
 
         public TResult Splice(BehaviourTreeNode<TBlackboard> node)
         {
-            return HandleNode(node);
+            return ConvertNodeToResult(node);
         }
 
-        protected abstract TResult HandleNode(BehaviourTreeNode<TBlackboard> node);
+        protected abstract TResult ConvertNodeToResult(BehaviourTreeNode<TBlackboard> node);
 
         protected abstract TParent GetThisAsParentFor(BehaviourTreeNode<TBlackboard> node);
 
         public void DoHandleNode(BehaviourTreeNode<TBlackboard> node)
         {
-            HandleNode(node);
+            ConvertNodeToResult(node);
         }
 
         public BehaviourTreeDecoratorBuilder<TBlackboard, TParent> Inverter(string name)

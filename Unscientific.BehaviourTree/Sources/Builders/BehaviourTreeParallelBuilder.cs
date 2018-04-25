@@ -27,7 +27,7 @@
             return this;
         }
 
-        protected override BehaviourTreeParallelBuilder<TBlackboard, TParent> HandleNode(
+        protected override BehaviourTreeParallelBuilder<TBlackboard, TParent> ConvertNodeToResult(
             BehaviourTreeNode<TBlackboard> node)
         {
             _group.AddChild(node);

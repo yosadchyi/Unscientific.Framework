@@ -15,7 +15,7 @@
             _decorator = group;
         }
 
-        protected override IBehaviourTreeEndableBuilder<TBlackboard, TParent> HandleNode(BehaviourTreeNode<TBlackboard> node)
+        protected override IBehaviourTreeEndableBuilder<TBlackboard, TParent> ConvertNodeToResult(BehaviourTreeNode<TBlackboard> node)
         {
             _decorator.Node = node;
             return this;

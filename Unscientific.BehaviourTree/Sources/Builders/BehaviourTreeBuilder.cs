@@ -4,7 +4,7 @@
         BehaviourTreeBuilderBase<TBlackboard, BehaviourTreeBuilderLeaf<TBlackboard>,
             BehaviourTreeBuilderLeaf<TBlackboard>>
     {
-        protected override BehaviourTreeBuilderLeaf<TBlackboard> HandleNode(BehaviourTreeNode<TBlackboard> node)
+        protected override BehaviourTreeBuilderLeaf<TBlackboard> ConvertNodeToResult(BehaviourTreeNode<TBlackboard> node)
         {
             return new BehaviourTreeBuilderLeaf<TBlackboard>(node);
         }

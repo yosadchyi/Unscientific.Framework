@@ -15,7 +15,7 @@
             _group = group;
         }
 
-        protected override BehaviourTreeGroupBuilder<TBlackboard, TParent> HandleNode(BehaviourTreeNode<TBlackboard> node)
+        protected override BehaviourTreeGroupBuilder<TBlackboard, TParent> ConvertNodeToResult(BehaviourTreeNode<TBlackboard> node)
         {
             _group.AddChild(node);
             return this;
