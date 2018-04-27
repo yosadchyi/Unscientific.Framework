@@ -2,11 +2,11 @@
 
 namespace Unscientific.BehaviourTree
 {
-    public class BehaviourTreeBuilderLeaf<TBlackboard> : INodeAcceptor<TBlackboard>
+    public class BehaviourTreeBuilderFinalizer<TBlackboard> : INodeAcceptor<TBlackboard>
     {
         private readonly BehaviourTreeNode<TBlackboard> _node;
 
-        public BehaviourTreeBuilderLeaf(BehaviourTreeNode<TBlackboard> node)
+        public BehaviourTreeBuilderFinalizer(BehaviourTreeNode<TBlackboard> node)
         {
             _node = node;
         }

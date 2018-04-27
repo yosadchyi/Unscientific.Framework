@@ -46,7 +46,7 @@
     <Compile Include="Sources\BehaviourTreeStatus.cs" />
     <Compile Include="Sources\Builders\BehaviourTreeBuilder.cs" />
     <Compile Include="Sources\Builders\BehaviourTreeBuilderBase.cs" />
-    <Compile Include="Sources\Builders\BehaviourTreeBuilderLeaf.cs" />
+    <Compile Include="Sources\Builders\BehaviourTreeBuilderFinalizer.cs" />
     <Compile Include="Sources\Builders\BehaviourTreeDecoratorBuilder.cs" />
     <Compile Include="Sources\Builders\BehaviourTreeGroupBuilder.cs" />
     <Compile Include="Sources\Builders\BehaviourTreeParallelBuilder.cs" />
