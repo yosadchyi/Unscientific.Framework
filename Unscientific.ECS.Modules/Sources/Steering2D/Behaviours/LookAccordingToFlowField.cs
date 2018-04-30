@@ -4,7 +4,7 @@ using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Steering2D
 {
-    public class LookAccordingToFlowField: ReachOrientationBehaviour
+    public class LookAccordingToFlowField: ReachTargetOrientation
     {
         #region implemented abstract members of SteeringBehaviour
 
@@ -34,7 +34,7 @@ namespace Unscientific.ECS.Modules.Steering2D
 
             var targetOrientation = FixMath.Atan2(-flowVector.X, flowVector.Y);
 
-            return ReachOrientation(owner, targetOrientation);
+            return DoReachOrientation(owner, targetOrientation);
         }
 
         #endregion

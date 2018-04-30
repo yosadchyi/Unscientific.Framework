@@ -4,7 +4,7 @@ using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Steering2D
 {
-    public class LookAtTarget : ReachOrientationBehaviour
+    public class LookAtTarget : ReachTargetOrientation
     {
         #region implemented abstract members of SteeringBehaviour
 
@@ -30,7 +30,7 @@ namespace Unscientific.ECS.Modules.Steering2D
 
             var targetOrientation = FixMath.Atan2(direction.Y, -direction.X);
 
-            return ReachOrientation(owner, targetOrientation);
+            return DoReachOrientation(owner, targetOrientation);
         }
 
         #endregion

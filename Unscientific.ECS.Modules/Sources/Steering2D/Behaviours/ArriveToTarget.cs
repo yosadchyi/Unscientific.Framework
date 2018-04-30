@@ -4,26 +4,16 @@ using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Steering2D
 {
-    public class ArriveBehaviour : SteeringBehaviour
+    public class ArriveToTarget : SteeringBehaviour
     {
-        private readonly Context<Game> _simulation;
-
-        public ArriveBehaviour(Context<Game> simulation)
-        {
-            _simulation = simulation;
-        }
-
         public override SteeringVelocity DoCalculate(Entity<Game> owner, ref SteeringVelocity accumulatedSteering)
         {
             var target = FixVec2.Zero;
 
-            if (!owner.TryGetTargetPosition(ref target))
-                return SteeringVelocity.Zero;
-
-            return Arrive(owner, target);
+            return owner.TryGetTargetPosition(ref target) ? Arrive(owner, target) : SteeringVelocity.Zero;
         }
 
-        protected static SteeringVelocity Arrive(Entity<Game> owner, FixVec2 target)
+        private static SteeringVelocity Arrive(Entity<Game> owner, FixVec2 target)
         {
             var tolerance = owner.Get<ArrivalTolerance>();
             var position = owner.Get<Position>().Value;

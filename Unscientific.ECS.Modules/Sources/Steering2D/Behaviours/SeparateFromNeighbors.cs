@@ -4,13 +4,13 @@ using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Steering2D
 {
-    public class SeparationBehaviour : GroupSteeringBehaviour
+    public class SeparateFromNeighbors : GroupSteeringBehaviour
     {
         private FixVec2 _linear;
         private FixVec2 _position;
         private readonly Proximity.Callback _proximityCallback;
 
-        public SeparationBehaviour(Proximity proximity) : base(proximity)
+        public SeparateFromNeighbors(Proximity proximity) : base(proximity)
         {
             _proximityCallback = ProximityCallback;
         }

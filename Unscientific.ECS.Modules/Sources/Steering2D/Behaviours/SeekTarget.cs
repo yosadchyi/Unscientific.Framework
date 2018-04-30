@@ -4,7 +4,7 @@ using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Steering2D
 {
-    public class SeekBehaviour : SteeringBehaviour
+    public class SeekTarget : SteeringBehaviour
     {
         public override SteeringVelocity DoCalculate(Entity<Game> owner, ref SteeringVelocity accumulatedSteering)
         {

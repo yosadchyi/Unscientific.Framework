@@ -4,15 +4,15 @@ using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Steering2D
 {
-    public class ReachOrientationBehaviour : SteeringBehaviour
+    public class ReachTargetOrientation : SteeringBehaviour
     {
         protected readonly Fix ZeroVelocity;
 
-        public ReachOrientationBehaviour(): this(FixMath.Epsilon)
+        public ReachTargetOrientation(): this(FixMath.Epsilon)
         {
         }
 
-        public ReachOrientationBehaviour(Fix zeroVelocity)
+        public ReachTargetOrientation(Fix zeroVelocity)
         {
             ZeroVelocity = zeroVelocity;
         }
@@ -22,10 +22,10 @@ namespace Unscientific.ECS.Modules.Steering2D
             if (!owner.Has<TargetOrientation>())
                 return SteeringVelocity.Zero;
 
-            return ReachOrientation(owner, owner.Get<TargetOrientation>().Value);
+            return DoReachOrientation(owner, owner.Get<TargetOrientation>().Value);
         }
 
-        protected SteeringVelocity ReachOrientation(Entity<Game> owner, Fix targetOrientation)
+        protected static SteeringVelocity DoReachOrientation(Entity<Game> owner, Fix targetOrientation)
         {
             var tolerance = owner.Get<AlignTolerance>();
             var steering = SteeringVelocity.Zero;

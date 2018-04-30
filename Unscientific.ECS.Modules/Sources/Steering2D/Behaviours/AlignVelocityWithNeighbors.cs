@@ -4,42 +4,41 @@ using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Steering2D
 {
-    public class CoheseBehaviour : GroupSteeringBehaviour
+    public class AlignVelocityWithNeighbors : GroupSteeringBehaviour
     {
-        private FixVec2 _centroid;
+        private FixVec2 _averageVelocity;
         private readonly Proximity.Callback _proximityCallback;
 
-        public CoheseBehaviour(Proximity proximity) : base(proximity)
+        public AlignVelocityWithNeighbors(Proximity proximity) : base(proximity)
         {
             _proximityCallback = ProximityCallback;
         }
 
         public override SteeringVelocity DoCalculate(Entity<Game> owner, ref SteeringVelocity accumulatedSteering)
         {
-            _centroid = FixVec2.Zero;
+            _averageVelocity = FixVec2.Zero;
 
             var neighborCount = Proximity.FindNeighbors(owner, _proximityCallback);
 
             if (neighborCount > 0)
             {
-                _centroid /= neighborCount;
-                _centroid -= owner.Get<Position>().Value;
+                var maxVelocity = owner.Get<MaxVelocity>().Value;
 
-                if (_centroid.MagnitudeSqr == 0)
+                _averageVelocity /= neighborCount;
+
+                if (_averageVelocity.MagnitudeSqr == 0)
                     return SteeringVelocity.Zero;
 
-                _centroid.Normalize();
-
-                var maxVelocity = owner.Get<MaxVelocity>().Value;
-                _centroid.Scale(ref maxVelocity);
+                _averageVelocity.Normalize();
+                _averageVelocity.Scale(ref maxVelocity);
             }
 
-            return new SteeringVelocity(_centroid);
+            return new SteeringVelocity(_averageVelocity);
         }
 
         private bool ProximityCallback(Entity<Game> neighbor, Fix sqrRange)
         {
-            _centroid += neighbor.Get<Position>().Value;
+            _averageVelocity += neighbor.Get<Velocity>().Value;
             return true;
         }
     }

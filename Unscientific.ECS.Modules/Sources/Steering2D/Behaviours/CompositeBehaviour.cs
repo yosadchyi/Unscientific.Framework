@@ -4,23 +4,11 @@ using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Steering2D
 {
-    public struct BehaviourAndWeight
-    {
-        public readonly SteeringBehaviour Behaviour;
-        public readonly Fix Weight;
-
-        public BehaviourAndWeight(SteeringBehaviour behaviour, Fix weight)
-        {
-            Behaviour = behaviour;
-            Weight = weight;
-        }
-    }
-
     public class CompositeBehaviour : SteeringBehaviour
     {
-        private readonly BehaviourAndWeight[] _behaviours;
+        private readonly SteeringBehaviour[] _behaviours;
 
-        public CompositeBehaviour(params BehaviourAndWeight[] behaviours)
+        public CompositeBehaviour(params SteeringBehaviour[] behaviours)
         {
             _behaviours = behaviours;
         }
@@ -29,9 +17,7 @@ namespace Unscientific.ECS.Modules.Steering2D
         {
             foreach (var behaviour in _behaviours)
             {
-                var casted = behaviour.Behaviour as TBehaviour;
-
-                if (casted != null)
+                if (behaviour is TBehaviour casted)
                     return casted;
             }
             return null;
@@ -50,7 +36,7 @@ namespace Unscientific.ECS.Modules.Steering2D
 
             foreach (var behaviour in _behaviours)
             {
-                steering += behaviour.Behaviour.Calculate(owner, ref steering) * behaviour.Weight;
+                steering += behaviour.Calculate(owner, ref steering);
             }
 
             steering.Limit(maxVelocity, maxAngularVelocity);
