@@ -5,9 +5,13 @@ namespace Unscientific.ECS.Modules.Steering2D
 {
     public abstract class Steering2DModule: IModuleTag
     {
-        public class Builder : IModuleBuilder
+        public class Builder : ModuleBuilderBase
         {
             private int _updatePeriodInTicks = 1;
+
+            public Builder(World.Builder worldBuilder) : base(worldBuilder)
+            {
+            }
 
             public Builder WithUpdatePeriodInTicks(int updatePeriodInTicks)
             {
@@ -15,7 +19,7 @@ namespace Unscientific.ECS.Modules.Steering2D
                 return this;
             }
 
-            public IModule Build()
+            protected override IModule Build()
             {
                 return new Module<Steering2DModule>.Builder()
                         .Usages()

@@ -50,6 +50,7 @@
     <Compile Include="Sources\Messages\Listeners\ComponentAddedMessageProducer.cs" />
     <Compile Include="Sources\Messages\Listeners\ComponentRemovedMessageProducer.cs" />
     <Compile Include="Sources\Messages\Listeners\ComponentReplacedMessageProducer.cs" />
+    <Compile Include="Sources\Module\ModuleBuilderBase.cs" />
     <Compile Include="Sources\Module\ModuleUsages.cs" />
     <Compile Include="Sources\Notifications\IComponentListener.cs" />
     <Compile Include="Sources\Notifications\IMessageListener.cs" />

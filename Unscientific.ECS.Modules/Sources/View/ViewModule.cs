@@ -4,9 +4,13 @@ namespace Unscientific.ECS.Modules.View
 {
     public abstract class ViewModule: IModuleTag
     {
-        public class Builder: IModuleBuilder
+        public class Builder: ModuleBuilderBase
         {
-            public IModule Build()
+            public Builder(World.Builder worldBuilder) : base(worldBuilder)
+            {
+            }
+
+            protected override IModule Build()
             {
                 return new Module<ViewModule>.Builder()
                     .Components<Game>()

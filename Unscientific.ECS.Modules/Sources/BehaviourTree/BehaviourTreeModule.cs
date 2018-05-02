@@ -5,9 +5,13 @@ namespace Unscientific.ECS.Modules.BehaviourTree
 {
     public abstract class BehaviourTreeModule: IModuleTag
     {
-        public class Builder<TScope>: IModuleBuilder where TScope: IScope
+        public class Builder<TScope>: ModuleBuilderBase where TScope: IScope
         {
             private int _updatePeriodInTicks = 1;
+
+            public Builder(World.Builder worldBuilder) : base(worldBuilder)
+            {
+            }
 
             public Builder<TScope> WithUpdatePeriodInTicks(int updatePeriodInTicks)
             {
@@ -17,7 +21,7 @@ namespace Unscientific.ECS.Modules.BehaviourTree
 
             [SuppressMessage("ReSharper", "HeapView.ObjectAllocation.Evident")]
             [SuppressMessage("ReSharper", "HeapView.DelegateAllocation")]
-            public IModule Build()
+            protected override IModule Build()
             {
                 return new Module<BehaviourTreeModule>.Builder()
                         .Usages()

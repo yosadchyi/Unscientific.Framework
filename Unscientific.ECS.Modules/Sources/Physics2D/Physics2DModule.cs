@@ -6,11 +6,15 @@ namespace Unscientific.ECS.Modules.Physics2D
 {
     public abstract class Physics2DModule: IModuleTag
     {
-        public class Builder : IModuleBuilder
+        public class Builder : ModuleBuilderBase
         {
             private ISpatialDatabase _spatialDatabase;
             private Fix _timeStep = Fix.Ratio(1, 50);
-    
+
+            public Builder(World.Builder worldBuilder) : base(worldBuilder)
+            {
+            }
+
             public Builder WithSpatialDatabase(ISpatialDatabase spatialDatabase)
             {
                 _spatialDatabase = spatialDatabase;
@@ -22,8 +26,8 @@ namespace Unscientific.ECS.Modules.Physics2D
                 _timeStep = timeStep;
                 return this;
             }
-            
-            public IModule Build()
+
+            protected override IModule Build()
             {
                 if (_spatialDatabase == null)
                     throw new ArgumentException("Spatial Database not specified!");
@@ -72,6 +76,5 @@ namespace Unscientific.ECS.Modules.Physics2D
                 .Build();
             }
         }
-
     }
 }

@@ -2,17 +2,21 @@
 {
     public abstract class CoreModule: IModuleTag
     {
-        public class Builder : IModuleBuilder
+        public class Builder : ModuleBuilderBase
         {
             private int _initialCapacity = 128;
-            
+
+            public Builder(World.Builder worldBuilder) : base(worldBuilder)
+            {
+            }
+
             public Builder WithInitialSimulationCapacity(int initialSimulationCapacity)
             {
                 _initialCapacity = initialSimulationCapacity;
                 return this;
             }
 
-            public IModule Build()
+            protected override IModule Build()
             {
                 return new Module<CoreModule>.Builder()
                         .Contexts()
@@ -42,5 +46,4 @@
             }
         }
     }
-
 }
