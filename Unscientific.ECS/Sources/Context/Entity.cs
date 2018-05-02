@@ -65,6 +65,11 @@
             return this;
         }
 
+        public Entity<TScope> AddOrReplace<TComponent>(TComponent component)
+        {
+            return Has<TComponent>() ? Replace(component) : Add(component);
+        }
+
         public bool Exists()
         {
             return Context.EntityExists(this);
