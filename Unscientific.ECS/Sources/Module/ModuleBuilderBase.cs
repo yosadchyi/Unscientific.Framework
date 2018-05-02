@@ -12,7 +12,7 @@
         public World.Builder End()
         {
             var module = Build();
-            _worldBuilder.Uses(module);
+            _worldBuilder.Using(module);
             return _worldBuilder;
         }
 

@@ -20,7 +20,7 @@ namespace Unscientific.ECS
             private readonly List<IModule> _modules = new List<IModule>();
             private bool _fastMessageCleanup;
 
-            public Builder Uses(IModule module)
+            public Builder Using(IModule module)
             {
                 _modules.Add(module);
                 return this;

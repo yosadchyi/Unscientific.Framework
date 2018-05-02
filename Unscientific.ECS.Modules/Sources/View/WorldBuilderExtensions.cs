@@ -2,7 +2,7 @@
 {
     public static class WorldBuilderExtensions
     {
-        public static World.Builder UsesViewModuleWithDefaults(this World.Builder self)
+        public static World.Builder UsingViewModuleWithDefaults(this World.Builder self)
         {
             return new ViewModule.Builder(self).End();
         }

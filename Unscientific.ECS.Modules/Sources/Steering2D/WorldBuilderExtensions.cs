@@ -2,14 +2,14 @@
 {
     public static class WorldBuilderExtensions
     {
-        public static Steering2DModule.Builder UsesSteering2D(this World.Builder self)
+        public static Steering2DModule.Builder UsingSteering2D(this World.Builder self)
         {
             return new Steering2DModule.Builder(self);
         }
 
-        public static World.Builder UsesSteering2DWithDefaults(this World.Builder self)
+        public static World.Builder UsingSteering2DWithDefaults(this World.Builder self)
         {
-            return self.UsesSteering2D().End();
+            return self.UsingSteering2D().End();
         }
     }
 }

@@ -109,8 +109,8 @@ namespace Unscientific.ECS.Modules.Tests.Base
         public void SetUp()
         {
             _world = new World.Builder()
-                    .UsesCoreModuleWithDefaults()
-                    .Uses(new MoveModule.Builder().Build())
+                    .UsingCoreModuleWithDefaults()
+                    .Using(new MoveModule.Builder().Build())
                 .Build();
         }
 
