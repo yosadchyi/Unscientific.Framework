@@ -6,7 +6,17 @@ namespace Unscientific.ECS.Modules.Physics2D
 {
     public abstract class Physics2DModule: IModuleTag
     {
-        public class Builder : ModuleBuilderBase
+        public interface IWithTimeStep
+        {
+            IWithSpatialDatabase WithTimeStep(Fix timeStep);
+        }
+        
+        public interface IWithSpatialDatabase
+        {
+            Builder WithSpatialDatabase(ISpatialDatabase spatialDatabase);
+        }
+
+        public class Builder : ModuleBuilderBase, IWithTimeStep, IWithSpatialDatabase
         {
             private ISpatialDatabase _spatialDatabase;
             private Fix _timeStep = Fix.Ratio(1, 50);
@@ -15,15 +25,15 @@ namespace Unscientific.ECS.Modules.Physics2D
             {
             }
 
-            public Builder WithSpatialDatabase(ISpatialDatabase spatialDatabase)
+            public IWithSpatialDatabase WithTimeStep(Fix timeStep)
             {
-                _spatialDatabase = spatialDatabase;
+                _timeStep = timeStep;
                 return this;
             }
 
-            public Builder WithTimeStep(Fix timeStep)
+            public Builder WithSpatialDatabase(ISpatialDatabase spatialDatabase)
             {
-                _timeStep = timeStep;
+                _spatialDatabase = spatialDatabase;
                 return this;
             }
 
