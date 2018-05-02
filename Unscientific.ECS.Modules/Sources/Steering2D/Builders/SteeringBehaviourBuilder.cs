@@ -6,10 +6,6 @@ namespace Unscientific.ECS.Modules.Steering2D
         SteeringBehaviourBuilderBase<SteeringBehaviourBuilderFinalizer, SteeringBehaviourBuilderFinalizer>
     {
         private SteeringBehaviour _behaviour;
-        
-        public SteeringBehaviourBuilder() : base(null)
-        {
-        }
 
         protected override SteeringBehaviourBuilderFinalizer GetBuilderMethodResult()
         {

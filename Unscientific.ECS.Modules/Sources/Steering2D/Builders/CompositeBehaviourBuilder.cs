@@ -1,17 +1,20 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Unscientific.ECS.Modules.Steering2D
 {
     public class CompositeBehaviourBuilder<TFinalizeResult> :
         SteeringBehaviourBuilderBase<CompositeBehaviourComponentFinalizer<CompositeBehaviourBuilder<TFinalizeResult>>, TFinalizeResult>
     {
-        private readonly TFinalizeResult _result;
+        private readonly Func<TFinalizeResult> _getBuilderMethodResult;
+        private readonly AcceptSteeringBehaviour _accept;
         private readonly List<SteeringBehaviour> _behaviours = new List<SteeringBehaviour>();
         private SteeringBehaviour _behaviour;
 
-        public CompositeBehaviourBuilder(AcceptSteeringBehaviour parentAccept, TFinalizeResult result) : base(parentAccept)
+        public CompositeBehaviourBuilder(AcceptSteeringBehaviour accept, Func<TFinalizeResult> getBuilderMethodResult)
         {
-            _result = result;
+            _accept = accept;
+            _getBuilderMethodResult = getBuilderMethodResult;
         }
 
         protected override CompositeBehaviourComponentFinalizer<CompositeBehaviourBuilder<TFinalizeResult>> GetBuilderMethodResult()
@@ -21,7 +24,7 @@ namespace Unscientific.ECS.Modules.Steering2D
 
         protected override TFinalizeResult GetFinalizeResult()
         {
-            return _result;
+            return _getBuilderMethodResult();
         }
 
         private void AddBehaviour(SteeringBehaviour behaviour)
@@ -36,8 +39,8 @@ namespace Unscientific.ECS.Modules.Steering2D
 
         public TFinalizeResult End()
         {
-            ParentAccept(new CompositeBehaviour(_behaviours.ToArray()));
-            return _result;
+            _accept(new CompositeBehaviour(_behaviours.ToArray()));
+            return GetFinalizeResult();
         }
     }
 }

@@ -4,80 +4,73 @@ namespace Unscientific.ECS.Modules.Steering2D
 {
     public abstract class SteeringBehaviourBuilderBase<TBuilderMethodResult, TFinalizeResult>
     {
-        protected readonly AcceptSteeringBehaviour ParentAccept;
-
-        protected SteeringBehaviourBuilderBase(AcceptSteeringBehaviour parentAccept)
-        {
-            ParentAccept = parentAccept;
-        }
-
         public TBuilderMethodResult ArriveToTarget()
         {
             var behaviour = new ArriveToTarget();
-            ParentAccept(behaviour);
+            Accept(behaviour);
             return GetBuilderMethodResult();
         }
         
         public TBuilderMethodResult AlignVelocityWithNeighbors(Proximity proximity)
         {
             var behaviour = new AlignVelocityWithNeighbors(proximity);
-            ParentAccept(behaviour);
+            Accept(behaviour);
             return GetBuilderMethodResult();
         }
 
         public TBuilderMethodResult CoheseWithNeighbors(Proximity proximity)
         {
             var behaviour = new CoheseWithNeighbors(proximity);
-            ParentAccept(behaviour);
+            Accept(behaviour);
             return GetBuilderMethodResult();
         }
 
         public TBuilderMethodResult FollowFlowField()
         {
             var behaviour = new FollowFlowField();
-            ParentAccept(behaviour);
+            Accept(behaviour);
             return GetBuilderMethodResult();
         }
         
         public TBuilderMethodResult LookAccordingToFlowField()
         {
             var behaviour = new LookAccordingToFlowField();
-            ParentAccept(behaviour);
+            Accept(behaviour);
             return GetBuilderMethodResult();
         }
 
         public TBuilderMethodResult LootAtTarget()
         {
             var behaviour = new LookAtTarget();
-            ParentAccept(behaviour);
+            Accept(behaviour);
             return GetBuilderMethodResult();
         }
         
         public TBuilderMethodResult LookWhereYouAreGoing()
         {
             var behaviour = new LookWhereYouAreGoing();
-            ParentAccept(behaviour);
+            Accept(behaviour);
             return GetBuilderMethodResult();
         }
         
         public TBuilderMethodResult ReachTargetOrientation()
         {
             var behaviour = new ReachTargetOrientation();
-            ParentAccept(behaviour);
+            Accept(behaviour);
             return GetBuilderMethodResult();
         }
         
         public TBuilderMethodResult SeekTarget()
         {
             var behaviour = new SeekTarget();
-            ParentAccept(behaviour);
+            Accept(behaviour);
             return GetBuilderMethodResult();
         }
         
         public TBuilderMethodResult SeparateFromNeighbors(Proximity proximity)
         {
             var behaviour = new SeparateFromNeighbors(proximity);
-            ParentAccept(behaviour);
+            Accept(behaviour);
             return GetBuilderMethodResult();
         }
 
@@ -88,7 +81,7 @@ namespace Unscientific.ECS.Modules.Steering2D
 
         public CompositeBehaviourBuilder<TBuilderMethodResult> Compose()
         {
-            return new CompositeBehaviourBuilder<TBuilderMethodResult>(Accept, GetBuilderMethodResult());
+            return new CompositeBehaviourBuilder<TBuilderMethodResult>(Accept, GetBuilderMethodResult);
         }
 
         protected abstract TBuilderMethodResult GetBuilderMethodResult();

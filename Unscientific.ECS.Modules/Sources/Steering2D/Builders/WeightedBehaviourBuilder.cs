@@ -5,11 +5,13 @@ namespace Unscientific.ECS.Modules.Steering2D
     public class WeightedBehaviourBuilder<TFinalizeResult> :
         SteeringBehaviourBuilderBase<WeightedBehaviourBuilderFinalizer<TFinalizeResult>, TFinalizeResult>
     {
+        private readonly AcceptSteeringBehaviour _accept;
         private readonly TFinalizeResult _result;
         private readonly Fix _weight;
 
-        public WeightedBehaviourBuilder(AcceptSteeringBehaviour parentAccept, TFinalizeResult result, Fix weight) : base(parentAccept)
+        public WeightedBehaviourBuilder(AcceptSteeringBehaviour accept, TFinalizeResult result, Fix weight)
         {
+            _accept = accept;
             _result = result;
             _weight = weight;
         }
@@ -26,7 +28,7 @@ namespace Unscientific.ECS.Modules.Steering2D
 
         protected override void Accept(SteeringBehaviour behaviour)
         {
-            ParentAccept(new WeightedBehaviour(_weight, behaviour));
+            _accept(new WeightedBehaviour(_weight, behaviour));
         }
     }
 }
