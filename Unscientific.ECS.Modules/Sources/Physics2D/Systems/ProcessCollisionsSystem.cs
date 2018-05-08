@@ -151,6 +151,7 @@ namespace Unscientific.ECS.Modules.Physics2D
         private static void AddCollision(Entity<Game> entity1, Shape shape1, Entity<Game> entity2, Shape shape2)
         {
             if (!entity1.Has<Collisions>()) return;
+            if (shape1.Sensor && shape2.Sensor) return;
 
             var collisions = entity1.Get<Collisions>().List;
 
