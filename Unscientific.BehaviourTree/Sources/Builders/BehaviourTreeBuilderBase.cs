@@ -22,12 +22,12 @@ namespace Unscientific.BehaviourTree
             return ConvertNodeToResult(AcceptNode(new ConditionNode<TBlackboard>(name, predicate)));
         }
 
-        public TResult Wait(string name, ITickSupplier tickSupplier, int framesToWait)
+        public TResult Wait(string name, int framesToWait, ITickSupplier tickSupplier)
         {
-            return Wait(name, tickSupplier, new ConstantValueSupplier<TBlackboard, int>(framesToWait));
+            return Wait(name, new ConstantValueSupplier<TBlackboard, int>(framesToWait), tickSupplier);
         }
 
-        public TResult Wait(string name, ITickSupplier tickSupplier, IValueSupplier<TBlackboard, int> framesToWaitSupplier)
+        public TResult Wait(string name, IValueSupplier<TBlackboard, int> framesToWaitSupplier, ITickSupplier tickSupplier)
         {
             return ConvertNodeToResult(AcceptNode(new WaitNode<TBlackboard>(name, tickSupplier, framesToWaitSupplier)));
         }

@@ -52,7 +52,7 @@ namespace Unscientific.BehaviourTree.Tests
             var tickProvider = new TestTickSupplier();
             var root = new BehaviourTreeBuilder<TestBlackboard>()
                 .Inverter("Invert status")
-                    .Wait("Increment counter 1", tickProvider, 3)
+                    .Wait("Increment counter 1", 3, tickProvider)
                 .End()
                 .Build();
             var metadata = new BehaviourTreeMetadata<TestBlackboard>(root);
@@ -203,7 +203,7 @@ namespace Unscientific.BehaviourTree.Tests
         {
             var tickProvider = new TestTickSupplier();
             var root = new BehaviourTreeBuilder<TestBlackboard>()
-                .Wait("Increment counter 1", tickProvider, 3)
+                .Wait("Increment counter 1", 3, tickProvider)
                 .Build();
             var metadata = new BehaviourTreeMetadata<TestBlackboard>(root);
             var data = metadata.CreateExecutionData();
@@ -232,7 +232,7 @@ namespace Unscientific.BehaviourTree.Tests
             var root = new BehaviourTreeBuilder<TestBlackboard>()
                 .Parallel("Parallel")
                     .Do("Increment counter 1", TestActions.IncrementCounter1)
-                    .Wait("Wait", tickProvider, 1)
+                    .Wait("Wait", 1, tickProvider)
                     .Do("Increment counter 2", TestActions.IncrementCounter2)
                 .End()
                 .Build();
@@ -263,7 +263,7 @@ namespace Unscientific.BehaviourTree.Tests
             var root = new BehaviourTreeBuilder<TestBlackboard>()
                 .Sequence("Sequence")
                     .Do("Increment counter 1", TestActions.IncrementCounter1)
-                    .Wait("Wait", tickProvider, 1)
+                    .Wait("Wait", 1, tickProvider)
                     .Do("Increment counter 2", TestActions.IncrementCounter2)
                 .End()
                 .Build();
@@ -369,7 +369,7 @@ namespace Unscientific.BehaviourTree.Tests
                     .AlwaysFail("Fail increment")
                         .Do("Increment counter 1", TestActions.IncrementCounter1)
                     .End()
-                    .Wait("Wait 1 tick", tickProvider, 1)
+                    .Wait("Wait 1 tick", 1, tickProvider)
                     .Do("Increment counter 2", TestActions.IncrementCounter2)
                 .End()
                 .Build();
@@ -460,7 +460,7 @@ namespace Unscientific.BehaviourTree.Tests
                     .Inverter("Inverter")
                         .Do("Reach limit", TestActions.ReachLimitAction)
                     .End()
-                    .Wait("Wait 5 ticks", tickProvider, 5)
+                    .Wait("Wait 5 ticks", 5, tickProvider)
                 .End()
                 .Build();
             var metadata = new BehaviourTreeMetadata<TestBlackboard>(root);
