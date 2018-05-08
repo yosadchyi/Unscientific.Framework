@@ -2,6 +2,8 @@
 {
     public struct Entity<TScope> where TScope : IScope
     {
+        public static readonly Entity<TScope> Nil = new Entity<TScope>(0, 0);
+
         public readonly int Id;
         public Context<TScope> Context => Context<TScope>.Instance;
         public bool Alive => Context.IsEntityAlive(this);
@@ -70,6 +72,11 @@
         public Entity<TScope> AddOrReplace<TComponent>(TComponent component)
         {
             return Has<TComponent>() ? Replace(component) : Add(component);
+        }
+
+        public bool IsNil()
+        {
+            return Id == Nil.Id;
         }
     }
 }
