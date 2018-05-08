@@ -6,6 +6,7 @@
         public const uint ALL_CATEGORIES = uint.MaxValue;
 
         public bool Sensor;
+        public string Tag;
         public int Group = NO_GROUP;
         public uint Categories = ALL_CATEGORIES;
         public uint Mask = ALL_CATEGORIES;

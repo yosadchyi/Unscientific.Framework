@@ -6,7 +6,7 @@ namespace Unscientific.ECS.Modules.Physics2D
     {
         public readonly Shape[] Shapes;
 
-        public BoundingShapes(Shape[] shapes)
+        public BoundingShapes(params Shape[] shapes)
         {
             Shapes = shapes;
         }
