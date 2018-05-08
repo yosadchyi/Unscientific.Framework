@@ -4,12 +4,14 @@
     {
         public readonly int Id;
         public Context<TScope> Context => Context<TScope>.Instance;
+        public bool Alive => Context.IsEntityAlive(this);
 
         private const int IdMask = 0xfffff;
         private const int GenerationShift = 20;
 
         internal int Index => Id & IdMask;
         internal int Generation => (int) ((uint) Id >> GenerationShift);
+
 
         internal Entity(int generation, int index)
         {
@@ -68,11 +70,6 @@
         public Entity<TScope> AddOrReplace<TComponent>(TComponent component)
         {
             return Has<TComponent>() ? Replace(component) : Add(component);
-        }
-
-        public bool Exists()
-        {
-            return Context.EntityExists(this);
         }
     }
 }

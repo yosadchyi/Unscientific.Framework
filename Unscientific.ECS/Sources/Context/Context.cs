@@ -591,14 +591,14 @@ namespace Unscientific.ECS
             return ComponentData<TComponent>.ComponentExistsForEntity(entity);
         }
 
-        internal bool EntityExists(Entity<TScope> entity)
+        internal bool IsEntityAlive(Entity<TScope> entity)
         {
             return _generations[entity.Index] == entity.Generation;
         }
 
         private void EnsureEntityExists(Entity<TScope> entity)
         {
-            if (!EntityExists(entity))
+            if (!IsEntityAlive(entity))
                 throw new EntityDoesNotExistsException<TScope>(entity.Id);
         }
 
