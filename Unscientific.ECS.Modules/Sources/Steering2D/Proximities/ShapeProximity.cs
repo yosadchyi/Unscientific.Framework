@@ -1,16 +1,16 @@
 ﻿using Unscientific.ECS.Modules.Core;
 using Unscientific.ECS.Modules.Physics2D;
-using Unscientific.FixedPoint;
+using Unscientific.ECS.Modules.Physics2D.Shapes;
 
 namespace Unscientific.ECS.Modules.Steering2D
 {
-    public class CollisionsProximity: Proximity
+    public class ShapeProximity: Proximity
     {
-        public readonly Fix MaxDistance;
+        private readonly Shape _shape;
 
-        public CollisionsProximity(Fix maxDistance)
+        public ShapeProximity(Shape shape)
         {
-            MaxDistance = maxDistance;
+            _shape = shape;
         }
 
         public override int FindNeighbors(Entity<Game> entity, Callback callback)
@@ -23,12 +23,13 @@ namespace Unscientific.ECS.Modules.Steering2D
 
             foreach (var collision in collisions)
             {
+                if (collision.SelfShape != _shape) continue;
+
                 var other = collision.Other;
                 var diff = position - entity.Get<Position>().Value;
                 var dist2 = diff.MagnitudeSqr;
 
-                if (MaxDistance <= 0 || dist2 <= MaxDistance * MaxDistance)
-                    callback(other, dist2);
+                callback(other, dist2);
             }
             return collisions.Count;
         }

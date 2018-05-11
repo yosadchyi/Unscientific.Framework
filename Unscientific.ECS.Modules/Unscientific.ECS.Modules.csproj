@@ -109,6 +109,7 @@
     <Compile Include="Sources\Physics2D\Systems\AccelerateSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\AngularAccelerateSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\CollisionsCleanupSystem.cs" />
+    <Compile Include="Sources\Physics2D\Systems\ReturnCollisionsListOnDestroySystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\SetupSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\MoveSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\ProcessCollisionsSystem.cs" />
@@ -133,6 +134,7 @@
     <Compile Include="Sources\Steering2D\Components\TargetEntity.cs" />
     <Compile Include="Sources\Steering2D\Components\TargetOrientation.cs" />
     <Compile Include="Sources\Steering2D\Components\TargetPosition.cs" />
+    <Compile Include="Sources\Steering2D\Proximities\ShapeProximity.cs" />
     <Compile Include="Sources\Steering2D\Steering2DModule.cs" />
     <Compile Include="Sources\Steering2D\ArithmeticUtils.cs" />
     <Compile Include="Sources\Steering2D\Behaviours\AlignVelocityWithNeighbors.cs" />

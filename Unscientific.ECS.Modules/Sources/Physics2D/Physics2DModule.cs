@@ -82,6 +82,7 @@ namespace Unscientific.ECS.Modules.Physics2D
                         .Add(contexts => new ProcessCollisionsSystem(contexts))
                         .Add(contexts => new CollisionsCleanupSystem(contexts))
                         .Add(contexts => new SpatialDatanaseCleanupSystem(contexts))
+                        .Add(contexts => new ReturnCollisionsListOnDestroySystem(contexts))
                     .End()
                 .Build();
             }
