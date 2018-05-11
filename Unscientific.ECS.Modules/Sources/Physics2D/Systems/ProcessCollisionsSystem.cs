@@ -144,6 +144,7 @@ namespace Unscientific.ECS.Modules.Physics2D
 
         private void AddCollisions(Entity<Game> entity, Shape shape)
         {
+            // sensors should not collide
             if (_shape.Sensor && shape.Sensor) return;
             AddCollision(_entity, _shape, entity, shape);
             // only sensor should receive collision
