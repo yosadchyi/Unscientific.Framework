@@ -54,9 +54,8 @@ namespace Unscientific.ECS.Modules.Core
             foreach (var factory in _systemFactories)
             {
                 var system = factory(contexts, bus);
-                var systems = system as Systems;
 
-                if (systems != null)
+                if (system is Systems systems)
                 {
                     builder.Add(systems);
                 }
