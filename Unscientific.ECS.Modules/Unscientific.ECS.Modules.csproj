@@ -64,7 +64,12 @@
     <Compile Include="Sources\Core\Scopes\Configuration.cs" />
     <Compile Include="Sources\Core\Scopes\Game.cs" />
     <Compile Include="Sources\Core\Scopes\Singletons.cs" />
-    <Compile Include="Sources\Core\Systems\ComponentNotificationSystems.cs" />
+    <Compile Include="Sources\Core\Systems\ComponentAddedNotificationSystem.cs" />
+    <Compile Include="Sources\Core\Systems\ComponentAddedListeners.cs" />
+    <Compile Include="Sources\Core\Systems\ComponentRemovedListeners.cs" />
+    <Compile Include="Sources\Core\Systems\ComponentRemovedNotificationSystem.cs" />
+    <Compile Include="Sources\Core\Systems\ComponentReplacedListeners.cs" />
+    <Compile Include="Sources\Core\Systems\ComponentReplacedNotificationSystem.cs" />
     <Compile Include="Sources\Core\Systems\EntityDestroySystem.cs" />
     <Compile Include="Sources\Core\Systems\IncrementTickSystem.cs" />
     <Compile Include="Sources\Core\Systems\SetupSystem.cs" />
