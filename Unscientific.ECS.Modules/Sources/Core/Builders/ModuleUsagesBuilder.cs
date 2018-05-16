@@ -17,15 +17,15 @@ namespace Unscientific.ECS.Modules.Core
 
                 public ModuleUsagesBuilder Uses<TModule>()
                 {
-                    var iModuleType = typeof(IModule);
-                    var iModuleTagType = typeof(IModuleTag);
+                    var moduleType = typeof(IModule);
+                    var moduleTagType = typeof(IModuleTag);
                     var type = typeof(TModule);
 
-                    if (iModuleTagType.IsAssignableFrom(type))
+                    if (moduleTagType.IsAssignableFrom(type))
                     {
                         _builder._usages.Uses<Module<TModule>>();
                     }
-                    else if (iModuleType.IsAssignableFrom(type))
+                    else if (moduleType.IsAssignableFrom(type))
                     {
                         _builder._usages.Uses<TModule>();
                     }
@@ -41,8 +41,7 @@ namespace Unscientific.ECS.Modules.Core
                 {
                     return _builder;
                 }
-            }
-            
+            }            
         }
     }
 }
