@@ -15,15 +15,15 @@ namespace Unscientific.ECS.Modules.Physics2D
         private static AABB _shapeBB = new AABB(0, 0, 0, 0);
         private static Transform _transform;
         private static int _stamp = 1;
-        private static readonly SpatialDatabaseCallback _callback;
-        private static readonly Context<Game> _context;
+        private static readonly SpatialDatabaseCallback _callback = CheckCollision;
 
         public static void Update(Contexts contexts)
         {
             var space = contexts.Singleton().Get<Space>();
             var spatialDatabase = space.SpatialDatabase;
+            var context = contexts.Get<Game>();
 
-            foreach (var entity in _context.AllWith<BoundingShapes, Position>())
+            foreach (var entity in context.AllWith<BoundingShapes, Position>())
             {
                 if (entity.Is<Destroyed>())
                     continue;

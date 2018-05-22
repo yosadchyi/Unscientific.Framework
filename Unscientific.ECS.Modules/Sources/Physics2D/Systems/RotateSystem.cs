@@ -7,7 +7,7 @@ namespace Unscientific.ECS.Modules.Physics2D
     {
         public static void Update(Contexts contexts)
         {
-            var dt = contexts.Singleton().Get<TimeStep>().Value;
+            var dt = contexts.Configuration().Get<TimeStep>().Value;
             var context = contexts.Get<Game>();
 
             foreach (var entity in context.AllWith<Orientation, AngularVelocity>())

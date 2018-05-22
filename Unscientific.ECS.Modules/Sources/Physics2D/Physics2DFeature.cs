@@ -90,7 +90,7 @@ namespace Unscientific.ECS.Modules.Physics2D
                     .Update((contexts, bus) => MoveSystem.Update(contexts))
                     .Update((contexts, bus) => RotateSystem.Update(contexts))
                     .Update((contexts, bus) => ProcessCollisionsSystem.Update(contexts))
-                .Cleanup((contexts, bus) => CollisionsCleanupSystem.Cleanup(contexts))
+                    .Cleanup((contexts, bus) => CollisionsCleanupSystem.Cleanup(contexts))
                     .Cleanup((contexts, bus) => SpatialDatanaseCleanupSystem.Cleanup(contexts))
                     .Cleanup((contexts, bus) => ReturnCollisionsListOnDestroySystem.Cleanup(contexts))
                 .End()
