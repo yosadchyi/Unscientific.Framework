@@ -15,7 +15,7 @@ namespace Unscientific.ECS.Modules.Physics2D
         private static AABB _shapeBB = new AABB(0, 0, 0, 0);
         private static Transform _transform;
         private static int _stamp = 1;
-        private static readonly SpatialDatabaseCallback _callback = CheckCollision;
+        private static readonly SpatialDatabaseCallback Callback = CheckCollision;
 
         public static void Update(Contexts contexts)
         {
@@ -52,7 +52,7 @@ namespace Unscientific.ECS.Modules.Physics2D
             _shape = shape;
             _shapeBB = shape.GetBoundingBox(ref _transform);
 
-            spatialDatabase.Query(ref _shapeBB, _callback);
+            spatialDatabase.Query(ref _shapeBB, Callback);
             spatialDatabase.Add(entity, shape, ref _shapeBB);
 
             _stamp++;
