@@ -64,9 +64,9 @@
     <Compile Include="Sources\Util\FixVec2Extensions.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Unscientific.ECS.Modules\Unscientific.ECS.Modules.csproj">
+    <ProjectReference Include="..\Unscientific.ECS.Features\Unscientific.ECS.Features.csproj">
       <Project>{fff52b1b-bec1-409f-aa36-300c6dc48d47}</Project>
-      <Name>Unscientific.ECS.Modules</Name>
+      <Name>Unscientific.ECS.Features</Name>
     </ProjectReference>
     <ProjectReference Include="..\Unscientific.ECS\Unscientific.ECS.csproj">
       <Project>{e1cd49d0-5286-4706-a92c-c915c64ecd46}</Project>

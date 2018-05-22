@@ -20,7 +20,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unscientific.FixedPoint.Tes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unscientific.Util.Tests", "Unscientific.Util.Tests\Unscientific.Util.Tests.csproj", "{8C5D0637-2ED3-4402-8DB2-350FA0A97747}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unscientific.ECS.Modules", "Unscientific.ECS.Modules\Unscientific.ECS.Modules.csproj", "{FFF52B1B-BEC1-409F-AA36-300C6DC48D47}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unscientific.ECS.Features", "Unscientific.ECS.Features\Unscientific.ECS.Features.csproj", "{FFF52B1B-BEC1-409F-AA36-300C6DC48D47}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unscientific.ECS.Unity", "Unscientific.ECS.Unity\Unscientific.ECS.Unity.csproj", "{31871514-66DD-4424-AAFE-BF7CF6F633DF}"
 EndProject
