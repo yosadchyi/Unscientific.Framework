@@ -44,5 +44,10 @@ namespace Unscientific.ECS.Modules.Core
             .End();
             // @formatter:on
         }
+
+        public static WorldBuilder AddCoreFeature(this WorldBuilder self)
+        {
+            return self.AddCoreFeature(c => c);
+        }
     }
 }
