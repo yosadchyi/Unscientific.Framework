@@ -1,6 +1,6 @@
-﻿using Unscientific.ECS.Modules.Navigation2D;
+﻿using Unscientific.ECS.Features.Navigation2D;
 
-namespace Unscientific.ECS.Modules.Steering2D
+namespace Unscientific.ECS.Features.Steering2D
 {
     public struct FlowField
     {

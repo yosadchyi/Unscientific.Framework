@@ -1,4 +1,4 @@
-﻿namespace Unscientific.ECS.Modules.Core
+﻿namespace Unscientific.ECS.Features.Core
 {
     // ReSharper disable once UnusedTypeParameter
     public struct ComponentAdded<TScope, TComponent>

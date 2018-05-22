@@ -1,4 +1,4 @@
-﻿namespace Unscientific.ECS.Modules.Core
+﻿namespace Unscientific.ECS.Features.Core
 {
     public interface IComponentListener<TScope, in TComponent>
         : IComponentAddedListener<TScope, TComponent>,

@@ -7,8 +7,8 @@
     <ProjectGuid>{FFF52B1B-BEC1-409F-AA36-300C6DC48D47}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Unscientific.ECS.Modules</RootNamespace>
-    <AssemblyName>Unscientific.ECS.Modules</AssemblyName>
+    <RootNamespace>Unscientific.ECS.Features</RootNamespace>
+    <AssemblyName>Unscientific.ECS.Features</AssemblyName>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>

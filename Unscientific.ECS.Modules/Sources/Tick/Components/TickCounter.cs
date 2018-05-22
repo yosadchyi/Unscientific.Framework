@@ -1,4 +1,4 @@
-﻿namespace Unscientific.ECS.Modules.Tick
+﻿namespace Unscientific.ECS.Features.Tick
 {
     /// <summary>
     /// Tick component, used in Singletons context, holds number of ticks.

@@ -1,9 +1,9 @@
-﻿using Unscientific.ECS.Modules.Core;
-using Unscientific.ECS.Modules.Physics2D.Shapes;
+﻿using Unscientific.ECS.Features.Core;
+using Unscientific.ECS.Features.Physics2D.Shapes;
 using Unscientific.FixedPoint;
 using Unscientific.Util.Pool;
 
-namespace Unscientific.ECS.Modules.Physics2D
+namespace Unscientific.ECS.Features.Physics2D
 {
     public class SpatialHash: ISpatialDatabase
     {

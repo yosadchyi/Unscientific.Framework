@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Unscientific.ECS.Modules.Steering2D
+namespace Unscientific.ECS.Features.Steering2D
 {
     public class CompositeBehaviourBuilder<TFinalizeResult> :
         SteeringBehaviourBuilderBase<CompositeBehaviourComponentFinalizer<CompositeBehaviourBuilder<TFinalizeResult>>, TFinalizeResult>

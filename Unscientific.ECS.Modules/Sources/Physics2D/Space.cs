@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using Unscientific.ECS.Modules.Core;
-using Unscientific.ECS.Modules.Physics2D.Shapes;
+using Unscientific.ECS.Features.Core;
+using Unscientific.ECS.Features.Physics2D.Shapes;
 using Unscientific.FixedPoint;
 
-namespace Unscientific.ECS.Modules.Physics2D
+namespace Unscientific.ECS.Features.Physics2D
 {
     public class Space
     {

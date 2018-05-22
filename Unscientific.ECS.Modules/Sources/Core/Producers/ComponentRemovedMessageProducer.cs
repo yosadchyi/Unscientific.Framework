@@ -1,4 +1,4 @@
-﻿namespace Unscientific.ECS.Modules.Core
+﻿namespace Unscientific.ECS.Features.Core
 {
     public class ComponentRemovedMessageProducer<TScope, TComponent>: IComponentRemovedListener<TScope, TComponent>
     {

@@ -1,7 +1,8 @@
 ﻿using System;
 using Unscientific.ECS.DSL;
+using Unscientific.ECS.Features.Core.Components;
 
-namespace Unscientific.ECS.Modules.Core
+namespace Unscientific.ECS.Features.Core
 {
     public static class CoreFeature
     {

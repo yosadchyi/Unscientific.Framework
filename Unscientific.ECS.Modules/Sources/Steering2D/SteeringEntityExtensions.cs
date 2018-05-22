@@ -1,9 +1,9 @@
-﻿using Unscientific.ECS.Modules.Core;
-using Unscientific.ECS.Modules.Destroy;
-using Unscientific.ECS.Modules.Physics2D;
+﻿using Unscientific.ECS.Features.Core;
+using Unscientific.ECS.Features.Destroy;
+using Unscientific.ECS.Features.Physics2D;
 using Unscientific.FixedPoint;
 
-namespace Unscientific.ECS.Modules.Steering2D
+namespace Unscientific.ECS.Features.Steering2D
 {
     public static class SteeringEntityExtensions
     {

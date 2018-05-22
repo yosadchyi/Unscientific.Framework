@@ -1,6 +1,6 @@
 ﻿using Unscientific.FixedPoint;
 
-namespace Unscientific.ECS.Modules.Navigation2D
+namespace Unscientific.ECS.Features.Navigation2D
 {
     /// <summary>
     /// Flow field interface.

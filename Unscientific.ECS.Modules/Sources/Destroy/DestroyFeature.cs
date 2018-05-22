@@ -1,7 +1,7 @@
 ﻿using Unscientific.ECS.DSL;
-using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Features.Core;
 
-namespace Unscientific.ECS.Modules.Destroy
+namespace Unscientific.ECS.Features.Destroy
 {
     public static class DestroyFeature
     {

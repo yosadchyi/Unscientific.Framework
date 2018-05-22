@@ -1,7 +1,7 @@
-﻿using Unscientific.ECS.Modules.Core;
-using Unscientific.ECS.Modules.Destroy;
+﻿using Unscientific.ECS.Features.Core;
+using Unscientific.ECS.Features.Destroy;
 
-namespace Unscientific.ECS.Modules.Physics2D
+namespace Unscientific.ECS.Features.Physics2D
 {
     public static class RotateSystem
     {

@@ -1,6 +1,6 @@
-﻿using Unscientific.ECS.Modules.Physics2D.Shapes;
+﻿using Unscientific.ECS.Features.Physics2D.Shapes;
 
-namespace Unscientific.ECS.Modules.Physics2D
+namespace Unscientific.ECS.Features.Physics2D
 {
     public struct BoundingShapes
     {

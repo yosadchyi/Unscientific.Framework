@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Unscientific.ECS.Modules.Core
+namespace Unscientific.ECS.Features.Core.Components
 {
     public struct ComponentRemovedListeners<TScope, TComponent>
     {

@@ -1,4 +1,4 @@
-﻿namespace Unscientific.ECS.Modules.BehaviourTree
+﻿namespace Unscientific.ECS.Features.BehaviourTree
 {
     // ReSharper disable once UnusedTypeParameter
     public struct BehaviourTreeUpdatePeriod<TScope>

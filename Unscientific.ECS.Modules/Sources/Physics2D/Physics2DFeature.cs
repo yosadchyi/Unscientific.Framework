@@ -1,11 +1,11 @@
 ﻿using System;
 using Unscientific.ECS.DSL;
-using Unscientific.ECS.Modules.Core;
-using Unscientific.ECS.Modules.Destroy;
-using Unscientific.ECS.Modules.Tick;
+using Unscientific.ECS.Features.Core;
+using Unscientific.ECS.Features.Destroy;
+using Unscientific.ECS.Features.Tick;
 using Unscientific.FixedPoint;
 
-namespace Unscientific.ECS.Modules.Physics2D
+namespace Unscientific.ECS.Features.Physics2D
 {
     public static class Physics2DFeature
     {

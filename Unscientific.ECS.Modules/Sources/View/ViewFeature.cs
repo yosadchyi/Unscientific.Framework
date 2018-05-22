@@ -1,8 +1,7 @@
-﻿
-using Unscientific.ECS.DSL;
-using Unscientific.ECS.Modules.Core;
+﻿using Unscientific.ECS.DSL;
+using Unscientific.ECS.Features.Core;
 
-namespace Unscientific.ECS.Modules.View
+namespace Unscientific.ECS.Features.View
 {
     public static class ViewFeature
     {

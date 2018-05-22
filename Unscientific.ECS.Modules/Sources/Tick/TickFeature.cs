@@ -1,7 +1,7 @@
 ﻿using Unscientific.ECS.DSL;
-using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Features.Core;
 
-namespace Unscientific.ECS.Modules.Tick
+namespace Unscientific.ECS.Features.Tick
 {
     public static class TickFeature
     {

@@ -1,8 +1,8 @@
 ﻿using Unscientific.BehaviourTree;
-using Unscientific.ECS.Modules.Core;
-using Unscientific.ECS.Modules.Tick;
+using Unscientific.ECS.Features.Core;
+using Unscientific.ECS.Features.Tick;
 
-namespace Unscientific.ECS.Modules.BehaviourTree
+namespace Unscientific.ECS.Features.BehaviourTree
 {
     public class TickSupplier: ITickSupplier
     {

@@ -1,6 +1,6 @@
 ﻿using Unscientific.ECS.DSL;
 
-namespace Unscientific.ECS.Modules.Core
+namespace Unscientific.ECS.Features.Core
 {
     public static class NotificationExtensions
     {

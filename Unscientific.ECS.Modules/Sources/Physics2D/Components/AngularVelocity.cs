@@ -1,6 +1,6 @@
 ﻿using Unscientific.FixedPoint;
 
-namespace Unscientific.ECS.Modules.Physics2D
+namespace Unscientific.ECS.Features.Physics2D
 {
     public struct AngularVelocity
     {

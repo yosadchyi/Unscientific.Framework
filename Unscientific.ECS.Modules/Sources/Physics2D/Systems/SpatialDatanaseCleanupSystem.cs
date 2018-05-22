@@ -1,7 +1,6 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using Unscientific.ECS.Modules.Core;
+﻿using Unscientific.ECS.Features.Core;
 
-namespace Unscientific.ECS.Modules.Physics2D
+namespace Unscientific.ECS.Features.Physics2D
 {
     public static class SpatialDatanaseCleanupSystem
     {

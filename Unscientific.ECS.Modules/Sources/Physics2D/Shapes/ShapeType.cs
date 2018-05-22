@@ -1,4 +1,4 @@
-﻿namespace Unscientific.ECS.Modules.Physics2D.Shapes
+﻿namespace Unscientific.ECS.Features.Physics2D.Shapes
 {
     public enum ShapeType
     {

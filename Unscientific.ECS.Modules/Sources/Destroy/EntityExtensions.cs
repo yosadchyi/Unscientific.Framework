@@ -1,4 +1,4 @@
-﻿namespace Unscientific.ECS.Modules.Destroy
+﻿namespace Unscientific.ECS.Features.Destroy
 {
     public static class EntityExtensions
     {

@@ -1,4 +1,6 @@
-﻿namespace Unscientific.ECS.Modules.Core
+﻿using Unscientific.ECS.Features.Core.Components;
+
+namespace Unscientific.ECS.Features.Core
 {
     public static class ContextExtensions
     {

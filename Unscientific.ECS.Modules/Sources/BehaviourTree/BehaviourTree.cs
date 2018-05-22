@@ -1,8 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Unscientific.BehaviourTree;
-using Unscientific.ECS.Modules.Core;
 
-namespace Unscientific.ECS.Modules.BehaviourTree
+namespace Unscientific.ECS.Features.BehaviourTree
 {
     public class BehaviourTree<TScope>
     {

@@ -1,4 +1,4 @@
-﻿namespace Unscientific.ECS.Modules.View
+﻿namespace Unscientific.ECS.Features.View
 {
     public struct View
     {

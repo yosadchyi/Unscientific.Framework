@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using Unscientific.ECS.DSL;
+using Unscientific.ECS.Features.Core.Components;
 
-namespace Unscientific.ECS.Modules.Core
+namespace Unscientific.ECS.Features.Core
 {
     public class MessageNotificationsBuilder: NestedBuilder<FeatureBuilder>
     {

@@ -1,7 +1,7 @@
 ﻿using System;
 using Unscientific.BehaviourTree;
 
-namespace Unscientific.ECS.Modules.BehaviourTree
+namespace Unscientific.ECS.Features.BehaviourTree
 {
     public class EntityValueSupplier<TScope, TComponent, TType>: IValueSupplier<Entity<TScope>, TType>
     {

@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Features.Core;
 
 namespace Unscientific.ECS.Unity
 {

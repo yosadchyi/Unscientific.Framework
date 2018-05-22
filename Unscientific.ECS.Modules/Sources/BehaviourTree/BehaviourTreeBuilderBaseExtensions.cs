@@ -1,6 +1,6 @@
 ﻿using Unscientific.BehaviourTree;
 
-namespace Unscientific.ECS.Modules.BehaviourTree
+namespace Unscientific.ECS.Features.BehaviourTree
 {
     public static class BehaviourTreeBuilderBaseExtensions
     {
