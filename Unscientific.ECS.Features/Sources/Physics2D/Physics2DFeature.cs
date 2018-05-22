@@ -79,10 +79,6 @@ namespace Unscientific.ECS.Features.Physics2D
                 .Components<Singletons>()
                     .Add<Space>()
                 .End()
-                .ComponentNotifications<Game>()
-                    .AddAllNotifications<Position>()
-                    .AddAllNotifications<Orientation>()
-                .End()
                 .Systems()
                     .Setup((contexts, bus) => SetupSystem.Setup(contexts, configurer.TimeStep, configurer.SpatialDatabase))
                     .Update((contexts, bus) => AccelerateSystem.Update(contexts))
@@ -93,6 +89,10 @@ namespace Unscientific.ECS.Features.Physics2D
                     .Cleanup((contexts, bus) => CollisionsCleanupSystem.Cleanup(contexts))
                     .Cleanup((contexts, bus) => SpatialDatanaseCleanupSystem.Cleanup(contexts))
                     .Cleanup((contexts, bus) => ReturnCollisionsListOnDestroySystem.Cleanup(contexts))
+                .End()
+                .ComponentNotifications<Game>()
+                    .AddAllNotifications<Position>()
+                    .AddAllNotifications<Orientation>()
                 .End()
             .End();
             // @formatter:on
