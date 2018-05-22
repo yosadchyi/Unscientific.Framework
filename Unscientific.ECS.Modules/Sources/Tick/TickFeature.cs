@@ -18,13 +18,9 @@ namespace Unscientific.ECS.Modules.Tick
                     .Add<TickCounter>()
                 .End()
                 .Systems()
-                    .Setup((contexts, bus) => {
-                        contexts.Get<Singletons>().CreateEntity()
-                            .Add(new TickCounter(-1));
-                    })
+                    .Setup((contexts, bus) => contexts.Singleton().Add(new TickCounter(-1)))
                     .Update((contexts, bus) => {
-                        var context = contexts.Get<Singletons>();
-                        var singleton = context.Singleton();
+                        var singleton = contexts.Singleton();
                         var value = singleton.Get<TickCounter>().Value;
         
                         singleton.Replace(new TickCounter(value + 1));
