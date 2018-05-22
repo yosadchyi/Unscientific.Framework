@@ -2,7 +2,7 @@
 
 namespace Unscientific.ECS.Unity
 {
-    public class GameEntityLink : EntityLink<Game>
-    {        
+    public class GameEntityLink: EntityLink<Game>
+    {
     }
 }
