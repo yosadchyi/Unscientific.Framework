@@ -11,39 +11,39 @@ namespace Unscientific.ECS.Modules.Physics2D
     {
         public const string Name = "Physics2D";
 
-        public interface IWithTimeStep
+        public interface ISetTimeStep
         {
-            IWithSpatialDatabase WithTimeStep(Fix timeStep);
+            IAddSpatialDatabase SetTimeStep(Fix timeStep);
         }
         
-        public interface IWithSpatialDatabase
+        public interface IAddSpatialDatabase
         {
-            IConfigurationEnd WithSpatialDatabase(ISpatialDatabase spatialDatabase);
+            IConfigurationEnd AddSpatialDatabase(ISpatialDatabase spatialDatabase);
         }
 
         public interface IConfigurationEnd
         {
         }
 
-        public class Configurer : IWithTimeStep, IWithSpatialDatabase, IConfigurationEnd
+        public class Configurer : ISetTimeStep, IAddSpatialDatabase, IConfigurationEnd
         {
             internal Fix TimeStep;
             internal ISpatialDatabase SpatialDatabase;
 
-            public IWithSpatialDatabase WithTimeStep(Fix timeStep)
+            public IAddSpatialDatabase SetTimeStep(Fix timeStep)
             {
                 TimeStep = timeStep;
                 return this;
             }
 
-            public IConfigurationEnd WithSpatialDatabase(ISpatialDatabase spatialDatabase)
+            public IConfigurationEnd AddSpatialDatabase(ISpatialDatabase spatialDatabase)
             {
                 SpatialDatabase = spatialDatabase;
                 return this;
             }
         }
 
-        public static WorldBuilder AddPhysics2DFeature(this WorldBuilder self, Func<IWithTimeStep, IConfigurationEnd> configure)
+        public static WorldBuilder AddPhysics2DFeature(this WorldBuilder self, Func<ISetTimeStep, IConfigurationEnd> configure)
         {
             var configurer = new Configurer();
 
@@ -90,7 +90,6 @@ namespace Unscientific.ECS.Modules.Physics2D
                     .Update((contexts, bus) => MoveSystem.Update(contexts))
                     .Update((contexts, bus) => RotateSystem.Update(contexts))
                     .Update((contexts, bus) => ProcessCollisionsSystem.Update(contexts))
-
                 .Cleanup((contexts, bus) => CollisionsCleanupSystem.Cleanup(contexts))
                     .Cleanup((contexts, bus) => SpatialDatanaseCleanupSystem.Cleanup(contexts))
                     .Cleanup((contexts, bus) => ReturnCollisionsListOnDestroySystem.Cleanup(contexts))
