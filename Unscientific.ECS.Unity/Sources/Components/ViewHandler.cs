@@ -4,7 +4,7 @@ using Unscientific.ECS.Modules.View;
 
 namespace Unscientific.ECS.Unity
 {
-    public class ViewHandler<TScope>: MonoBehaviour, IHandler, IComponentListener<TScope, View> where TScope : IScope
+    public class ViewHandler<TScope>: MonoBehaviour, IHandler, IComponentListener<TScope, View>
     {
         public ViewPlane ViewPlane = ViewPlane.XZ;
 
@@ -24,8 +24,9 @@ namespace Unscientific.ECS.Unity
             _contexts.Singleton().AddComponentListener(this);
         }
 
-        public void OnComponentAdded(Entity<TScope> entity, View view)
+        public void OnComponentAdded(Entity<TScope> entity)
         {
+            var view = entity.Get<View>();
             var asset = _assetFactory.CreateAsset(view.Name);
             asset.LinkToEntity(entity);
             _entityViewDatabase.AddView(entity, asset);
@@ -40,10 +41,10 @@ namespace Unscientific.ECS.Unity
             asset.ReturnToPool();
         }
 
-        public void OnComponentReplaced(Entity<TScope> entity, View oldComponent, View newComponent)
+        public void OnComponentReplaced(Entity<TScope> entity, View oldComponent)
         {
             OnComponentRemoved(entity, oldComponent);
-            OnComponentAdded(entity, newComponent);
+            OnComponentAdded(entity);
         }
 
         public void Destroy()

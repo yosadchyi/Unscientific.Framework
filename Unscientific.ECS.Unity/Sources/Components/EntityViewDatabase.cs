@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Unscientific.ECS.Unity
 {
-    public class EntityViewDatabase<TScope>: MonoBehaviour, IHandler where TScope : IScope
+    public class EntityViewDatabase<TScope>: MonoBehaviour, IHandler
     {
         private readonly Dictionary<int, GameObject> _entityToView = new Dictionary<int, GameObject>();
 

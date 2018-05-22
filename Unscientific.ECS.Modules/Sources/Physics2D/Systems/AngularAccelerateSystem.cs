@@ -1,24 +1,17 @@
 ﻿using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Modules.Destroy;
 using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Physics2D
 {
-    public class AngularAccelerateSystem: IUpdateSystem
+    public static class AngularAccelerateSystem
     {
-        private readonly Context<Configuration> _configuration;
-        private readonly Context<Game> _context;
-
-        public AngularAccelerateSystem(Contexts contexts)
+        public static void Update(Contexts contexts)
         {
-            _context = contexts.Get<Game>();
-            _configuration = contexts.Get<Configuration>();
-        }
+            var dt = contexts.Configuration().Get<TimeStep>().Value;
+            var context = contexts.Get<Game>();
 
-        public void Update()
-        {
-            var dt = _configuration.Singleton().Get<TimeStep>().Value;
-
-            foreach (var entity in _context.AllWith<Torque, Inertia, AngularVelocity>())
+            foreach (var entity in context.AllWith<Torque, Inertia, AngularVelocity>())
             {
                 if (entity.Is<Destroyed>())
                     continue;

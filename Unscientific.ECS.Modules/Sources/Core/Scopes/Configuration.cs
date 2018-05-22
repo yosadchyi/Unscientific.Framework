@@ -3,7 +3,7 @@
     /// <summary>
     /// Configuration scope
     /// </summary>
-    public abstract class Configuration : IScope
+    public struct Configuration
     {
     }
 }

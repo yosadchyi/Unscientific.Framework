@@ -1,0 +1,17 @@
+﻿using Unscientific.ECS.DSL;
+
+namespace Unscientific.ECS.Modules.Core
+{
+    public static class NotificationExtensions
+    {
+        public static ComponentNotificationsBuilder<TScope> ComponentNotifications<TScope>(this FeatureBuilder self)
+        {
+            return new ComponentNotificationsBuilder<TScope>(self);
+        }
+        
+        public static MessageNotificationsBuilder MessageNotifications(this FeatureBuilder self)
+        {
+            return new MessageNotificationsBuilder(self);
+        }
+    }
+}

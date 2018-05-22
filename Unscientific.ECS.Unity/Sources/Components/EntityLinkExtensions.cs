@@ -5,7 +5,7 @@ namespace Unscientific.ECS.Unity
 {
     public static class EntityLinkExtensions
     {
-        public static void LinkToEntity<TScope>(this GameObject gameObject, Entity<TScope> entity) where TScope : IScope
+        public static void LinkToEntity<TScope>(this GameObject gameObject, Entity<TScope> entity)
         {
             var entityLink = gameObject.GetComponent<EntityLink<TScope>>();
 
@@ -21,7 +21,7 @@ namespace Unscientific.ECS.Unity
             gameObject.UnlinkEntity<Game>();
         }
         
-        public static void UnlinkEntity<TScope>(this GameObject gameObject) where TScope : IScope
+        public static void UnlinkEntity<TScope>(this GameObject gameObject)
         {
             var entityLink = gameObject.GetComponent<EntityLink<TScope>>();
 

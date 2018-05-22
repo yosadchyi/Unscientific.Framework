@@ -6,7 +6,7 @@ using Unscientific.ECS.Modules.View;
 
 namespace Unscientific.ECS.Unity
 {
-    public class Position2DHandler<TScope>: MonoBehaviour, IPositionHandler<TScope>, IComponentListener<TScope, Position> where TScope : IScope
+    public class Position2DHandler<TScope>: MonoBehaviour, IPositionHandler<TScope>, IComponentListener<TScope, Position>
     {
         private Contexts _contexts;
         private ViewHandler<TScope> _viewHandler;
@@ -20,7 +20,7 @@ namespace Unscientific.ECS.Unity
             _contexts.Singleton().AddComponentListener(this);
         }
 
-        public void OnComponentAdded(Entity<TScope> entity, Position position)
+        public void OnComponentAdded(Entity<TScope> entity)
         {
             UpdatePostion(entity);
         }
@@ -29,7 +29,7 @@ namespace Unscientific.ECS.Unity
         {
         }
 
-        public void OnComponentReplaced(Entity<TScope> entity, Position oldPosition, Position newPosition)
+        public void OnComponentReplaced(Entity<TScope> entity, Position oldPosition)
         {
             UpdatePostion(entity);
         }

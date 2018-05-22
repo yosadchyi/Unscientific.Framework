@@ -1,25 +1,18 @@
 ﻿using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Modules.Destroy;
 using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Physics2D
 {
-    public class AccelerateSystem: IUpdateSystem
+    public class AccelerateSystem
     {
-        private readonly Context<Configuration> _configuration;
-        private readonly Context<Game> _context;
-
-        public AccelerateSystem(Contexts contexts)
+        public static void Update(Contexts contexts)
         {
-            _context = contexts.Get<Game>();
-            _configuration = contexts.Get<Configuration>();
-        }
+            var dt = contexts.Configuration().Get<TimeStep>().Value;
+            var g = contexts.Configuration().Get<GlobalForce>().Value;
+            var context = contexts.Get<Game>();
 
-        public void Update()
-        {
-            var dt = _configuration.Singleton().Get<TimeStep>().Value;
-            var g = _configuration.Singleton().Get<GlobalForce>().Value;
-
-            foreach (var entity in _context.AllWith<Force, Mass, Velocity>())
+            foreach (var entity in context.AllWith<Force, Mass, Velocity>())
             {
                 if (entity.Is<Destroyed>())
                     continue;

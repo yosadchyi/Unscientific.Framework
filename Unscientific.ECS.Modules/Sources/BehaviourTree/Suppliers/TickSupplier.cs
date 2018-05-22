@@ -1,5 +1,6 @@
 ﻿using Unscientific.BehaviourTree;
 using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Modules.Tick;
 
 namespace Unscientific.ECS.Modules.BehaviourTree
 {
@@ -14,7 +15,7 @@ namespace Unscientific.ECS.Modules.BehaviourTree
 
         public int Supply()
         {
-            return _context.Singleton().Get<Tick>().Value;
+            return _context.Singleton().Get<TickCounter>().Value;
         }
     }
 }

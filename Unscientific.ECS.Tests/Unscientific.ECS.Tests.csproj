@@ -42,13 +42,15 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Sources\ApplicationTests.cs" />
-    <Compile Include="Sources\Components.cs" />
+    <Compile Include="Sources\Components\DeadFlagComponent.cs" />
+    <Compile Include="Sources\Components\ValueComponent.cs" />
+    <Compile Include="Sources\Contexts\TestScope.cs" />
     <Compile Include="Sources\ContextTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sources\MessageBusTests.cs" />
-    <Compile Include="Sources\Messages.cs" />
-    <Compile Include="Sources\TestScope.cs" />
+    <Compile Include="Sources\Messages\AggregatedTestMessage.cs" />
+    <Compile Include="Sources\Messages\DelayedTestMessage.cs" />
+    <Compile Include="Sources\Messages\TestMessage.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Unscientific.ECS\Unscientific.ECS.csproj">

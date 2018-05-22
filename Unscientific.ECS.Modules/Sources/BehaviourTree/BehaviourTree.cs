@@ -4,18 +4,18 @@ using Unscientific.ECS.Modules.Core;
 
 namespace Unscientific.ECS.Modules.BehaviourTree
 {
-    public class BehaviourTree<TScope> where TScope : IScope
+    public class BehaviourTree<TScope>
     {
-        public readonly BehaviourTreeNode<Entity<TScope>> Root;
-        public readonly BehaviourTreeMetadata<Entity<TScope>> Metadata;
-        public readonly BehaviourTreeExecutor<Entity<TScope>> Executor;
+        private readonly BehaviourTreeNode<Entity<TScope>> _root;
+        private readonly BehaviourTreeMetadata<Entity<TScope>> _metadata;
+        private readonly BehaviourTreeExecutor<Entity<TScope>> _executor;
 
         [SuppressMessage("ReSharper", "HeapView.ObjectAllocation.Evident")]
         public BehaviourTree(BehaviourTreeNode<Entity<TScope>> root)
         {
-            Root = root;
-            Metadata = new BehaviourTreeMetadata<Entity<TScope>>(root);
-            Executor = new BehaviourTreeExecutor<Entity<TScope>>(root);
+            _root = root;
+            _metadata = new BehaviourTreeMetadata<Entity<TScope>>(root);
+            _executor = new BehaviourTreeExecutor<Entity<TScope>>(root);
         }
 
         public void Execute(Entity<TScope> entity)
@@ -25,14 +25,14 @@ namespace Unscientific.ECS.Modules.BehaviourTree
 
             if (executionData == null)
             {
-                executionData = Metadata.CreateExecutionData();
+                executionData = _metadata.CreateExecutionData();
                 entity.Replace(new BehaviourTreeData<TScope>(data.BehaviourTree, executionData));
             }
 
             if (executionData.Stack.Count == 0)
-                Executor.Start(executionData, Root);
+                _executor.Start(executionData, _root);
 
-            Executor.Tick(executionData, entity);
+            _executor.Tick(executionData, entity);
         }
     }
 }

@@ -3,27 +3,14 @@ using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Physics2D
 {
-    public class SetupSystem: ISetupSystem
+    public static class SetupSystem
     {
-        private readonly Context<Configuration> _configuration;
-        private readonly Context<Singletons> _singletons;
-        private readonly ISpatialDatabase _spatialDatabase;
-        private readonly Fix _timeStep;
-
-        public SetupSystem(Contexts contexts, ISpatialDatabase spatialDatabase, Fix timeStep)
+        public static void Setup(Contexts contexts, Fix timeStep, ISpatialDatabase spatialDatabase)
         {
-            _configuration = contexts.Get<Configuration>();
-            _singletons = contexts.Get<Singletons>();
-            _spatialDatabase = spatialDatabase;
-            _timeStep = timeStep;
-        }
-
-        public void Setup()
-        {
-            _singletons.Singleton()
-                .Add(new Space(_spatialDatabase));
-            _configuration.Singleton()
-                .Add(new TimeStep(_timeStep))
+            contexts.Singleton()
+                .Add(new Space(spatialDatabase));
+            contexts.Configuration()
+                .Add(new TimeStep(timeStep))
                 .Add(new GlobalForce(FixVec2.Zero));
         }
     }

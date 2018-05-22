@@ -2,12 +2,12 @@
 {
     public static class ContextExtensions
     {
-        public static Entity<TScope> Singleton<TScope>(this Context<TScope> self) where TScope : IScope
+        public static Entity<TScope> Singleton<TScope>(this Context<TScope> self)
         {
             return self.FirstWith<SingletonTag>();
         }
 
-        public static Entity<TScope> Singleton<TScope>(this Contexts self) where TScope : IScope
+        public static Entity<TScope> Singleton<TScope>(this Contexts self)
         {
             return Singleton(self.Get<TScope>());
         }

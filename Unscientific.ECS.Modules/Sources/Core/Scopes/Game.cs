@@ -3,7 +3,7 @@
     /// <summary>
     /// Game scope, used for deterministic simulation
     /// </summary>
-    public abstract class Game : IScope
+    public struct Game
     {
     }
 }

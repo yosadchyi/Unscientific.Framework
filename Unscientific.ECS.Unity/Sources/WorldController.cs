@@ -11,25 +11,16 @@ namespace Unscientific.ECS.Unity
 
         #endregion
 
-        #region Internal state
-
-        private Systems _systems;
-        private MessageBus _messageBus;
-
-        #endregion
-
         #region Unity methods
 
         private void Awake()
         {
             World = World.Instance;
-            _systems = World.Systems;
-            _messageBus = World.MessageBus;
         }
 
         private void Start()
         {
-            _systems.Setup();
+            World.Setup();
             foreach (var handler in gameObject.GetComponents<IHandler>())
             {
                 handler.Initialize(World.Contexts, World.MessageBus);
@@ -39,9 +30,8 @@ namespace Unscientific.ECS.Unity
 
         private void FixedUpdate()
         {
-            _systems.Update();
-            _systems.Cleanup();
-            _messageBus.Cleanup();
+            World.Update();
+            World.Cleanup();
         }
 
         private void OnDestroy()

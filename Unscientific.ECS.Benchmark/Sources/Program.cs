@@ -1,18 +1,18 @@
 ﻿using System;
 using System.Diagnostics;
+using Unscientific.ECS.DSL;
 
 namespace Unscientific.ECS.Benchmark
 {
-    public class Simulation : IScope
+    public struct Simulation
     {
-        
     }
     
     public struct Vector3
     {
-        public float X;
-        public float Y;
-        public float Z;
+        public readonly float X;
+        public readonly float Y;
+        public readonly float Z;
 
         public Vector3(float x, float y, float z)
         {
@@ -62,18 +62,13 @@ namespace Unscientific.ECS.Benchmark
         }
     }
 
-    public class MoveSystem : IUpdateSystem
+    public class MoveSystem
     {
-        private Context<Simulation> _context;
-
-        public MoveSystem(Context<Simulation> context)
+        public static void Update(Contexts contexts)
         {
-            _context = context;
-        }
+            var context = contexts.Get<Simulation>();
 
-        public void Update()
-        {
-            foreach (var entity in _context.AllWith<Position, Velocity>())
+            foreach (var entity in context.AllWith<Position, Velocity>())
             {
                 var position = entity.Get<Position>();
                 var velocity = entity.Get<Velocity>();
@@ -92,36 +87,42 @@ namespace Unscientific.ECS.Benchmark
 
         public static void Main(string[] args)
         {
-            // register scopes & components
-            new ComponentRegistrations()
-                .For<Simulation>()
-                    .Add<Position>()
-                    .Add<Velocity>()
+            // @formatter:off
+            var world = new WorldBuilder()
+                .AddFeature("Benchmark")
+                    .Contexts()
+                        .Add<Simulation>(c => c.SetInitialCapacity(EntitiesCount))
+                    .End()
+                    .Components<Simulation>()
+                        .Add<Position>()
+                        .Add<Velocity>()
+                    .End()
+                    .Systems()
+                        .Update((contexts, bus) => MoveSystem.Update(contexts))
+                    .End()
                 .End()
-                .Register();
+            .Build();
+            // @formatter:on
 
-            var context = new Context<Simulation>.Initializer()
-                .WithInitialCapacity(EntitiesCount)
-                .Initialize();
-
-            var systems = new Systems.Builder()
-                .Add(new MoveSystem(context))
-                .Build();
+            var simulation = world.Contexts.Get<Simulation>();
 
             for (var i = 0; i < EntitiesCount; i++)
             {
-                context.CreateEntity()
+                simulation.CreateEntity()
                     .Add(new Position(new Vector3(1, 2, 0), 0))
                     .Add(new Velocity(new Vector3(2, 2, 1), 0.01f));
             }
 
             // Warm up
-            systems.Update();
+            world.Update();
 
             Measure("Entity", () =>
             {
                 for (var i = 0; i < RepeatCount; i++)
-                    systems.Update();
+                {
+                    world.Update();
+                    world.Cleanup();
+                }
             });
         }
 

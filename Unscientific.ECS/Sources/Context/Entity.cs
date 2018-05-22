@@ -1,6 +1,6 @@
 ﻿namespace Unscientific.ECS
 {
-    public struct Entity<TScope> where TScope : IScope
+    public struct Entity<TScope>
     {
         public static readonly Entity<TScope> Nil = new Entity<TScope>(0, 0);
 

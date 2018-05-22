@@ -1,35 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Modules.Destroy;
 using Unscientific.ECS.Modules.Physics2D.Shapes;
 using Unscientific.FixedPoint;
 
 namespace Unscientific.ECS.Modules.Physics2D
 {
-    public class ProcessCollisionsSystem: IUpdateSystem
+    public static class ProcessCollisionsSystem
     {
-        private readonly Context<Singletons> _singletons;
+        // move to singletons?
+        private static Entity<Game> _entity;
+        private static Shape _shape;
+        private static AABB _shapeBB = new AABB(0, 0, 0, 0);
+        private static Transform _transform;
+        private static int _stamp = 1;
+        private static readonly SpatialDatabaseCallback _callback;
+        private static readonly Context<Game> _context;
 
-        private Entity<Game> _entity;
-        private Shape _shape;
-        private AABB _shapeBB = new AABB(0, 0, 0, 0);
-        private Transform _transform;
-        private int _stamp = 1;
-        private readonly SpatialDatabaseCallback _callback;
-        private readonly Context<Game> _context;
-
-        [SuppressMessage("ReSharper", "HeapView.DelegateAllocation")]
-        public ProcessCollisionsSystem(Contexts contexts)
+        public static void Update(Contexts contexts)
         {
-            _callback = CheckCollision;
-            _singletons = contexts.Get<Singletons>();
-            _context = contexts.Get<Game>();
-        }
-
-        public void Update()
-        {
-            var space = _singletons.Singleton().Get<Space>();
+            var space = contexts.Singleton().Get<Space>();
             var spatialDatabase = space.SpatialDatabase;
 
             foreach (var entity in _context.AllWith<BoundingShapes, Position>())
@@ -44,7 +35,7 @@ namespace Unscientific.ECS.Modules.Physics2D
             _shape = null;
         }
 
-        private void ProcessShapeCollisions(Entity<Game> entity, Shape shape, ISpatialDatabase spatialDatabase)
+        private static void ProcessShapeCollisions(Entity<Game> entity, Shape shape, ISpatialDatabase spatialDatabase)
         {
             var collisionsBefore = 0;
             List<Collision> collisions = null;
@@ -82,7 +73,7 @@ namespace Unscientific.ECS.Modules.Physics2D
             return transform;
         }
 
-        private void CheckCollision(Entity<Game> entity, Shape shape)
+        private static void CheckCollision(Entity<Game> entity, Shape shape)
         {
             if (entity.Id == _entity.Id ||
                 shape == _shape ||
@@ -142,7 +133,7 @@ namespace Unscientific.ECS.Modules.Physics2D
             }
         }
 
-        private void AddCollisions(Entity<Game> entity, Shape shape)
+        private static void AddCollisions(Entity<Game> entity, Shape shape)
         {
             // sensors should not collide
             if (_shape.Sensor && shape.Sensor) return;

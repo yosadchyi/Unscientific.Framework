@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Unscientific.ECS.DSL;
 
 namespace Unscientific.ECS.Tests
 {
@@ -6,23 +7,34 @@ namespace Unscientific.ECS.Tests
     public class MessageBusTests
     {
         private MessageBus _bus;
+        private World _world;
 
         [SetUp]
         public void SetUp()
         {
-            _bus = new MessageBus();
+            // @formatter:off
+            _world = new WorldBuilder()
+                .AddFeature("TestMessageBus")
+                    .Messages()
+                        .Add<TestMessage>()
+                        .Add<AggregatedTestMessage>(c =>
+                            c.Aggregate(new KeyMessageAggregator<AggregatedTestMessage, int>(m => m.Value))
+                        )
+                        .Add<DelayedTestMessage>(c =>
+                            c.DelayUntilNextFrame()
+                        )
+                    .End()
+                .End()
+            .Build();
+            // @formatter:on
 
-            new MessageRegistrations()
-                .Add<TestMessage>()
-                .Add(new KeyMessageAggregator<AggregatedTestMessage, int>(m => m.Value))
-                .AddDelayed<DelayedTestMessage>()
-                .Register(_bus);
+            _bus = _world.MessageBus;
         }
 
         [TearDown]
         public void TearDown()
         {
-            _bus.Cleanup();
+            _world.Cleanup();
         }
         
         [Test]

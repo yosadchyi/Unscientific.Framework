@@ -6,7 +6,7 @@ using Unscientific.ECS.Modules.View;
 
 namespace Unscientific.ECS.Unity
 {
-    public class Orientation2DHandler<TScope>: MonoBehaviour, IOrientationHandler<TScope>, IComponentListener<TScope, Orientation> where TScope : IScope
+    public class Orientation2DHandler<TScope>: MonoBehaviour, IOrientationHandler<TScope>, IComponentListener<TScope, Orientation>
     {
         private Contexts _contexts;
         private ViewHandler<TScope> _viewHandler;
@@ -20,7 +20,7 @@ namespace Unscientific.ECS.Unity
             _contexts.Singleton().AddComponentListener(this);
         }
 
-        public void OnComponentAdded(Entity<TScope> entity, Orientation orientation)
+        public void OnComponentAdded(Entity<TScope> entity)
         {
             UpdateOrientation(entity);
         }
@@ -29,7 +29,7 @@ namespace Unscientific.ECS.Unity
         {
         }
 
-        public void OnComponentReplaced(Entity<TScope> entity, Orientation oldOrientation, Orientation newOrientation)
+        public void OnComponentReplaced(Entity<TScope> entity, Orientation oldOrientation)
         {
             UpdateOrientation(entity);
         }

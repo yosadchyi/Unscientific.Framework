@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Unscientific.ECS.DSL;
 
 namespace Unscientific.ECS.Tests
 {
@@ -8,35 +9,41 @@ namespace Unscientific.ECS.Tests
     [TestFixture]
     public class ContextTests
     {
-        private readonly Contexts _contexts = new Contexts();
+        private Contexts _contexts;
+        private World _world;
 
         [SetUp]
         public void Setup()
         {
-            new ComponentRegistrations()
-                .For<TestScope>()
-                    .Add<ValueComponent>()
-                    .Add<DeadFlagComponent>()
+            // @formatter:off
+            _world = new WorldBuilder()
+                .AddFeature("Test")
+                    .Contexts()
+                        .Add<TestScope>(c => c.SetInitialCapacity(16))
+                    .End()
+                    .Components<TestScope>()
+                        .Add<ValueComponent>()
+                        .Add<DeadFlagComponent>()
+                    .End()
                 .End()
-                .Register();
+            .Build();
+            // @formatter:on
 
-            new Context<TestScope>.Initializer()
-                .WithInitialCapacity(16)
-                .Initialize();
+            _contexts = _world.Contexts;
         }
 
         [TearDown]
         public void Teardown()
         {
-            _contexts.Get<TestScope>().Clear();
+            _world.Clear();
         }
 
         [Test]
         public void GetShouldReturnComponent()
         {
-            var entity = _contexts.Get<TestScope>().CreateEntity().Add(new ValueComponent(12));
-
-            Assert.AreEqual(12, entity.Get<ValueComponent>().Value);
+//            var entity = _contexts.Get<TestScope>().CreateEntity().Add(new ValueComponent(12));
+//
+//            Assert.AreEqual(12, entity.Get<ValueComponent>().Value);
         }
 
         [Test]

@@ -3,7 +3,7 @@ using Unscientific.BehaviourTree;
 
 namespace Unscientific.ECS.Modules.BehaviourTree
 {
-    public class EntityValueSupplier<TScope, TComponent, TType>: IValueSupplier<Entity<TScope>, TType> where TScope : IScope
+    public class EntityValueSupplier<TScope, TComponent, TType>: IValueSupplier<Entity<TScope>, TType>
     {
         private readonly Func<TComponent, TType> _valueExtractor;
 

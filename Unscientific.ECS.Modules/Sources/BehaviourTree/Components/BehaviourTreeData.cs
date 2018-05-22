@@ -3,7 +3,7 @@ using Unscientific.ECS.Modules.Core;
 
 namespace Unscientific.ECS.Modules.BehaviourTree
 {
-    public struct BehaviourTreeData<TScope> where TScope : IScope
+    public struct BehaviourTreeData<TScope>
     {
         public readonly BehaviourTree<TScope> BehaviourTree;
         public readonly BehaviourTreeExecutionData<Entity<TScope>> ExecutionData;

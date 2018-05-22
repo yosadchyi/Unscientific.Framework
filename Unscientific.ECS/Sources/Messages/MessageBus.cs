@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Reflection;
 
 namespace Unscientific.ECS
 {
@@ -78,6 +79,11 @@ namespace Unscientific.ECS
 
         private TMessage[] _data;
 
+        public static void InstantiateType()
+        {
+            // do nothing
+        }
+
         public SimpleMessageQueue(int capacity, IMessageAggregator<TMessage> aggregator)
         {
             _aggregator = aggregator ?? new NullMessageAggregator<TMessage>();
@@ -128,6 +134,11 @@ namespace Unscientific.ECS
         public int Count => _queue1.Count;
 
         public TMessage this[int index] => _queue1[index];
+
+        public static void InstantiateType()
+        {
+            // do nothing
+        }
 
         public DelayedMessageQueue(int capacity, IMessageAggregator<TMessage> aggregator)
         {
@@ -222,33 +233,62 @@ namespace Unscientific.ECS
         internal static class Data<TMessage>
         {
             internal static IMessageQueue<TMessage> Queue;
+
+            internal static void SetQueue(IMessageQueue<TMessage> queue)
+            {
+                Queue = queue;
+                OnCleanup += Queue.Cleanup;
+                OnFastCleanup += Queue.FastCleanup;
+                OnClear += Queue.Clear;
+            }
+            
+            public static void InstantiateType()
+            {
+                // do nothing
+            }
         }
         
-        public static MessageBus Instance { get; private set; }
-
         internal static event Action OnCleanup = delegate { };
         internal static event Action OnFastCleanup = delegate { };
         internal static event Action OnClear = delegate { };
 
-        public MessageBus()
+        internal MessageBus()
         {
-            Instance = this;
+            OnCleanup = delegate { };
+            OnFastCleanup = delegate { };
+            OnCleanup = delegate { };
         }
 
-        internal static void Init<TMessage>(int capacity, IMessageAggregator<TMessage> aggregator)
+        internal static void InstantiateTypesForMessage<TMessage>()
         {
-            Data<TMessage>.Queue = new SimpleMessageQueue<TMessage>(capacity, aggregator);
-            OnCleanup += Data<TMessage>.Queue.Cleanup;
-            OnFastCleanup += Data<TMessage>.Queue.FastCleanup;
-            OnClear += Data<TMessage>.Queue.Clear;
+            Data<TMessage>.InstantiateType();
+            SimpleMessageQueue<TMessage>.InstantiateType();
         }
 
-        internal static void InitDelayed<TMessage>(int capacity, IMessageAggregator<TMessage> aggregator)
+        internal static void InstantiateTypesForDelayedMessage<TMessage>()
         {
-            Data<TMessage>.Queue = new DelayedMessageQueue<TMessage>(capacity, aggregator);
-            OnCleanup += Data<TMessage>.Queue.Cleanup;
-            OnFastCleanup += Data<TMessage>.Queue.FastCleanup;
-            OnClear += Data<TMessage>.Queue.Clear;
+            Data<TMessage>.InstantiateType();
+            DelayedMessageQueue<TMessage>.InstantiateType();
+        }
+
+        internal void Init(Type messageType, int capacity, object aggregator)
+        {
+            InitForQueueType(messageType, typeof(SimpleMessageQueue<>), capacity, aggregator);
+        }
+
+        internal void InitDelayed(Type messageType, int capacity, object aggregator)
+        {
+            InitForQueueType(messageType, typeof(DelayedMessageQueue<>), capacity, aggregator);
+        }
+
+        private static void InitForQueueType(Type messageType, Type queueGenericType, int capacity, object aggregator)
+        {
+            var queueType = queueGenericType.MakeGenericType(messageType);
+            var queue = Activator.CreateInstance(queueType, capacity, aggregator);
+
+            var dataGenericType = typeof(Data<>);
+            var dataType = dataGenericType.MakeGenericType(messageType);
+            dataType.GetMethod("SetQueue", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, new[] {queue});
         }
 
         public void Send<TMessage>(TMessage message)

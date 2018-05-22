@@ -3,7 +3,7 @@
     /// <summary>
     /// Singleton scope
     /// </summary>
-    public abstract class Singletons : IScope
+    public struct Singletons
     {
     }
 }

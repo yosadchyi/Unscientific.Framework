@@ -1,18 +1,20 @@
 using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Modules.Destroy;
 using Unscientific.Util.Pool;
 
 namespace Unscientific.ECS.Modules.Physics2D
 {
-    public class ReturnCollisionsListOnDestroySystem : EntityCleanupSystem<Game, Destroyed, Collisions>
+    public class ReturnCollisionsListOnDestroySystem
     {
-        public ReturnCollisionsListOnDestroySystem(Contexts contexts) : base(contexts)
+        public static void Cleanup(Contexts contexts)
         {
-        }
+            var context = contexts.Get<Game>();
 
-        protected override void Cleanup(Entity<Game> entity)
-        {
-            if (!entity.Has<Collisions>()) return;
-            ListPool<Collision>.Instance.Return(entity.Get<Collisions>().List);
+            foreach (var entity in context.AllWith<Destroyed, Collisions>())
+            {
+                ListPool<Collision>.Instance.Return(entity.Get<Collisions>().List);
+                entity.Remove<Collisions>();
+            }
         }
     }
 }

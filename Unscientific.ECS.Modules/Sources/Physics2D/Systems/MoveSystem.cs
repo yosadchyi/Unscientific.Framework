@@ -1,23 +1,16 @@
 ﻿using Unscientific.ECS.Modules.Core;
+using Unscientific.ECS.Modules.Destroy;
 
 namespace Unscientific.ECS.Modules.Physics2D
 {
-    public class MoveSystem: IUpdateSystem
+    public static class MoveSystem
     {
-        private readonly Context<Configuration> _configuration;
-        private readonly Context<Game> _context;
-
-        public MoveSystem(Contexts contexts)
+        public static void Update(Contexts contexts)
         {
-            _configuration = contexts.Get<Configuration>();
-            _context = contexts.Get<Game>();
-        }
+            var dt = contexts.Singleton().Get<TimeStep>().Value;
+            var context = contexts.Get<Game>();
 
-        public void Update()
-        {
-            var dt = _configuration.Singleton().Get<TimeStep>().Value;
-
-            foreach (var entity in _context.AllWith<Position, Velocity>())
+            foreach (var entity in context.AllWith<Position, Velocity>())
             {
                 if (entity.Is<Destroyed>())
                     continue;

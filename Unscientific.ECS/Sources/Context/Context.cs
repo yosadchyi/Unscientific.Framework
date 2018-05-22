@@ -5,7 +5,7 @@ using Unscientific.Util.Collections;
 
 namespace Unscientific.ECS
 {
-    public struct FilteringEntityEnumerator<TScope, TComponent> where TScope : IScope
+    public struct FilteringEntityEnumerator<TScope, TComponent>
     {
         private readonly int _count;
         private int _current;
@@ -41,7 +41,7 @@ namespace Unscientific.ECS
         }
     }
 
-    public struct FilteringEntityEnumerator<TScope, TComponent1, TComponent2> where TScope : IScope
+    public struct FilteringEntityEnumerator<TScope, TComponent1, TComponent2>
     {
         private readonly int _count;
         private int _current;
@@ -83,7 +83,7 @@ namespace Unscientific.ECS
         }
     }
 
-    public struct FilteringEntityEnumerator<TScope, TComponent1, TComponent2, TComponent3> where TScope : IScope
+    public struct FilteringEntityEnumerator<TScope, TComponent1, TComponent2, TComponent3>
     {
         private readonly int _count;
         private int _current;
@@ -125,7 +125,7 @@ namespace Unscientific.ECS
         }
     }
 
-    public struct FilteringEntityEnumerable<TScope, TComponent> where TScope: IScope
+    public struct FilteringEntityEnumerable<TScope, TComponent>
     {
     
         private readonly int _count;
@@ -151,7 +151,7 @@ namespace Unscientific.ECS
         }
     }
 
-    public struct FilteringEntityEnumerable<TScope, TComponent1, TComponent2> where TScope: IScope
+    public struct FilteringEntityEnumerable<TScope, TComponent1, TComponent2>
     {
     
         private readonly int _count;
@@ -177,7 +177,7 @@ namespace Unscientific.ECS
         }
     }
 
-    public struct FilteringEntityEnumerable<TScope, TComponent1, TComponent2, TComponent3> where TScope: IScope
+    public struct FilteringEntityEnumerable<TScope, TComponent1, TComponent2, TComponent3>
     {
     
         private readonly int _count;
@@ -203,12 +203,12 @@ namespace Unscientific.ECS
         }
     }
 
-    public delegate void ComponentAddedHandler<TScope, in TComponent>(Entity<TScope> entity, TComponent component) where TScope : IScope;
-    public delegate void ComponentRemovedHandler<TScope, in TComponent>(Entity<TScope> entity, TComponent component) where TScope : IScope;
-    public delegate void ComponentReplacedHandler<TScope, in TComponent>(Entity<TScope> entity, TComponent oldComponent, TComponent newComponent) where TScope : IScope;
+    public delegate void ComponentAddedHandler<TScope, in TComponent>(Entity<TScope> entity);
+    public delegate void ComponentRemovedHandler<TScope, in TComponent>(Entity<TScope> entity, TComponent component);
+    public delegate void ComponentReplacedHandler<TScope, in TComponent>(Entity<TScope> entity, TComponent oldComponent);
 
     [SuppressMessage("ReSharper", "StaticMemberInGenericType")]
-    public class Context<TScope> where TScope : IScope
+    public class Context<TScope>
     {
         #region Component Data
         // ReSharper disable once HeapView.ObjectAllocation.Evident
@@ -243,8 +243,13 @@ namespace Unscientific.ECS
             internal static event ComponentReplacedHandler<TScope, TComponent> OnComponentReplaced;
             #endregion
 
+            internal static void InstantiateType()
+            {
+                // do nothing
+            }
+            
             [SuppressMessage("ReSharper", "HeapView.DelegateAllocation")]
-            internal static void Init()
+            public static void Init()
             {
                 if (Id != -1)
                     return;
@@ -357,7 +362,7 @@ namespace Unscientific.ECS
                 ComponentIndexToEntityId[componentIndex] = entityId;
                 Data[componentIndex] = component;
                 if (OnComponentAdded != null)
-                    OnComponentAdded(entity, component);
+                    OnComponentAdded(entity);
             }
 
             internal static void Replace(Entity<TScope> entity, ref TComponent component)
@@ -376,7 +381,7 @@ namespace Unscientific.ECS
                     var oldComponent = Data[componentIndex];
 
                     Data[componentIndex] = component;
-                    OnComponentReplaced(entity, oldComponent, component);
+                    OnComponentReplaced(entity, oldComponent);
                 }
                 else
                 {
@@ -416,30 +421,6 @@ namespace Unscientific.ECS
         }
         #endregion
 
-        public class Initializer
-        {
-            private int _initialCapacity = 128;
-            private int _maxCapacity = int.MaxValue;
-
-            public Initializer WithInitialCapacity(int capacity)
-            {
-                _initialCapacity = capacity;
-                return this;
-            }
-
-            public Initializer WithMaxCapacity(int capacity)
-            {
-                _maxCapacity = capacity;
-                return this;
-            }
-
-            public Context<TScope> Initialize()
-            {
-                // ReSharper disable once HeapView.ObjectAllocation.Evident
-                return new Context<TScope>(_initialCapacity, _maxCapacity);
-            }
-        }
-
         internal static Context<TScope> Instance { get; private set; }
 
         public int Capacity => _capacity;
@@ -458,8 +439,10 @@ namespace Unscientific.ECS
         private readonly Deque<int> _freeList;
         private ushort[] _generations;
 
-        private Context(int initialCapacity, int maxCapacity)
+        internal Context(List<Type> componentTypes, int initialCapacity, int maxCapacity)
         {
+            InitComponents(componentTypes);
+
             _capacity = initialCapacity;
             _maxCapacity = maxCapacity;
             _freeList = new Deque<int>(_capacity);
@@ -473,6 +456,22 @@ namespace Unscientific.ECS
 
             _count = 0;
             Instance = this;
+        }
+
+        private static void InitComponents(List<Type> componentTypes)
+        {
+            foreach (var componentType in componentTypes)
+            {
+                var componentDataGenericType = typeof(ComponentData<>);
+                var compomentDataType = componentDataGenericType.MakeGenericType(typeof(TScope), componentType);
+
+                compomentDataType.GetMethod("Init").Invoke(null, null);
+            }
+        }
+
+        internal static void InstantiateType()
+        {
+            // do nothing
         }
 
         public Entity<TScope> GetEntityById(int id)
