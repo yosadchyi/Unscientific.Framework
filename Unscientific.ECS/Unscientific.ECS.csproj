@@ -38,10 +38,17 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sources\Context\BoxedEntity.cs" />
+    <Compile Include="Sources\Context\ComponentAddedHandler.cs" />
+    <Compile Include="Sources\Context\ComponentInfo.cs" />
+    <Compile Include="Sources\Context\ComponentRemovedHandler.cs" />
+    <Compile Include="Sources\Context\ComponentReplacedHandler.cs" />
     <Compile Include="Sources\Context\Context.cs" />
     <Compile Include="Sources\Context\ContextInfo.cs" />
     <Compile Include="Sources\Context\Contexts.cs" />
     <Compile Include="Sources\Context\Entity.cs" />
+    <Compile Include="Sources\Context\FilteringEntityEnumerable.cs" />
+    <Compile Include="Sources\Context\FilteringEntityEnumerator.cs" />
     <Compile Include="Sources\DSL\Builders\ComponentListBuilder.cs" />
     <Compile Include="Sources\DSL\Builders\ContextListBuilder.cs" />
     <Compile Include="Sources\DSL\Builders\FeatureBuilder.cs" />

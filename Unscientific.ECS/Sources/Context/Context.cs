@@ -5,215 +5,9 @@ using Unscientific.Util.Collections;
 
 namespace Unscientific.ECS
 {
-    public struct FilteringEntityEnumerator<TScope, TComponent>
-    {
-        private readonly int _count;
-        private int _current;
-
-        public FilteringEntityEnumerator(int count)
-        {
-            _count = count;
-            _current = -1;
-        }
-
-        public void Dispose()
-        {
-        }
-
-        public bool MoveNext()
-        {
-            return ++_current < _count;
-        }
-
-        public void Reset()
-        {
-            _current = -1;
-        }
-
-        public Entity<TScope> Current
-        {
-            get
-            {
-                var id = Context<TScope>.ComponentData<TComponent>.ComponentIndexToEntityId[_current];
-
-                return new Entity<TScope>(id);
-            }
-        }
-    }
-
-    public struct FilteringEntityEnumerator<TScope, TComponent1, TComponent2>
-    {
-        private readonly int _count;
-        private int _current;
-
-        public FilteringEntityEnumerator(int count)
-        {
-            _count = count;
-            _current = -1;
-        }
-
-        public void Dispose()
-        {
-        }
-
-        public bool MoveNext()
-        {
-            while (++_current < _count)
-            {
-                if (Current.Has<TComponent2>())
-                    return true;
-            }
-
-            return false;
-        }
-
-        public void Reset()
-        {
-            _current = -1;
-        }
-
-        public Entity<TScope> Current
-        {
-            get
-            {
-                var id = Context<TScope>.ComponentData<TComponent1>.ComponentIndexToEntityId[_current];
-
-                return new Entity<TScope>(id);
-            }
-        }
-    }
-
-    public struct FilteringEntityEnumerator<TScope, TComponent1, TComponent2, TComponent3>
-    {
-        private readonly int _count;
-        private int _current;
-
-        public FilteringEntityEnumerator(int count)
-        {
-            _count = count;
-            _current = -1;
-        }
-
-        public void Dispose()
-        {
-        }
-
-        public bool MoveNext()
-        {
-            while (++_current < _count)
-            {
-                if (Current.Has<TComponent2>() && Current.Has<TComponent3>())
-                    return true;
-            }
-
-            return false;
-        }
-
-        public void Reset()
-        {
-            _current = -1;
-        }
-
-        public Entity<TScope> Current
-        {
-            get
-            {
-                var id = Context<TScope>.ComponentData<TComponent1>.ComponentIndexToEntityId[_current];
-
-                return new Entity<TScope>(id);
-            }
-        }
-    }
-
-    public struct FilteringEntityEnumerable<TScope, TComponent>
-    {
-    
-        private readonly int _count;
-
-        public FilteringEntityEnumerable(int count)
-        {
-            _count = count;
-        }
-
-        public FilteringEntityEnumerator<TScope, TComponent> GetEnumerator()
-        {
-            return new FilteringEntityEnumerator<TScope, TComponent>(_count);
-        }
-        
-        public Entity<TScope> First()
-        {
-            var enumerator = GetEnumerator();
-
-            if (enumerator.MoveNext())
-                return enumerator.Current;
-
-            throw new NoEntitiesException();
-        }
-    }
-
-    public struct FilteringEntityEnumerable<TScope, TComponent1, TComponent2>
-    {
-    
-        private readonly int _count;
-
-        public FilteringEntityEnumerable(int count)
-        {
-            _count = count;
-        }
-
-        public FilteringEntityEnumerator<TScope, TComponent1, TComponent2> GetEnumerator()
-        {
-            return new FilteringEntityEnumerator<TScope, TComponent1, TComponent2>(_count);
-        }
-        
-        public Entity<TScope> First()
-        {
-            var enumerator = GetEnumerator();
-
-            if (enumerator.MoveNext())
-                return enumerator.Current;
-
-            throw new NoEntitiesException();
-        }
-    }
-
-    public struct FilteringEntityEnumerable<TScope, TComponent1, TComponent2, TComponent3>
-    {
-    
-        private readonly int _count;
-
-        public FilteringEntityEnumerable(int count)
-        {
-            _count = count;
-        }
-
-        public FilteringEntityEnumerator<TScope, TComponent1, TComponent2, TComponent3> GetEnumerator()
-        {
-            return new FilteringEntityEnumerator<TScope, TComponent1, TComponent2, TComponent3>(_count);
-        }
-        
-        public Entity<TScope> First()
-        {
-            var enumerator = GetEnumerator();
-
-            if (enumerator.MoveNext())
-                return enumerator.Current;
-
-            throw new NoEntitiesException();
-        }
-    }
-
-    public delegate void ComponentAddedHandler<TScope, in TComponent>(Entity<TScope> entity);
-    public delegate void ComponentRemovedHandler<TScope, in TComponent>(Entity<TScope> entity, TComponent component);
-    public delegate void ComponentReplacedHandler<TScope, in TComponent>(Entity<TScope> entity, TComponent oldComponent);
-
     [SuppressMessage("ReSharper", "StaticMemberInGenericType")]
     public class Context<TScope>
     {
-        #region Component Data
-        // ReSharper disable once HeapView.ObjectAllocation.Evident
-        // ReSharper disable once CollectionNeverQueried.Global
-        internal static readonly List<Type> ComponentTypes = new List<Type>();
         // ReSharper disable once HeapView.ObjectAllocation.Evident
         internal static event Action<Entity<TScope>> OnRemove = delegate {  };
         // ReSharper disable once HeapView.ObjectAllocation.Evident
@@ -223,7 +17,8 @@ namespace Unscientific.ECS
         internal static event Action OnClear = delegate {  };
 
         private const int NoEntityIndex = -1;
-        
+
+        #region Component Data
         // ReSharper disable once ClassNeverInstantiated.Global
         internal class ComponentData<TComponent>
         {
@@ -249,13 +44,9 @@ namespace Unscientific.ECS
             }
             
             [SuppressMessage("ReSharper", "HeapView.DelegateAllocation")]
-            public static void Init()
+            public static ComponentInfo Init()
             {
-                if (Id != -1)
-                    return;
-
                 Id = StaticIdAllocator<ComponentData<TComponent>>.AllocateId();
-                ComponentTypes.Add(typeof(TComponent));
                 OnInit += Init;
                 OnRemove += entity =>
                 {
@@ -264,6 +55,16 @@ namespace Unscientific.ECS
                 };
                 OnGrow += Grow;
                 OnClear += Clear;
+
+                return new ComponentInfo
+                {
+                    Type = typeof(TComponent),
+                    HasComponent = id => Instance.Has<TComponent>(new Entity<TScope>(id)),
+                    GetComponent = id => Instance.Get<TComponent>(new Entity<TScope>(id)),
+                    AddComponent = (id, value) => Instance.Add(new Entity<TScope>(id), (TComponent) value),
+                    RemoveComponent = id => Instance.Remove<TComponent>(new Entity<TScope>(id)),
+                    ReplaceComponent = (id, value) => Instance.Replace(new Entity<TScope>(id), (TComponent) value)
+                };
             }
 
             private static void Clear()
@@ -423,6 +224,9 @@ namespace Unscientific.ECS
 
         internal static Context<TScope> Instance { get; private set; }
 
+        // ReSharper disable once HeapView.ObjectAllocation.Evident
+        internal ComponentInfo[] ComponentsInfo;
+
         public int Capacity => _capacity;
 
         public int Count => _count;
@@ -441,8 +245,13 @@ namespace Unscientific.ECS
 
         internal Context(List<Type> componentTypes, int initialCapacity, int maxCapacity)
         {
-            InitComponents(componentTypes);
+            OnClear = delegate { };
+            OnGrow = delegate {  };
+            OnInit = delegate {  };
+            OnRemove = delegate {  };
 
+            InitComponents(componentTypes);
+            
             _capacity = initialCapacity;
             _maxCapacity = maxCapacity;
             _freeList = new Deque<int>(_capacity);
@@ -458,15 +267,20 @@ namespace Unscientific.ECS
             Instance = this;
         }
 
-        private static void InitComponents(List<Type> componentTypes)
+        private void InitComponents(List<Type> componentTypes)
         {
+            var componentsInfo = new List<ComponentInfo>();
+
             foreach (var componentType in componentTypes)
             {
                 var componentDataGenericType = typeof(ComponentData<>);
                 var compomentDataType = componentDataGenericType.MakeGenericType(typeof(TScope), componentType);
+                var info = (ComponentInfo) compomentDataType.GetMethod("Init").Invoke(null, null);
 
-                compomentDataType.GetMethod("Init").Invoke(null, null);
+                componentsInfo.Add(info);
             }
+
+            ComponentsInfo = componentsInfo.ToArray();
         }
 
         internal static void InstantiateType()
@@ -593,6 +407,11 @@ namespace Unscientific.ECS
         internal bool IsEntityAlive(Entity<TScope> entity)
         {
             return _generations[entity.Index] == entity.Generation;
+        }
+
+        internal BoxedEntity Box(Entity<TScope> entity)
+        {
+            return new BoxedEntity(entity.Id, ComponentsInfo);
         }
 
         private void EnsureEntityExists(Entity<TScope> entity)

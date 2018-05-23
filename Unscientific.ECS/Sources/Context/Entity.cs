@@ -78,5 +78,10 @@
         {
             return Id == Nil.Id;
         }
+
+        public BoxedEntity Box()
+        {
+            return Context.Box(this);
+        }
     }
 }
