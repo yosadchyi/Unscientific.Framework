@@ -6,10 +6,11 @@
         public const uint AllCategories = uint.MaxValue;
 
         internal Shape Next;
+        public bool Enabled = true;
+        public bool Sensor;
         internal int Stamp;
 
         public ShapeType Type;
-        public bool Sensor;
         public string Tag;
         public int Group = NoGroup;
         public uint Categories = AllCategories;
@@ -26,13 +27,14 @@
 
         protected void Clear()
         {
-            Stamp = 0;
             Next = null;
+            Enabled = true;
+            Sensor = false;
+            Stamp = 0;
             Tag = null;
             Group = NoGroup;
             Categories = AllCategories;
             Mask = AllCategories;
-            Sensor = false;
         }
 
         public abstract void ReturnToPool();

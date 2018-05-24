@@ -25,6 +25,8 @@ namespace Unscientific.ECS.Features.Physics2D
 
                 for (var shape = shapes.First; shape != null; shape = shape.Next)
                 {
+                    if (shape.Sensor || !shape.Enabled) continue;
+                    
                     var bb = shape.GetBoundingBox(ref transform);
                     
                     spatialDatabase.Add(entity, shape, ref bb);

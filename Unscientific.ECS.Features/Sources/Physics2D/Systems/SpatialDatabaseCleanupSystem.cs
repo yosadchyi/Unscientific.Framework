@@ -2,7 +2,7 @@
 
 namespace Unscientific.ECS.Features.Physics2D
 {
-    public static class SpatialDatanaseCleanupSystem
+    public static class SpatialDatabaseCleanupSystem
     {
         public static void Cleanup(Contexts contexts)
         {

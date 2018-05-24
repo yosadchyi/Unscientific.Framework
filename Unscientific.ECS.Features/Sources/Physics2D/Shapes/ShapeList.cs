@@ -5,7 +5,7 @@ namespace Unscientific.ECS.Features.Physics2D.Shapes
 {
     public class ShapeList
     {
-        public static readonly GenericObjectPool<ShapeList> Pool = new GenericObjectPool<ShapeList>(16);
+        private static readonly GenericObjectPool<ShapeList> Pool = new GenericObjectPool<ShapeList>(16);
 
         public bool Empty => _head == _tail;
         public Shape First => _head;
@@ -45,6 +45,16 @@ namespace Unscientific.ECS.Features.Physics2D.Shapes
 
             return this;
         }
+
+        public Shape FindByTag(string tag)
+        {
+            for (var tmp = _head; tmp != null; tmp = tmp.Next)
+            {
+                if (tmp.Tag == tag) return tmp;
+            }
+
+            throw new ArgumentException("Shape not found!");
+        }
         
         public ShapeList Remove(Shape shape)
         {
@@ -72,7 +82,7 @@ namespace Unscientific.ECS.Features.Physics2D.Shapes
                 prev = curr;
             }
 
-            throw new ArgumentException("Item not found!");
+            throw new ArgumentException("Shape not found!");
         }
 
         public void Clear()
@@ -86,6 +96,14 @@ namespace Unscientific.ECS.Features.Physics2D.Shapes
                 tmp.ReturnToPool();
                 tmp = next;
             }
+
+            _head = null;
+            _tail = null;
+        }
+
+        public void ReturnToPool()
+        {
+            Pool.Return(this);
         }
     }
 }

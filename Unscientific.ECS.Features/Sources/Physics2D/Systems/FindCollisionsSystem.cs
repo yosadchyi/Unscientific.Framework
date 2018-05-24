@@ -35,6 +35,8 @@ namespace Unscientific.ECS.Features.Physics2D
 
                 for (var shape = shapes.First; shape != null; shape = shape.Next)
                 {
+                    if (!shape.Enabled) continue;
+
                     _shapeBB = shape.GetBoundingBox(ref _transform);
                     _shape = shape;
                     spatialDatabase.Query(ref _shapeBB, Callback);
@@ -112,8 +114,6 @@ namespace Unscientific.ECS.Features.Physics2D
 
         private static void AddCollision(Entity<Game> entity, Shape shape)
         {
-            if (shape.Sensor) return;
-
             var collisions = _entity.Get<Collisions>().List;
 
             collisions.Add(new Collision(_shape, entity, shape));
