@@ -51,6 +51,7 @@
     <Compile Include="Sources\Messages\AggregatedTestMessage.cs" />
     <Compile Include="Sources\Messages\DelayedTestMessage.cs" />
     <Compile Include="Sources\Messages\TestMessage.cs" />
+    <Compile Include="Sources\WorldTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Unscientific.ECS\Unscientific.ECS.csproj">
