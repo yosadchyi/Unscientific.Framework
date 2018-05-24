@@ -1,18 +1,36 @@
-﻿using Unscientific.FixedPoint;
+﻿using System;
+using Unscientific.FixedPoint;
+using Unscientific.Util.Pool;
 
 namespace Unscientific.ECS.Features.Physics2D.Shapes
 {
     public class AABBShape: Shape
     {
-        public readonly Fix Width;
-        public readonly Fix Height;
+        private static readonly GenericObjectPool<AABBShape> Pool = new GenericObjectPool<AABBShape>(16);
 
-        public override ShapeType Type => ShapeType.AABB;
+        public Fix Width;
+        public Fix Height;
 
-        public AABBShape(Fix width, Fix height)
+        public static AABBShape New(Fix width, Fix height)
         {
-            Width = width;
-            Height = height;
+            var instance = Pool.Get();
+
+            instance.Width = width;
+            instance.Height = height;
+            return instance;
+        }
+
+        public static AABBShape New(Action<AABBShape> initialize)
+        {
+            var instance = Pool.Get();
+
+            initialize(instance);
+            return instance;
+        }
+
+        public AABBShape()
+        {
+            Type = ShapeType.AABB;
         }
 
         public override AABB GetBoundingBox(ref Transform transform)
@@ -20,5 +38,12 @@ namespace Unscientific.ECS.Features.Physics2D.Shapes
             return new AABB(transform.Position, Width / 2, Height / 2);
         }
 
+        public override void ReturnToPool()
+        {
+            Clear();
+            Width = 0;
+            Height = 0;
+            Pool.Return(this);
+        }
     }
 }

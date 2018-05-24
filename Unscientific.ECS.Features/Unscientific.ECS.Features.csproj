@@ -102,6 +102,7 @@
     <Compile Include="Sources\Physics2D\Shapes\AABBShape.cs" />
     <Compile Include="Sources\Physics2D\Shapes\CircleShape.cs" />
     <Compile Include="Sources\Physics2D\Shapes\Shape.cs" />
+    <Compile Include="Sources\Physics2D\Shapes\ShapeList.cs" />
     <Compile Include="Sources\Physics2D\Shapes\ShapeType.cs" />
     <Compile Include="Sources\Physics2D\EntityExtensions.cs" />
     <Compile Include="Sources\Physics2D\Space.cs" />
@@ -109,11 +110,12 @@
     <Compile Include="Sources\Physics2D\Systems\AccelerateSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\AngularAccelerateSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\CollisionsCleanupSystem.cs" />
+    <Compile Include="Sources\Physics2D\Systems\FindCollisionsSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\ReturnCollisionsListOnDestroySystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\SetupSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\MoveSystem.cs" />
-    <Compile Include="Sources\Physics2D\Systems\ProcessCollisionsSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\RotateSystem.cs" />
+    <Compile Include="Sources\Physics2D\Systems\SpaceReindexSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\SpatialDatanaseCleanupSystem.cs" />
     <Compile Include="Sources\Physics2D\Transform.cs" />
     <Compile Include="Sources\Steering2D\Behaviours\WeightedBehaviour.cs" />

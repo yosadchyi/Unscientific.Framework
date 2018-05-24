@@ -2,17 +2,18 @@
 {
     public abstract class Shape
     {
-        public const int NO_GROUP = 0;
-        public const uint ALL_CATEGORIES = uint.MaxValue;
+        public const int NoGroup = 0;
+        public const uint AllCategories = uint.MaxValue;
 
-        public bool Sensor;
-        public string Tag;
-        public int Group = NO_GROUP;
-        public uint Categories = ALL_CATEGORIES;
-        public uint Mask = ALL_CATEGORIES;
+        internal Shape Next;
         internal int Stamp;
 
-        public abstract ShapeType Type { get; }
+        public ShapeType Type;
+        public bool Sensor;
+        public string Tag;
+        public int Group = NoGroup;
+        public uint Categories = AllCategories;
+        public uint Mask = AllCategories;
 
         public abstract AABB GetBoundingBox(ref Transform transform);
 
@@ -22,5 +23,18 @@
                    (Categories & other.Mask) == 0 ||
                    (other.Categories & Mask) == 0;
         }
+
+        protected void Clear()
+        {
+            Stamp = 0;
+            Next = null;
+            Tag = null;
+            Group = NoGroup;
+            Categories = AllCategories;
+            Mask = AllCategories;
+            Sensor = false;
+        }
+
+        public abstract void ReturnToPool();
     }
 }

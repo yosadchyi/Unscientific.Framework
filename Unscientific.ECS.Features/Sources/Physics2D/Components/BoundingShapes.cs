@@ -4,9 +4,9 @@ namespace Unscientific.ECS.Features.Physics2D
 {
     public struct BoundingShapes
     {
-        public readonly Shape[] Shapes;
+        public readonly ShapeList Shapes;
 
-        public BoundingShapes(params Shape[] shapes)
+        public BoundingShapes(ShapeList shapes)
         {
             Shapes = shapes;
         }

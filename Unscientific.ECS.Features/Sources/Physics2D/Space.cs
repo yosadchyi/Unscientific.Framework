@@ -10,8 +10,6 @@ namespace Unscientific.ECS.Features.Physics2D
     {
         private readonly ISpatialDatabase _spatialDatabase;
 
-        private int _stamp;
-
         // Cached delegates
         private readonly SpatialDatabaseCallback _aabbCallback;
 
@@ -55,19 +53,12 @@ namespace Unscientific.ECS.Features.Physics2D
             _circlePosition = position;
             _circleRadius = radius;
             _spatialDatabase.Query(ref aabb, _circleCallback);
-            _stamp++;
             _callback = null;
         }
 
         private void CircleCallback(Entity<Game> entity, Shape shape)
         {
             var transform = new Transform(entity.Get<Position>().Value, entity.Get<Orientation>().Value);
-
-            // do not process same shapes during query
-            if (shape.Stamp == _stamp)
-                return;
-
-            shape.Stamp = _stamp;
 
             switch (shape.Type)
             {
@@ -103,19 +94,12 @@ namespace Unscientific.ECS.Features.Physics2D
             _callback = callback;
             _aabb = aabb;
             _spatialDatabase.Query(ref aabb, _aabbCallback);
-            _stamp++;
             _callback = null;
         }
 
         private void AABBCallback(Entity<Game> entity, Shape shape)
         {
             var transform = new Transform(entity.Get<Position>().Value, entity.Get<Orientation>().Value);
-
-            // do not process same shapes during query
-            if (shape.Stamp == _stamp)
-                return;
-
-            shape.Stamp = _stamp;
 
             switch (shape.Type)
             {

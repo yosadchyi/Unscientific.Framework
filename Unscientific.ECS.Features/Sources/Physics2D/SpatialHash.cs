@@ -1,4 +1,5 @@
-﻿using Unscientific.ECS.Features.Core;
+﻿using System.Runtime.Serialization.Formatters;
+using Unscientific.ECS.Features.Core;
 using Unscientific.ECS.Features.Physics2D.Shapes;
 using Unscientific.FixedPoint;
 using Unscientific.Util.Pool;
@@ -6,7 +7,7 @@ using Unscientific.Util.Pool;
 namespace Unscientific.ECS.Features.Physics2D
 {
     public class SpatialHash: ISpatialDatabase
-    {
+    {        
         private class Proxy
         {
             public static readonly ObjectPool<Proxy> Pool = new GenericObjectPool<Proxy>(128);
@@ -19,6 +20,7 @@ namespace Unscientific.ECS.Features.Physics2D
         public readonly Fix CellSize;
         public readonly int Size;
 
+        private int _stamp = 1;
         private readonly Proxy[] _cells;
 
         public SpatialHash(Fix cellSize, int size)
@@ -43,6 +45,8 @@ namespace Unscientific.ECS.Features.Physics2D
                     if (Find(entity, j, i) == null) AddProxyAt(entity, shape, j, i);
                 }
             }
+
+            _stamp++;
         }
 
         public void Clear()
@@ -90,6 +94,8 @@ namespace Unscientific.ECS.Features.Physics2D
                     EnumerateBodies(j, i, callback);
                 }
             }
+
+            _stamp++;
         }
 
         private void RemoveProxyAt(Entity<Game> entity, int x, int y)
@@ -122,7 +128,13 @@ namespace Unscientific.ECS.Features.Physics2D
 
             for (var tmp = _cells[hash]; tmp != null; tmp = tmp.Next)
             {
-                callback(tmp.Entity, tmp.Shape);
+                // TODO check for same entity
+                var shape = tmp.Shape;
+
+                if (shape.Stamp == _stamp) continue;
+
+                callback(tmp.Entity, shape);
+                shape.Stamp = _stamp;
             }
         }
 
