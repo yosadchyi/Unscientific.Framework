@@ -117,6 +117,9 @@ namespace Unscientific.ECS
                 ComponentIndexToEntityId = new int[capacity];
                 EntityIndexToComponentIndex = new int[capacity];
                 _capacity = capacity;
+                OnComponentAdded = delegate {  };
+                OnComponentRemoved = delegate {  };
+                OnComponentReplaced = delegate {  };
                 ClearEntityToIndex();
             }
 
