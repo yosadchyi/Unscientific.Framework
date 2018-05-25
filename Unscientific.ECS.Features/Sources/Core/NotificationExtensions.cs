@@ -8,6 +8,11 @@ namespace Unscientific.ECS.Features.Core
         {
             return new ComponentNotificationsBuilder<TScope>(self);
         }
+
+        public static GlobalComponentNotificationsBuilder<TScope> GlobalComponentNotifications<TScope>(this FeatureBuilder self)
+        {
+            return new GlobalComponentNotificationsBuilder<TScope>(self);
+        }
         
         public static MessageNotificationsBuilder MessageNotifications(this FeatureBuilder self)
         {

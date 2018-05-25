@@ -4,17 +4,17 @@ using Unscientific.ECS.Features.Core.Components;
 
 namespace Unscientific.ECS.Features.Core
 {
-    public class ComponentNotificationsBuilder<TScope> : NestedBuilder<FeatureBuilder>
+    public class GlobalComponentNotificationsBuilder<TScope> : NestedBuilder<FeatureBuilder>
     {
-        public ComponentNotificationsBuilder(FeatureBuilder parent) : base(parent)
+        public GlobalComponentNotificationsBuilder(FeatureBuilder parent) : base(parent)
         {
         }
 
-        public ComponentNotificationsBuilder<TScope> AddAddedNotifications<TComponent>()
+        public GlobalComponentNotificationsBuilder<TScope> AddAddedNotifications<TComponent>()
         {
             // @formatter:off
             Parent
-                .Components<TScope>()
+                .Components<Singletons>()
                     .Add<ComponentAddedListeners<TScope, TComponent>>()
                 .End()
                 .Messages()
@@ -23,16 +23,17 @@ namespace Unscientific.ECS.Features.Core
                 .Systems()
                     .Setup((contexts, bus) => {
                         var unused = new ComponentAddedMessageProducer<TScope, TComponent>(contexts, bus);
+    
+                        contexts.Singleton().Add(new ComponentAddedListeners<TScope, TComponent>(new List<IComponentAddedListener<TScope, TComponent>>()));
                     })
                     .Update((contexts, bus) => {
+                        var listeners = contexts.Singleton().Get<ComponentAddedListeners<TScope, TComponent>>().Listeners;
+                    
+                        if (listeners.Count == 0)
+                            return;
+        
                         foreach (var message in bus.All<ComponentAdded<TScope, TComponent>>())
                         {
-                            var entity = message.Entity;
-
-                            if (!entity.Has<ComponentAddedListeners<TScope, TComponent>>()) continue;
-                            
-                            var listeners = entity.Get<ComponentAddedListeners<TScope, TComponent>>().Listeners;
-
                             foreach (var listener in listeners)
                             {
                                 listener.OnComponentAdded(message.Entity);
@@ -44,11 +45,11 @@ namespace Unscientific.ECS.Features.Core
             return this;
         }
 
-        public ComponentNotificationsBuilder<TScope> AddRemovedNotifications<TComponent>()
+        public GlobalComponentNotificationsBuilder<TScope> AddRemovedNotifications<TComponent>()
         {
             // @formatter:off
             Parent
-                .Components<TScope>()
+                .Components<Singletons>()
                     .Add<ComponentRemovedListeners<TScope, TComponent>>()
                 .End()
                 .Messages()
@@ -57,16 +58,17 @@ namespace Unscientific.ECS.Features.Core
                 .Systems()
                     .Setup((contexts, bus) => {
                         var unused = new ComponentRemovedMessageProducer<TScope, TComponent>(contexts, bus);
+    
+                        contexts.Singleton().Add(new ComponentRemovedListeners<TScope, TComponent>(new List<IComponentRemovedListener<TScope, TComponent>>()));
                     })
                     .Update((contexts, bus) => {
+                        var listeners = contexts.Singleton().Get<ComponentRemovedListeners<TScope, TComponent>>().Listeners;
+                    
+                        if (listeners.Count == 0)
+                            return;
+        
                         foreach (var message in bus.All<ComponentRemoved<TScope, TComponent>>())
                         {
-                            var entity = message.Entity;
-
-                            if (!entity.Has<ComponentRemovedListeners<TScope, TComponent>>()) continue;
-
-                            var listeners = entity.Get<ComponentRemovedListeners<TScope, TComponent>>().Listeners;
-
                             foreach (var listener in listeners)
                             {
                                 listener.OnComponentRemoved(message.Entity, message.Component);
@@ -78,11 +80,11 @@ namespace Unscientific.ECS.Features.Core
             return this;
         }
 
-        public ComponentNotificationsBuilder<TScope> AddReplacedNotifications<TComponent>()
+        public GlobalComponentNotificationsBuilder<TScope> AddReplacedNotifications<TComponent>()
         {
             // @formatter:off
             Parent
-                .Components<TScope>()
+                .Components<Singletons>()
                     .Add<ComponentReplacedListeners<TScope, TComponent>>()
                 .End()
                 .Messages()
@@ -91,19 +93,20 @@ namespace Unscientific.ECS.Features.Core
                 .Systems()
                     .Setup((contexts, bus) => {
                         var unused = new ComponentReplacedMessageProducer<TScope, TComponent>(contexts, bus);
+    
+                        contexts.Singleton().Add(new ComponentReplacedListeners<TScope, TComponent>(new List<IComponentReplacedListener<TScope, TComponent>>()));
                     })
                     .Update((contexts, bus) => {
+                        var listeners = contexts.Singleton().Get<ComponentReplacedListeners<TScope, TComponent>>().Listeners;
+                    
+                        if (listeners.Count == 0)
+                            return;
+        
                         foreach (var message in bus.All<ComponentReplaced<TScope, TComponent>>())
                         {
-                            var entity = message.Entity;
-
-                            if (!entity.Has<ComponentReplacedListeners<TScope, TComponent>>()) continue;
-                            
-                            var listeners = entity.Get<ComponentReplacedListeners<TScope, TComponent>>().Listeners;
-
                             foreach (var listener in listeners)
                             {
-                                listener.OnComponentReplaced(entity, message.OldComponent);
+                                listener.OnComponentReplaced(message.Entity, message.OldComponent);
                             }
                         }
                     })
@@ -112,7 +115,7 @@ namespace Unscientific.ECS.Features.Core
             return this;
         }
 
-        public ComponentNotificationsBuilder<TScope> AddAllNotifications<TComponent>()
+        public GlobalComponentNotificationsBuilder<TScope> AddAllNotifications<TComponent>()
         {
             return AddAddedNotifications<TComponent>()
                 .AddRemovedNotifications<TComponent>()

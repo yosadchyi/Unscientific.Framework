@@ -17,7 +17,7 @@ namespace Unscientific.ECS.Features.Destroy
                 .Components<Game>()
                     .Add<Destroyed>()
                 .End()
-                .ComponentNotifications<TScope>()
+                .GlobalComponentNotifications<TScope>()
                     .AddAddedNotifications<Destroyed>()
                 .End()
                 .Systems()

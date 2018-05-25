@@ -17,7 +17,7 @@ namespace Unscientific.ECS.Features.View
                 .Components<Game>()
                     .Add<View>()
                 .End()
-                .ComponentNotifications<Game>()
+                .GlobalComponentNotifications<Game>()
                     .AddAllNotifications<View>()
                 .End()
             .End();

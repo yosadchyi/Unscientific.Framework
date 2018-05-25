@@ -46,6 +46,7 @@
     <Compile Include="Sources\BehaviourTree\Suppliers\EntityValueSupplier.cs" />
     <Compile Include="Sources\BehaviourTree\Suppliers\TickSupplier.cs" />
     <Compile Include="Sources\Core\Builders\ComponentNotificationsBuilder.cs" />
+    <Compile Include="Sources\Core\Builders\GlobalComponentNotificationsBuilder.cs" />
     <Compile Include="Sources\Core\Builders\MessageNotificationsBuilder.cs" />
     <Compile Include="Sources\Core\Components\ComponentAddedListeners.cs" />
     <Compile Include="Sources\Core\Components\ComponentRemovedListeners.cs" />
@@ -55,6 +56,7 @@
     <Compile Include="Sources\Core\ContextExtensions.cs" />
     <Compile Include="Sources\Core\CoreFeature.cs" />
     <Compile Include="Sources\Core\EntityExtensions.cs" />
+    <Compile Include="Sources\Core\GlobalEntityExtensions.cs" />
     <Compile Include="Sources\Core\Listeners\IComponentAddedListener.cs" />
     <Compile Include="Sources\Core\Listeners\IComponentListener.cs" />
     <Compile Include="Sources\Core\Listeners\IComponentRemovedListener.cs" />

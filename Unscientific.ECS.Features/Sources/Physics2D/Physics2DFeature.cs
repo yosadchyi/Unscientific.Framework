@@ -91,7 +91,7 @@ namespace Unscientific.ECS.Features.Physics2D
                     .Cleanup((contexts, bus) => ReturnCollisionsListOnDestroySystem.Cleanup(contexts))
                     .Cleanup((contexts, bus) => ReturnShapesOnDestroySystem.Cleanup(contexts))
                 .End()
-                .ComponentNotifications<Game>()
+                .GlobalComponentNotifications<Game>()
                     .AddAllNotifications<Position>()
                     .AddAllNotifications<Orientation>()
                 .End()
