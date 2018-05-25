@@ -87,7 +87,6 @@ namespace Unscientific.ECS.Features.Physics2D
                     .Update((contexts, bus) => RotateSystem.Update(contexts))
                     .Update((contexts, bus) => SpaceReindexSystem.Update(contexts))
                     .Update((contexts, bus) => FindCollisionsSystem.Update(contexts))
-                    .Cleanup((contexts, bus) => CollisionsCleanupSystem.Cleanup(contexts))
                     .Cleanup((contexts, bus) => SpatialDatabaseCleanupSystem.Cleanup(contexts))
                     .Cleanup((contexts, bus) => ReturnCollisionsListOnDestroySystem.Cleanup(contexts))
                     .Cleanup((contexts, bus) => ReturnShapesOnDestroySystem.Cleanup(contexts))
