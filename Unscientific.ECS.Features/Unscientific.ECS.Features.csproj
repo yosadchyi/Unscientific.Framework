@@ -109,7 +109,6 @@
     <Compile Include="Sources\Physics2D\SpatialHash.cs" />
     <Compile Include="Sources\Physics2D\Systems\AccelerateSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\AngularAccelerateSystem.cs" />
-    <Compile Include="Sources\Physics2D\Systems\CollisionsCleanupSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\FindCollisionsSystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\ReturnCollisionsListOnDestroySystem.cs" />
     <Compile Include="Sources\Physics2D\Systems\ReturnShapesOnDestroySystem.cs" />

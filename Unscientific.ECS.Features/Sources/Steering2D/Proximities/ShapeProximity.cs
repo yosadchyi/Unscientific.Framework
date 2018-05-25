@@ -6,11 +6,11 @@ namespace Unscientific.ECS.Features.Steering2D
 {
     public class ShapeProximity: Proximity
     {
-        private readonly Shape _shape;
+        private readonly string _tag;
 
-        public ShapeProximity(Shape shape)
+        public ShapeProximity(string tag)
         {
-            _shape = shape;
+            _tag = tag;
         }
 
         public override int FindNeighbors(Entity<Game> entity, Callback callback)
@@ -23,7 +23,7 @@ namespace Unscientific.ECS.Features.Steering2D
 
             foreach (var collision in collisions)
             {
-                if (collision.SelfShape != _shape) continue;
+                if (collision.SelfShape.Tag != _tag) continue;
 
                 var other = collision.Other;
                 var diff = position - entity.Get<Position>().Value;
