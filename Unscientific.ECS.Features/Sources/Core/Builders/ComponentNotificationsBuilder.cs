@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
-using Unscientific.ECS.DSL;
-using Unscientific.ECS.Features.Core.Components;
+﻿using Unscientific.ECS.DSL;
+using Unscientific.Util.Pool;
 
 namespace Unscientific.ECS.Features.Core
 {
@@ -39,6 +38,17 @@ namespace Unscientific.ECS.Features.Core
                             }
                         }
                     })
+                    .Cleanup((contexts, bus) =>
+                    {
+                        var context = contexts.Get<Game>();
+    
+                        foreach (var entity in context.AllWith<Destroyed, ComponentAddedListeners<TScope, TComponent>>())
+                        {
+                            var list = entity.Get<ComponentAddedListeners<TScope, TComponent>>().Listeners;
+
+                            ListPool<IComponentAddedListener<TScope, TComponent>>.Instance.Return(list);
+                        }
+                    })
                 .End();
             // @formatter:on
             return this;
@@ -73,6 +83,17 @@ namespace Unscientific.ECS.Features.Core
                             }
                         }
                     })
+                    .Cleanup((contexts, bus) =>
+                    {
+                        var context = contexts.Get<Game>();
+    
+                        foreach (var entity in context.AllWith<Destroyed, ComponentRemovedListeners<TScope, TComponent>>())
+                        {
+                            var list = entity.Get<ComponentRemovedListeners<TScope, TComponent>>().Listeners;
+
+                            ListPool<IComponentRemovedListener<TScope, TComponent>>.Instance.Return(list);
+                        }
+                    })
                 .End();
             // @formatter:on
             return this;
@@ -105,6 +126,17 @@ namespace Unscientific.ECS.Features.Core
                             {
                                 listener.OnComponentReplaced(entity, message.OldComponent);
                             }
+                        }
+                    })
+                    .Cleanup((contexts, bus) =>
+                    {
+                        var context = contexts.Get<Game>();
+    
+                        foreach (var entity in context.AllWith<Destroyed, ComponentReplacedListeners<TScope, TComponent>>())
+                        {
+                            var list = entity.Get<ComponentReplacedListeners<TScope, TComponent>>().Listeners;
+
+                            ListPool<IComponentReplacedListener<TScope, TComponent>>.Instance.Return(list);
                         }
                     })
                 .End();

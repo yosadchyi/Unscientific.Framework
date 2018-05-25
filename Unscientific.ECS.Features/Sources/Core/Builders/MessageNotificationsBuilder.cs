@@ -1,6 +1,5 @@
 ﻿using System.Collections.Generic;
 using Unscientific.ECS.DSL;
-using Unscientific.ECS.Features.Core.Components;
 
 namespace Unscientific.ECS.Features.Core
 {

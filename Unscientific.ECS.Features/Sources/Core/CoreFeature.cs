@@ -1,6 +1,6 @@
 ﻿using System;
 using Unscientific.ECS.DSL;
-using Unscientific.ECS.Features.Core.Components;
+using Unscientific.ECS.Features.Destroy;
 
 namespace Unscientific.ECS.Features.Core
 {
@@ -25,24 +25,25 @@ namespace Unscientific.ECS.Features.Core
 
             // @formatter:off
             return self.AddFeature(Name)
-                .Contexts()
-                    .Add<Game>(c => c.SetInitialCapacity(configurer.InitialCapacity))
-                    .Add<Configuration>(c => c.AllowOnlyOneEntity())
-                    .Add<Singletons>(c => c.AllowOnlyOneEntity())
+                    .Contexts()
+                        .Add<Game>(c => c.SetInitialCapacity(configurer.InitialCapacity))
+                        .Add<Configuration>(c => c.AllowOnlyOneEntity())
+                        .Add<Singletons>(c => c.AllowOnlyOneEntity())
+                    .End()
+                    .Components<Singletons>()
+                        .Add<SingletonTag>()
+                    .End()
+                    .Components<Configuration>()
+                        .Add<SingletonTag>()
+                    .End()
+                    .Systems()
+                        .Setup((contexts, bus) => {
+                            contexts.Get<Singletons>().CreateEntity().Add(new SingletonTag());
+                            contexts.Get<Configuration>().CreateEntity().Add(new SingletonTag());
+                        })
+                    .End()
                 .End()
-                .Components<Singletons>()
-                    .Add<SingletonTag>()
-                .End()
-                .Components<Configuration>()
-                    .Add<SingletonTag>()
-                .End()
-                .Systems()
-                    .Setup((contexts, bus) => {
-                        contexts.Get<Singletons>().CreateEntity().Add(new SingletonTag());
-                        contexts.Get<Configuration>().CreateEntity().Add(new SingletonTag());
-                    })
-                .End()
-            .End();
+                .AddDestroyFeature<Game>();
             // @formatter:on
         }
 

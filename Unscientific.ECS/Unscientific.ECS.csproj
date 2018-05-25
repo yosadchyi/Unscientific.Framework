@@ -65,6 +65,7 @@
     <Compile Include="Sources\DSL\Elements\SystemsElement.cs" />
     <Compile Include="Sources\DSL\Elements\DependencyElement.cs" />
     <Compile Include="Sources\Exceptions\ContextReachedMaximalCapacity.cs" />
+    <Compile Include="Sources\Exceptions\ContextWithEntitiesCanNotBeCleared.cs" />
     <Compile Include="Sources\Systems\CompositeSystems.cs" />
     <Compile Include="Sources\Systems\ISystems.cs" />
     <Compile Include="Sources\Systems\Systems.cs" />

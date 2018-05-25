@@ -51,12 +51,15 @@
     <Compile Include="Sources\Core\Components\ComponentAddedListeners.cs" />
     <Compile Include="Sources\Core\Components\ComponentRemovedListeners.cs" />
     <Compile Include="Sources\Core\Components\ComponentReplacedListeners.cs" />
+    <Compile Include="Sources\Core\Components\Destroyed.cs" />
     <Compile Include="Sources\Core\Components\MessageListeners.cs" />
     <Compile Include="Sources\Core\Components\SingletonTag.cs" />
     <Compile Include="Sources\Core\ContextExtensions.cs" />
     <Compile Include="Sources\Core\CoreFeature.cs" />
-    <Compile Include="Sources\Core\EntityExtensions.cs" />
-    <Compile Include="Sources\Core\GlobalEntityExtensions.cs" />
+    <Compile Include="Sources\Core\DestroyFeature.cs" />
+    <Compile Include="Sources\Core\ComponentNotificationsEntityExtensions.cs" />
+    <Compile Include="Sources\Core\DestroyEntityExtensions.cs" />
+    <Compile Include="Sources\Core\GlobalComponentNotificationsEntityExtensions.cs" />
     <Compile Include="Sources\Core\Listeners\IComponentAddedListener.cs" />
     <Compile Include="Sources\Core\Listeners\IComponentListener.cs" />
     <Compile Include="Sources\Core\Listeners\IComponentRemovedListener.cs" />
@@ -73,9 +76,6 @@
     <Compile Include="Sources\Core\Scopes\Game.cs" />
     <Compile Include="Sources\Core\Scopes\Singletons.cs" />
     <Compile Include="Sources\BehaviourTree\BehaviourTree.cs" />
-    <Compile Include="Sources\Destroy\Components\Destroyed.cs" />
-    <Compile Include="Sources\Destroy\DestroyFeature.cs" />
-    <Compile Include="Sources\Destroy\EntityExtensions.cs" />
     <Compile Include="Sources\Navigation2D\FlowField\CircularFlowField.cs" />
     <Compile Include="Sources\Navigation2D\FlowField\IFlowField.cs" />
     <Compile Include="Sources\Navigation2D\FlowField\MoveInDirectionFlowField.cs" />
@@ -180,6 +180,9 @@
       <Project>{a3fe74bd-fe34-4044-ba6e-17df27dde780}</Project>
       <Name>Unscientific.Util</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Sources\Destroy" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

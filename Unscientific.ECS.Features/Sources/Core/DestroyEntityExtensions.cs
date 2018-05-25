@@ -1,6 +1,6 @@
-﻿namespace Unscientific.ECS.Features.Destroy
+﻿namespace Unscientific.ECS.Features.Core
 {
-    public static class EntityExtensions
+    public static class DestroyEntityExtensions
     {
         public static void Destroy<TScope>(this Entity<TScope> self)
         {

@@ -29,7 +29,7 @@ namespace Unscientific.ECS.Features.Tests.Sources.Core
             // @formatter:on
 
             var log = new List<string>();
-            
+
             world.Setup();
             world.Contexts.Singleton().AddComponentListener(new EmptyTestComponentNotificationsListener(log));
 
@@ -39,7 +39,6 @@ namespace Unscientific.ECS.Features.Tests.Sources.Core
             entity.Add(new EmptyTestComponent());
             entity.Replace(new EmptyTestComponent());
             entity.Remove<EmptyTestComponent>();
-
             world.Update();
             world.Cleanup();
             world.Clear();

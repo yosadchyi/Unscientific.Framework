@@ -1,9 +1,9 @@
-﻿using Unscientific.ECS.Features.Core.Components;
+﻿using Unscientific.ECS.Features.Destroy;
 using Unscientific.Util.Pool;
 
 namespace Unscientific.ECS.Features.Core
 {
-    public static class EntityExtensions
+    public static class ComponentNotificationsEntityExtensions
     {
         public static Entity<TScope> AddComponentAddedListener<TScope, TComponent>(
             this Entity<TScope> self,

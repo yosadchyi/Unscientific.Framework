@@ -44,6 +44,7 @@ namespace Unscientific.ECS
             }
         }
 
+        // TODO proper shutdown instead of "hard" clear
         public void Clear()
         {
             Contexts.Clear();

@@ -1,8 +1,6 @@
-﻿using Unscientific.ECS.Features.Core.Components;
-
-namespace Unscientific.ECS.Features.Core
+﻿namespace Unscientific.ECS.Features.Core
 {
-    public static class GlobalEntityExtensions
+    public static class GlobalComponentNotificationsEntityExtensions
     {
         public static Entity<Singletons> AddComponentAddedListener<TScope, TComponent>(
             this Entity<Singletons> self,

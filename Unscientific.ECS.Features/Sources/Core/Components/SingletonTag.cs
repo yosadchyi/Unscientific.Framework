@@ -1,4 +1,4 @@
-﻿namespace Unscientific.ECS.Features.Core.Components
+﻿namespace Unscientific.ECS.Features.Core
 {
     public struct SingletonTag
     {

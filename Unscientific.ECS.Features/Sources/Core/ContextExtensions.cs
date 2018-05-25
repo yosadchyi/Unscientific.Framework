@@ -1,6 +1,4 @@
-﻿using Unscientific.ECS.Features.Core.Components;
-
-namespace Unscientific.ECS.Features.Core
+﻿namespace Unscientific.ECS.Features.Core
 {
     public static class ContextExtensions
     {

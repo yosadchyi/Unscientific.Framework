@@ -25,7 +25,6 @@ namespace Unscientific.ECS.Features.Tests.Sources.Physics2D
             _world = new WorldBuilder()
                 .AddCoreFeature()
                 .AddTickFeature()
-                .AddDestroyFeature<Game>()
                 .AddPhysics2DFeature(c => c
                     .SetTimeStep(TimeStep)
                     .AddSpatialDatabase(new SpatialHash(Fix.Ratio(1, 2), 133)))
