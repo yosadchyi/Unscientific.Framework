@@ -14,28 +14,28 @@ namespace Unscientific.ECS.Features.Core
             // @formatter:off
             Parent
                 .Components<Singletons>()
-                .Add<MessageListeners<TMessage>>()
+                    .Add<MessageListeners<TMessage>>()
                 .End()
                 .Systems()
-                .Setup((contexts, bus) => {
-                    contexts.Singleton().Add(new MessageListeners<TMessage>(new List<IMessageListener<TMessage>>()));
-                })
-                .Update((contexts, bus) => {
-                    var listeners = contexts.Singleton().Get<MessageListeners<TMessage>>().Listeners;
-            
-                    if (listeners.Count == 0)
-                        return;
-            
-                    foreach (var message in bus.All<TMessage>())
-                    {
-                        foreach (var listener in listeners)
+                    .Setup((contexts, bus) => {
+                        contexts.Singleton().Add(new MessageListeners<TMessage>(new List<IMessageListener<TMessage>>()));
+                    })
+                    .Update((contexts, bus) => {
+                        var listeners = contexts.Singleton().Get<MessageListeners<TMessage>>().Listeners;
+                
+                        if (listeners.Count == 0)
+                            return;
+                
+                        foreach (var message in bus.All<TMessage>())
                         {
-                            listener.OnMessage(message);
+                            foreach (var listener in listeners)
+                            {
+                                listener.OnMessage(message);
+                            }
                         }
-                    }
-                })
+                    })
                 .End()
-                .End();
+            .End();
             // @formatter:on
             return this;
         }
