@@ -13,11 +13,11 @@ namespace Unscientific.ECS.Features.Physics2D.Shapes
         private Shape _head;
         private Shape _tail;
 
+        public BoundingShapes AsBoundingShapes => new BoundingShapes(this);
+
         public static ShapeList New()
         {
-            var instance = Pool.Get();
-
-            return instance;
+            return Pool.Get();
         }
 
         public ShapeList AddCircle(Action<CircleShape> initialize)
