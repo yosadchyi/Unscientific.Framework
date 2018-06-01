@@ -9,7 +9,7 @@ namespace Unscientific.ECS.Features.Core
         {
         }
 
-        public MessageNotificationsBuilder AddMessageNotifications<TMessage>()
+        public MessageNotificationsBuilder AddNotifications<TMessage>()
         {
             // @formatter:off
             Parent
