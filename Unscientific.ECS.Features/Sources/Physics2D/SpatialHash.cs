@@ -1,5 +1,4 @@
-﻿using System.Runtime.Serialization.Formatters;
-using Unscientific.ECS.Features.Core;
+﻿using Unscientific.ECS.Features.Core;
 using Unscientific.ECS.Features.Physics2D.Shapes;
 using Unscientific.FixedPoint;
 using Unscientific.Util.Pool;
@@ -15,6 +14,18 @@ namespace Unscientific.ECS.Features.Physics2D
             public Proxy Next;
             public Entity<Game> Entity;
             public Shape Shape;
+
+            public static Proxy New()
+            {
+                return Pool.Get();
+            }
+
+            internal void ReturnToPool()
+            {
+                Next = null;
+                Shape = null;
+                Pool.Return(this);
+            }
         }
 
         public readonly Fix CellSize;
@@ -58,7 +69,7 @@ namespace Unscientific.ECS.Features.Physics2D
                 for (var tmp = _cells[i]; tmp != null; tmp = next)
                 {
                     next = tmp.Next;
-                    ReturnProxy(tmp);
+                    tmp.ReturnToPool();
                 }
                 _cells[i] = null;
             }
@@ -115,7 +126,7 @@ namespace Unscientific.ECS.Features.Physics2D
                     {
                         _cells[hash] = null;
                     }
-                    ReturnProxy(tmp);
+                    tmp.ReturnToPool();
                     return;
                 }
                 prev = tmp;
@@ -153,18 +164,11 @@ namespace Unscientific.ECS.Features.Physics2D
         private void AddProxyAt(Entity<Game> entity, Shape shape, int x, int y)
         {
             var hash = HashFunction(x, y);
-            var proxy = Proxy.Pool.Get();
+            var proxy = Proxy.New();
             proxy.Entity = entity;
             proxy.Shape = shape;
             proxy.Next = _cells[hash];
             _cells[hash] = proxy;
-        }
-
-        private static void ReturnProxy(Proxy proxy)
-        {
-            proxy.Next = null;
-            proxy.Shape = null;
-            Proxy.Pool.Return(proxy);
         }
 
         private uint HashFunction(int x, int y)
