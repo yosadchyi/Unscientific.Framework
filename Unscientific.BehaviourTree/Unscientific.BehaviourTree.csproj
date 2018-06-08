@@ -48,10 +48,10 @@
     <Compile Include="Sources\Builders\BehaviourTreeBuilderBase.cs" />
     <Compile Include="Sources\Builders\BehaviourTreeBuilderFinalizer.cs" />
     <Compile Include="Sources\Builders\BehaviourTreeDecoratorBuilder.cs" />
+    <Compile Include="Sources\Builders\BehaviourTreeDecoratorBuilderFinalizer.cs" />
     <Compile Include="Sources\Builders\BehaviourTreeGroupBuilder.cs" />
     <Compile Include="Sources\Builders\BehaviourTreeParallelBuilder.cs" />
-    <Compile Include="Sources\Builders\IBehaviourTreeEndableBuilder.cs" />
-    <Compile Include="Sources\Builders\INodeAcceptor.cs" />
+    <Compile Include="Sources\Builders\SimpleBehaviourTreeBuilder.cs" />
     <Compile Include="Sources\IAction.cs" />
     <Compile Include="Sources\ICompletionObserver.cs" />
     <Compile Include="Sources\Nodes\ActionNode.cs" />

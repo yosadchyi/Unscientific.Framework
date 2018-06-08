@@ -1,39 +1,30 @@
 ﻿namespace Unscientific.BehaviourTree
 {
-    public class BehaviourTreeDecoratorBuilder<TBlackboard, TParent> :
-        BehaviourTreeBuilderBase<TBlackboard, IBehaviourTreeEndableBuilder<TBlackboard, TParent>,
-            IBehaviourTreeEndableBuilder<TBlackboard, TParent>>,
-        IBehaviourTreeEndableBuilder<TBlackboard, TParent>
-        where TParent : INodeAcceptor<TBlackboard>
+    public class BehaviourTreeDecoratorBuilder<TBlackboard, TFinalizeResult> :
+        BehaviourTreeBuilderBase<TBlackboard, IBehaviourTreeDecoratorBuilderFinalizer<TFinalizeResult>>,
+        IBehaviourTreeDecoratorBuilderFinalizer<TFinalizeResult>
     {
         private readonly BaseDecoratorNode<TBlackboard> _decorator;
-        private readonly TParent _parent;
+        private readonly TFinalizeResult _parent;
 
-        public BehaviourTreeDecoratorBuilder(TParent parent, BaseDecoratorNode<TBlackboard> group)
+        public BehaviourTreeDecoratorBuilder(TFinalizeResult parent, BaseDecoratorNode<TBlackboard> group)
         {
             _parent = parent;
             _decorator = group;
         }
 
-        public override BehaviourTreeNode<TBlackboard> AcceptNode(BehaviourTreeNode<TBlackboard> node)
+        protected override void AcceptNode(BehaviourTreeNode<TBlackboard> node)
         {
             _decorator.Node = node;
-            return node;
         }
 
-        protected override IBehaviourTreeEndableBuilder<TBlackboard, TParent> ConvertNodeToResult(BehaviourTreeNode<TBlackboard> node)
+        protected override IBehaviourTreeDecoratorBuilderFinalizer<TFinalizeResult> GetBuilderMethodResult()
         {
             return this;
         }
 
-        protected override IBehaviourTreeEndableBuilder<TBlackboard, TParent> GetThisForNode(BehaviourTreeNode<TBlackboard> node)
+        public TFinalizeResult End()
         {
-            return this;
-        }
-
-        public TParent End()
-        {
-            _parent.AcceptNode(_decorator);
             return _parent;
         }
     }

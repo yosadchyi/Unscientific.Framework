@@ -1,39 +1,29 @@
 ﻿namespace Unscientific.BehaviourTree
 {
-    public class BehaviourTreeGroupBuilder<TBlackboard, TParent> :
-        BehaviourTreeBuilderBase<TBlackboard, BehaviourTreeGroupBuilder<TBlackboard, TParent>,
-            BehaviourTreeGroupBuilder<TBlackboard, TParent>>,
-        IBehaviourTreeEndableBuilder<TBlackboard, TParent>
-        where TParent : INodeAcceptor<TBlackboard>
+    public class BehaviourTreeGroupBuilder<TBlackboard, TFinalizeResult> :
+        BehaviourTreeBuilderBase<TBlackboard, BehaviourTreeGroupBuilder<TBlackboard, TFinalizeResult>>
     {
         private readonly CompositeNode<TBlackboard> _group;
-        private readonly TParent _parent;
+        private readonly TFinalizeResult _parent;
 
-        public BehaviourTreeGroupBuilder(TParent parent, CompositeNode<TBlackboard> group)
+        public BehaviourTreeGroupBuilder(TFinalizeResult parent, CompositeNode<TBlackboard> group)
         {
             _parent = parent;
             _group = group;
         }
 
-        public override BehaviourTreeNode<TBlackboard> AcceptNode(BehaviourTreeNode<TBlackboard> node)
+        protected override void AcceptNode(BehaviourTreeNode<TBlackboard> node)
         {
             _group.AddChild(node);
-            return node;
         }
 
-        protected override BehaviourTreeGroupBuilder<TBlackboard, TParent> ConvertNodeToResult(BehaviourTreeNode<TBlackboard> node)
+        protected override BehaviourTreeGroupBuilder<TBlackboard, TFinalizeResult> GetBuilderMethodResult()
         {
             return this;
         }
 
-        protected override BehaviourTreeGroupBuilder<TBlackboard, TParent> GetThisForNode(BehaviourTreeNode<TBlackboard> node)
+        public TFinalizeResult End()
         {
-            return this;
-        }
-
-        public TParent End()
-        {
-            _parent.AcceptNode(_group);
             return _parent;
         }
     }

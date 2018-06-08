@@ -1,53 +1,41 @@
 ﻿namespace Unscientific.BehaviourTree
 {
-    public class BehaviourTreeParallelBuilder<TBlackboard, TParent> :
-        BehaviourTreeBuilderBase<TBlackboard, BehaviourTreeParallelBuilder<TBlackboard, TParent>,
-            BehaviourTreeParallelBuilder<TBlackboard, TParent>>,
-        IBehaviourTreeEndableBuilder<TBlackboard, TParent>
-        where TParent : INodeAcceptor<TBlackboard>
+    public class BehaviourTreeParallelBuilder<TBlackboard, TFinalizeResult> :
+        BehaviourTreeBuilderBase<TBlackboard, BehaviourTreeParallelBuilder<TBlackboard, TFinalizeResult>>
     {
         private readonly ParallelNode<TBlackboard> _group;
-        private readonly TParent _parent;
+        private readonly TFinalizeResult _parent;
 
-        public BehaviourTreeParallelBuilder(TParent parent, ParallelNode<TBlackboard> group)
+        public BehaviourTreeParallelBuilder(TFinalizeResult parent, ParallelNode<TBlackboard> group)
         {
             _parent = parent;
             _group = group;
         }
 
-        public BehaviourTreeParallelBuilder<TBlackboard, TParent> WithFailurePolicy(ParallelPolicy failurePolicy)
+        public BehaviourTreeParallelBuilder<TBlackboard, TFinalizeResult> WithFailurePolicy(ParallelPolicy failurePolicy)
         {
             _group.FailurePolicy = failurePolicy;
             return this;
         }
 
-        public BehaviourTreeParallelBuilder<TBlackboard, TParent> WithSucceedPolicy(ParallelPolicy succeedPolicy)
+        public BehaviourTreeParallelBuilder<TBlackboard, TFinalizeResult> WithSucceedPolicy(ParallelPolicy succeedPolicy)
         {
             _group.SucceedPolicy = succeedPolicy;
             return this;
         }
 
-        public override BehaviourTreeNode<TBlackboard> AcceptNode(BehaviourTreeNode<TBlackboard> node)
+        protected override void AcceptNode(BehaviourTreeNode<TBlackboard> node)
         {
             _group.AddChild(node);
-            return node;
         }
 
-        protected override BehaviourTreeParallelBuilder<TBlackboard, TParent> ConvertNodeToResult(
-            BehaviourTreeNode<TBlackboard> node)
+        protected override BehaviourTreeParallelBuilder<TBlackboard, TFinalizeResult> GetBuilderMethodResult()
         {
             return this;
         }
 
-        protected override BehaviourTreeParallelBuilder<TBlackboard, TParent> GetThisForNode(
-            BehaviourTreeNode<TBlackboard> node)
+        public TFinalizeResult End()
         {
-            return this;
-        }
-
-        public TParent End()
-        {
-            _parent.AcceptNode(_group);
             return _parent;
         }
     }

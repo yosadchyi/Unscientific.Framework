@@ -1,22 +1,18 @@
 ﻿namespace Unscientific.BehaviourTree
 {
     public class BehaviourTreeBuilder<TBlackboard> :
-        BehaviourTreeBuilderBase<TBlackboard, BehaviourTreeBuilderFinalizer<TBlackboard>,
-            BehaviourTreeBuilderFinalizer<TBlackboard>>
+        BehaviourTreeBuilderBase<TBlackboard, BehaviourTreeBuilderFinalizer<TBlackboard>>
     {
-        public override BehaviourTreeNode<TBlackboard> AcceptNode(BehaviourTreeNode<TBlackboard> node)
+        private BehaviourTreeNode<TBlackboard> _node;
+
+        protected override void AcceptNode(BehaviourTreeNode<TBlackboard> node)
         {
-            return node;
+            _node = node;
         }
 
-        protected override BehaviourTreeBuilderFinalizer<TBlackboard> ConvertNodeToResult(BehaviourTreeNode<TBlackboard> node)
+        protected override BehaviourTreeBuilderFinalizer<TBlackboard> GetBuilderMethodResult()
         {
-            return new BehaviourTreeBuilderFinalizer<TBlackboard>(node);
-        }
-
-        protected override BehaviourTreeBuilderFinalizer<TBlackboard> GetThisForNode(BehaviourTreeNode<TBlackboard> node)
-        {
-            return new BehaviourTreeBuilderFinalizer<TBlackboard>(node);
+            return new BehaviourTreeBuilderFinalizer<TBlackboard>(_node);
         }
     }
 }
