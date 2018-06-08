@@ -44,9 +44,8 @@ namespace Unscientific.ECS.DSL
         public ContextListBuilder Add<TScope>(Func<Configurer, Configurer> configure)
         {
             var configurer = configure(new Configurer());
-            // IL2CPP hack to have appropriate type instance
-            Context<TScope>.InstantiateType();
-            _consume(new ContextElement(typeof(TScope), configurer.InitialCapacity, configurer.MaxCapacity));
+            Func<ContextInfo, IContext> contextCtor = info => new Context<TScope>(info.ComponentCtors, info.InitialCapacity, info.MaxCapacity);
+            _consume(new ContextElement(typeof(TScope), configurer.InitialCapacity, configurer.MaxCapacity, contextCtor));
             return this;
         } 
     }

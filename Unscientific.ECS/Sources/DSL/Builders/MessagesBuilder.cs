@@ -29,9 +29,9 @@ namespace Unscientific.ECS.DSL
             }
         }
         
-        private readonly Action<MessageElement> _consumer;
+        private readonly Action<Action<MessageBus>> _consumer;
 
-        internal MessagesBuilder(FeatureBuilder parent, Action<MessageElement> consumer) : base(parent)
+        internal MessagesBuilder(FeatureBuilder parent, Action<Action<MessageBus>> consumer) : base(parent)
         {
             _consumer = consumer;
         }
@@ -45,8 +45,7 @@ namespace Unscientific.ECS.DSL
         {
             var configurer = new Configurer<TMessage>();
             configure(configurer);
-            MessageBus.InstantiateTypesForMessage<TMessage>();
-            _consumer(new MessageElement(typeof(TMessage), configurer.InitialCapacity, configurer.Aggregator, configurer.Delayed));
+            _consumer(bus => bus.MessageCtor(configurer.InitialCapacity, configurer.Aggregator, configurer.Delayed));
             return this;
         }
     }

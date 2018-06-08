@@ -13,9 +13,7 @@ namespace Unscientific.ECS.DSL
 
         public ComponentListBuilder<TScope> Add<TComponent>()
         {
-            // IL2CPP hack to instantiate types
-            Context<TScope>.ComponentData<TComponent>.InstantiateType();
-            _consume(new ComponentElement(typeof(TScope), typeof(TComponent)));
+            _consume(new ComponentElement(typeof(TScope), Context<TScope>.ComponentData<TComponent>.Init));
             return this;
         }
     }

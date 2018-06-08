@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Linq;
 using Unscientific.Util.Collections;
 
 namespace Unscientific.ECS
 {
     [SuppressMessage("ReSharper", "StaticMemberInGenericType")]
-    public class Context<TScope>
+    public class Context<TScope>: IContext
     {
         // ReSharper disable once HeapView.ObjectAllocation.Evident
         internal static event Action<Entity<TScope>> OnRemove = delegate {  };
@@ -37,11 +38,6 @@ namespace Unscientific.ECS
             internal static event ComponentRemovedHandler<TScope, TComponent> OnComponentRemoved; 
             internal static event ComponentReplacedHandler<TScope, TComponent> OnComponentReplaced;
             #endregion
-
-            internal static void InstantiateType()
-            {
-                // do nothing
-            }
             
             [SuppressMessage("ReSharper", "HeapView.DelegateAllocation")]
             public static ComponentInfo Init()
@@ -228,7 +224,7 @@ namespace Unscientific.ECS
         internal static Context<TScope> Instance { get; private set; }
 
         // ReSharper disable once HeapView.ObjectAllocation.Evident
-        internal ComponentInfo[] ComponentsInfo;
+        private readonly ComponentInfo[] _componentsInfo;
 
         public int Capacity => _capacity;
 
@@ -246,14 +242,16 @@ namespace Unscientific.ECS
         private readonly Deque<int> _freeList;
         private ushort[] _generations;
 
-        internal Context(List<Type> componentTypes, int initialCapacity, int maxCapacity)
+        public Type ScopeType => typeof(TScope);
+
+        internal Context(List<Func<ComponentInfo>> componentCtors, int initialCapacity, int maxCapacity)
         {
             OnClear = delegate { };
             OnGrow = delegate {  };
             OnInit = delegate {  };
             OnRemove = delegate {  };
 
-            InitComponents(componentTypes);
+            _componentsInfo = componentCtors.Select(c => c()).ToArray();
             
             _capacity = initialCapacity;
             _maxCapacity = maxCapacity;
@@ -268,27 +266,6 @@ namespace Unscientific.ECS
 
             _count = 0;
             Instance = this;
-        }
-
-        private void InitComponents(List<Type> componentTypes)
-        {
-            var componentsInfo = new List<ComponentInfo>();
-
-            foreach (var componentType in componentTypes)
-            {
-                var componentDataGenericType = typeof(ComponentData<>);
-                var compomentDataType = componentDataGenericType.MakeGenericType(typeof(TScope), componentType);
-                var info = (ComponentInfo) compomentDataType.GetMethod("Init").Invoke(null, null);
-
-                componentsInfo.Add(info);
-            }
-
-            ComponentsInfo = componentsInfo.ToArray();
-        }
-
-        internal static void InstantiateType()
-        {
-            // do nothing
         }
 
         public Entity<TScope> GetEntityById(int id)
@@ -414,7 +391,7 @@ namespace Unscientific.ECS
 
         internal BoxedEntity Box(Entity<TScope> entity)
         {
-            return new BoxedEntity(entity.Id, ComponentsInfo);
+            return new BoxedEntity(entity.Id, _componentsInfo);
         }
 
         private void EnsureEntityExists(Entity<TScope> entity)

@@ -79,11 +79,6 @@ namespace Unscientific.ECS
 
         private TMessage[] _data;
 
-        public static void InstantiateType()
-        {
-            // do nothing
-        }
-
         public SimpleMessageQueue(int capacity, IMessageAggregator<TMessage> aggregator)
         {
             _aggregator = aggregator ?? new NullMessageAggregator<TMessage>();
@@ -134,11 +129,6 @@ namespace Unscientific.ECS
         public int Count => _queue1.Count;
 
         public TMessage this[int index] => _queue1[index];
-
-        public static void InstantiateType()
-        {
-            // do nothing
-        }
 
         public DelayedMessageQueue(int capacity, IMessageAggregator<TMessage> aggregator)
         {
@@ -258,37 +248,17 @@ namespace Unscientific.ECS
             OnFastCleanup = delegate { };
             OnCleanup = delegate { };
         }
-
-        internal static void InstantiateTypesForMessage<TMessage>()
+        
+        internal void MessageCtor<TMessage>(int capacity, IMessageAggregator<TMessage> aggregator, bool delayed)
         {
-            Data<TMessage>.InstantiateType();
-            SimpleMessageQueue<TMessage>.InstantiateType();
-        }
-
-        internal static void InstantiateTypesForDelayedMessage<TMessage>()
-        {
-            Data<TMessage>.InstantiateType();
-            DelayedMessageQueue<TMessage>.InstantiateType();
-        }
-
-        internal void Init(Type messageType, int capacity, object aggregator)
-        {
-            InitForQueueType(messageType, typeof(SimpleMessageQueue<>), capacity, aggregator);
-        }
-
-        internal void InitDelayed(Type messageType, int capacity, object aggregator)
-        {
-            InitForQueueType(messageType, typeof(DelayedMessageQueue<>), capacity, aggregator);
-        }
-
-        private static void InitForQueueType(Type messageType, Type queueGenericType, int capacity, object aggregator)
-        {
-            var queueType = queueGenericType.MakeGenericType(messageType);
-            var queue = Activator.CreateInstance(queueType, capacity, aggregator);
-
-            var dataGenericType = typeof(Data<>);
-            var dataType = dataGenericType.MakeGenericType(messageType);
-            dataType.GetMethod("SetQueue", BindingFlags.Static | BindingFlags.NonPublic).Invoke(null, new[] {queue});
+            if (delayed)
+            {
+                Data<TMessage>.SetQueue(new DelayedMessageQueue<TMessage>(capacity, aggregator));
+            }
+            else
+            {
+                Data<TMessage>.SetQueue(new SimpleMessageQueue<TMessage>(capacity, aggregator));
+            }
         }
 
         public void Send<TMessage>(TMessage message)

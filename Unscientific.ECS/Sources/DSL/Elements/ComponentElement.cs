@@ -5,12 +5,12 @@ namespace Unscientific.ECS.DSL
     internal class ComponentElement
     {
         internal readonly Type ScopeType;
-        internal readonly Type ComponentType;
+        internal readonly Func<ComponentInfo> ComponentCtor;
 
-        internal ComponentElement(Type scopeType, Type componentType)
+        internal ComponentElement(Type scopeType, Func<ComponentInfo> componentCtor)
         {
             ScopeType = scopeType;
-            ComponentType = componentType;
+            ComponentCtor = componentCtor;
         }
     }
 }

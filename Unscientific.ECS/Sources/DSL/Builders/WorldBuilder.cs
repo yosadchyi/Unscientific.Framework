@@ -54,16 +54,10 @@ namespace Unscientific.ECS.DSL
         {
             var messageBus = new MessageBus();
 
-            foreach (var e in _features.SelectMany(m => m.ProducedMessages))
+            
+            foreach (var e in _features.SelectMany(m => m.MessageCtors))
             {
-                if (e.Delayed)
-                {
-                    messageBus.InitDelayed(e.MessageType, e.InitialCapacity, e.Aggregator);
-                }
-                else
-                {
-                    messageBus.Init(e.MessageType, e.InitialCapacity, e.Aggregator);
-                }
+                e(messageBus);
             }
 
             return messageBus;
@@ -73,28 +67,28 @@ namespace Unscientific.ECS.DSL
         {
             var scopeToComponentTypes = _features.SelectMany(m => m.ProvidedComponents)
                 .GroupBy(c => c.ScopeType)
-                .ToDictionary(g => g.Key, g => g.Select(c => c.ComponentType).ToList());
-            var contextsToCreate = new List<ContextInfo>();
+                .ToDictionary(g => g.Key, g => g.Select(c => c.ComponentCtor).ToList());
+            var contexts = new List<IContext>();
 
             foreach (var e in _features.SelectMany(m => m.ProvidedContexts))
             {
                 var scopeType = e.ScopeType;
-                List<Type> components;
+                List<Func<ComponentInfo>> componentCtors;
 
-                if (!scopeToComponentTypes.TryGetValue(scopeType, out components))
-                    components = new List<Type>();
+                if (!scopeToComponentTypes.TryGetValue(scopeType, out componentCtors))
+                    componentCtors = new List<Func<ComponentInfo>>();
 
-                contextsToCreate.Add(new ContextInfo
+                var info = new ContextInfo
                 {
-                    ScopeType = scopeType,
-                    Components = components,
+                    ComponentCtors = componentCtors,
                     InitialCapacity = e.InitialCapacity,
                     MaxCapacity = e.MaxCapacity
-                });
+                };
+
+                contexts.Add(e.ContextCtor(info));
             }
 
-            var contexts = new Contexts(contextsToCreate);
-            return contexts;
+            return new Contexts(contexts);
         }
 
         private static Systems SystemsFromElement(SystemsElement element)

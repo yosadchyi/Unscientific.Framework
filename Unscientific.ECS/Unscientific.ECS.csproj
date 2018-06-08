@@ -49,6 +49,7 @@
     <Compile Include="Sources\Context\Entity.cs" />
     <Compile Include="Sources\Context\FilteringEntityEnumerable.cs" />
     <Compile Include="Sources\Context\FilteringEntityEnumerator.cs" />
+    <Compile Include="Sources\Context\IContext.cs" />
     <Compile Include="Sources\DSL\Builders\ComponentListBuilder.cs" />
     <Compile Include="Sources\DSL\Builders\ContextListBuilder.cs" />
     <Compile Include="Sources\DSL\Builders\FeatureBuilder.cs" />

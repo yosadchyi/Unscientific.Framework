@@ -9,7 +9,7 @@ namespace Unscientific.ECS.DSL
         private readonly List<DependencyElement> _imports = new List<DependencyElement>();
         private readonly List<ContextElement> _providedContexts = new List<ContextElement>();
         private readonly List<ComponentElement> _providedComponents = new List<ComponentElement>();
-        private readonly List<MessageElement> _producedMessages = new List<MessageElement>();
+        private readonly List<Action<MessageBus>> _producedMessages = new List<Action<MessageBus>>();
         private readonly SystemsElement _systems = new SystemsElement();
 
         internal FeatureBuilder(WorldBuilder parent, Action<FeatureElement> consume) : base(parent)

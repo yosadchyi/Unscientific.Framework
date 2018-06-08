@@ -5,8 +5,7 @@ namespace Unscientific.ECS
 {
     internal class ContextInfo
     {
-        internal Type ScopeType;
-        internal List<Type> Components;
+        internal List<Func<ComponentInfo>> ComponentCtors;
         internal int InitialCapacity;
         internal int MaxCapacity;
     }
