@@ -65,6 +65,7 @@
     <Compile Include="Sources\Core\Listeners\IComponentRemovedListener.cs" />
     <Compile Include="Sources\Core\Listeners\IComponentReplacedListener.cs" />
     <Compile Include="Sources\Core\Listeners\IMessageListener.cs" />
+    <Compile Include="Sources\Core\MessageBusExtensions.cs" />
     <Compile Include="Sources\Core\Messages\ComponentAdded.cs" />
     <Compile Include="Sources\Core\Messages\ComponentRemoved.cs" />
     <Compile Include="Sources\Core\Messages\ComponentReplaced.cs" />
