@@ -1,4 +1,5 @@
-﻿using Unscientific.ECS.Features.Core;
+﻿using System.Runtime.Serialization.Formatters;
+using Unscientific.ECS.Features.Core;
 using Unscientific.ECS.Features.Destroy;
 using Unscientific.ECS.Features.Physics2D;
 using Unscientific.FixedPoint;
@@ -13,7 +14,7 @@ namespace Unscientific.ECS.Features.Steering2D
             {
                 var target = entity.Get<TargetEntity>().Entity;
 
-                if (!target.Is<Destroyed>())
+                if (target.Alive && !target.Is<Destroyed>())
                 {
                     output = target.Get<Position>().Value;
                     return true;
