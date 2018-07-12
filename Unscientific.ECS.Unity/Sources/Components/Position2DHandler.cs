@@ -17,7 +17,7 @@ namespace Unscientific.ECS.Unity
             _contexts = contexts;
             _viewHandler = GetComponent<ViewHandler<TScope>>();
             _entityViewDatabase = GetComponent<EntityViewDatabase<TScope>>();
-            _contexts.Singleton().AddComponentListener(this);
+            _contexts.Singleton().AddGlobalComponentListener(this);
         }
 
         public void OnComponentAdded(Entity<TScope> entity)
@@ -41,7 +41,7 @@ namespace Unscientific.ECS.Unity
 
         public void Destroy()
         {
-            _contexts.Singleton().RemoveComponentListener(this);
+            _contexts.Singleton().RemoveGlobalComponentListener(this);
         }
 
         private void MoveView(Entity<TScope> entity, Position position)

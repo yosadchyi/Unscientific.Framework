@@ -12,7 +12,7 @@ namespace Unscientific.ECS.Unity
         public void Initialize(Contexts contexts, MessageBus messageBus)
         {
             _contexts = contexts;
-            _contexts.Singleton().AddComponentAddedListener(this);
+            _contexts.Singleton().AddGlobalComponentAddedListener(this);
         }
 
         public void OnComponentAdded(Entity<TScope> entity)
@@ -22,7 +22,7 @@ namespace Unscientific.ECS.Unity
 
         public void Destroy()
         {
-            _contexts.Singleton().RemoveComponentAddedListener(this);
+            _contexts.Singleton().RemoveGlobalComponentAddedListener(this);
         }
     }
 }

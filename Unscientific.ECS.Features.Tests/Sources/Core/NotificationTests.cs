@@ -31,7 +31,7 @@ namespace Unscientific.ECS.Features.Tests.Sources.Core
             var log = new List<string>();
 
             world.Setup();
-            world.Contexts.Singleton().AddComponentListener(new EmptyTestComponentNotificationsListener(log));
+            world.Contexts.Singleton().AddGlobalComponentListener(new EmptyTestComponentNotificationsListener(log));
 
             var context = world.Contexts.Get<Game>();
             var entity = context.CreateEntity();

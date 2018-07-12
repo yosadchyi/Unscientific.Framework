@@ -2,7 +2,7 @@
 {
     public static class GlobalComponentNotificationsEntityExtensions
     {
-        public static Entity<Singletons> AddComponentAddedListener<TScope, TComponent>(
+        public static Entity<Singletons> AddGlobalComponentAddedListener<TScope, TComponent>(
             this Entity<Singletons> self,
             IComponentAddedListener<TScope, TComponent> listener)
         {
@@ -10,7 +10,7 @@
             return self;
         }
 
-        public static Entity<Singletons> RemoveComponentAddedListener<TScope, TComponent>(
+        public static Entity<Singletons> RemoveGlobalComponentAddedListener<TScope, TComponent>(
             this Entity<Singletons> self,
             IComponentAddedListener<TScope, TComponent> listener)
         {
@@ -18,7 +18,7 @@
             return self;
         }
 
-        public static Entity<Singletons> AddComponentRemovedListener<TScope, TComponent>(
+        public static Entity<Singletons> AddGlobalComponentRemovedListener<TScope, TComponent>(
             this Entity<Singletons> self,
             IComponentRemovedListener<TScope, TComponent> listener)
         {
@@ -26,7 +26,7 @@
             return self;
         }
 
-        public static Entity<Singletons> RemoveComponentRemovedListener<TScope, TComponent>(
+        public static Entity<Singletons> RemoveGlobalComponentRemovedListener<TScope, TComponent>(
             this Entity<Singletons> self,
             IComponentRemovedListener<TScope, TComponent> listener)
         {
@@ -34,7 +34,7 @@
             return self;
         }
 
-        public static Entity<Singletons> AddComponentReplacedListener<TScope, TComponent>(
+        public static Entity<Singletons> AddGlobalComponentReplacedListener<TScope, TComponent>(
             this Entity<Singletons> self,
             IComponentReplacedListener<TScope, TComponent> listener)
         {
@@ -42,7 +42,7 @@
             return self;
         }
 
-        public static Entity<Singletons> RemoveComponentReplacedListener<TScope, TComponent>(
+        public static Entity<Singletons> RemoveGlobalComponentReplacedListener<TScope, TComponent>(
             this Entity<Singletons> self,
             IComponentReplacedListener<TScope, TComponent> listener)
         {
@@ -50,24 +50,24 @@
             return self;
         }
 
-        public static Entity<Singletons> AddComponentListener<TScope, TComponent>(
+        public static Entity<Singletons> AddGlobalComponentListener<TScope, TComponent>(
             this Entity<Singletons> self,
             IComponentListener<TScope, TComponent> listener)
         {
             return self
-                .AddComponentAddedListener(listener)
-                .AddComponentRemovedListener(listener)
-                .AddComponentReplacedListener(listener);
+                .AddGlobalComponentAddedListener(listener)
+                .AddGlobalComponentRemovedListener(listener)
+                .AddGlobalComponentReplacedListener(listener);
         }
         
-        public static Entity<Singletons> RemoveComponentListener<TScope, TComponent>(
+        public static Entity<Singletons> RemoveGlobalComponentListener<TScope, TComponent>(
             this Entity<Singletons> self,
             IComponentListener<TScope, TComponent> listener)
         {
             return self
-                .RemoveComponentAddedListener(listener)
-                .RemoveComponentRemovedListener(listener)
-                .RemoveComponentReplacedListener(listener);
+                .RemoveGlobalComponentAddedListener(listener)
+                .RemoveGlobalComponentRemovedListener(listener)
+                .RemoveGlobalComponentReplacedListener(listener);
         }
 
     }
